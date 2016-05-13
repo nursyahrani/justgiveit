@@ -3,6 +3,9 @@ namespace frontend\controllers;
 
 use common\models\User;
 use common\models\UserFacebookAuthentication;
+use frontend\models\GiveStuffToUserForm;
+use frontend\models\SendMessageForm;
+use frontend\models\UploadProfilePicForm;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -86,10 +89,11 @@ class SiteController extends Controller
         // get user data from client
         $userAttributes = $client->getUserAttributes();
 
+
         // do some thing with user data. for example with $userAttributes['email']
         if(UserFacebookAuthentication::find()->where(['facebook_id' => $userAttributes['id']])->exists()){
             $user = User::find()->select('user.*')->innerJoin('user_facebook_authentication', 'user.id = user_facebook_authentication.user_id')
-                ->where(['user_email_authentication.email' => $this->email])->one();;
+                ->where(['user_facebook_authentication.facebook_id' => $userAttributes['id']])->one();;
             Yii::$app->user->login($user);
         }
         else{
@@ -128,7 +132,7 @@ class SiteController extends Controller
         $post_data_provider = new ArrayDataProvider([
             'allModels' => $post_data,
             'pagination' => [
-                'pageSize' => 12
+                'pageSize' => 8
             ]
         ]);
 
@@ -277,12 +281,42 @@ class SiteController extends Controller
             $user_id = $_POST['user_id'];
             $stuff_id = $_POST['stuff_id'];
             $type = $_POST['type'];
+            if(!Interested::find()->where(['user_id' => $user_id])->andWhere(['stuff_id' => $stuff_id])->exists()){
 
-            $interest = new Interested();
-            $interest->user_id = $user_id;
-            $interest->stuff_id = $stuff_id;
-            if($interest->save()){
+                $interest = new Interested();
+                $interest->user_id = $user_id;
+                $interest->stuff_id = $stuff_id;
+
+                if(!$interest->save()){
+                    return false;
+                }
+            }
+
+
+
+            return $this->renderAjax('_interested_button', ['stuff_id' => $stuff_id, 'type' => 'give']) ;
+        }
+    }
+
+    public function actionSendMessage(){
+
+        $send_message_form = new SendMessageForm();
+        if($send_message_form->load(Yii::$app->request->post()) && $send_message_form->validate()){
+            if($send_message_form->send()){
                 return $this->redirect(Yii::$app->request->baseUrl);
+            }
+        }
+        else{
+            Yii::$app->end(var_dump($send_message_form->getErrors()));
+        }
+
+    }
+
+    public function actionGiveStuffTo(){
+        $give_stuff_to_user = new GiveStuffToUserForm();
+
+        if($give_stuff_to_user->load(Yii::$app->request->post()) && $give_stuff_to_user->validate()){
+            if($give_stuff_to_user->create()){
             }
         }
     }

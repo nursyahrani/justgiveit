@@ -17,9 +17,9 @@ return [
             'clients' => [
                 'facebook' => [
                     'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => '188756388177786',
+                    'clientId' => '867669086677221',
                     'attributeNames' => ['id', 'name', 'email', 'first_name', 'last_name', 'picture'],
-                    'clientSecret' => 'fb3e83d5bbdb13d5a6778f62e762ee5c',
+                    'clientSecret' => 'd71d780cc455a901ce925d76cf9b2cf9',
                 ],
 
             ],
@@ -36,6 +36,7 @@ return [
             'rules' => [
                 'login' => 'site/login',
                 'signup' => 'site/signup',
+                'user/<username:[. a-zA-Z 0-9]+>' => 'profile/index',
 
             ]
         ],

@@ -51,7 +51,7 @@ class Post extends ActiveRecord
 
     public static function getAllGiveStuffs(){
         $give = self::GIVE_STUFF;
-        $sql = "SELECT * from post where type = '$give'";
+        $sql = "SELECT *  from post,user where type = 'give' and post.poster_id = user.id";
 
         return \Yii::$app->db
             ->createCommand($sql)
@@ -67,4 +67,13 @@ class Post extends ActiveRecord
             ->createCommand($sql)
             ->queryAll();
     }
+
+    public static function getStuffCreatedBy($user_id){
+        $sql  = "SELECT  * from user, post where post.poster_id = :poster_id and user.id = post.poster_id";
+        return \Yii::$app->db
+            ->createCommand($sql)
+            ->bindValue(':poster_id', $user_id)
+            ->queryAll();
+    }
+
 }

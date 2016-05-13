@@ -17,8 +17,10 @@ class PostController extends Controller
         if($create_stuff_form->load(Yii::$app->request->post()) && $create_stuff_form->validate()){
 
             if($create_stuff_form->create()){
+
                 return $this->redirect(Yii::$app->request->baseUrl);
             }
+
         }
         else{
             if($create_stuff_form->hasErrors()){

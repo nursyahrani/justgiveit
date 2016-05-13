@@ -10,33 +10,20 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
+ * @property integer $stuff_id
  * @property integer $user_id
- * @property integer $facebook_id
  * @property integer $created_at
  * @property integer $updated_at
- *
  */
-class UserFacebookAuthentication extends ActiveRecord
+class GiveStuffToUser extends ActiveRecord
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user_facebook_authentication}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
+        return '{{%give_stuff_to_user}}';
     }
 
 

@@ -41,9 +41,8 @@ class CreateStuffForm extends Model
         $post->description = $this->description;
         $post->photo_path = 'img/' .Yii::$app->security->generateRandomString() .  '.' .  $image->extension;
         $post->address = $this->address;
-        $post->type = "GIVE";
+        $post->type = "give";
         $post->poster_id = $this->poster_id;
-
 
         if($post->save()){
             $image->saveAs($post->photo_path);

@@ -1,76 +1,1 @@
-<?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
-use common\widgets\Alert;
-$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');
-
-AppAsset::register($this);
-$this->title = "Just Give it!";
-?>
-<?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
-<?php $this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'Just Give It',
-        'brandUrl' => Yii::getAlias('@base-url'),
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = [
-            ['label' => 'Give Stuff', 'url' => ['/post/create']],
-
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
-        ];
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
-</div>
-
-
-<?php
-$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/script.js');
-$this->endBody();
-?>
-</html>
-<?php $this->endPage() ?>
+<?php/* @var $this \yii\web\View *//* @var $content string */use yii\helpers\Html;use yii\bootstrap\Nav;use yii\bootstrap\NavBar;use yii\widgets\Breadcrumbs;use frontend\assets\AppAsset;use common\widgets\Alert;use yii\bootstrap\Modal;//all linksif(Yii::$app->user->isGuest){    //all links    $login_link = Yii::$app->request->baseUrl . '/site/link';}else{    $logout_link = Yii::$app->request->baseUrl . '/site/logout';}$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');AppAsset::register($this);$this->title = "Just Give it!";?><?php $this->beginPage() ?><!DOCTYPE html><html lang="<?= Yii::$app->language ?>"><head>    <meta charset="<?= Yii::$app->charset ?>">    <meta name="viewport" content="width=device-width, initial-scale=1">    <?= Html::csrfMetaTags() ?>    <title><?= Html::encode($this->title) ?></title>    <?php $this->head() ?></head><?php $this->beginBody() ?>    <nav class="navbar navbar-default navbar-fixed-top main-navbar" >        <div class="container">            <div class="navbar-header">                <a class="navbar-brand" href="<?= Yii::$app->urlManager->createAbsoluteUrl(['']) ?> " style="color:white">                    Just give it                </a>            </div>            <div class="collapse navbar-collapse" id="myNavbar">                <ul class="nav navbar-nav navbar-right">                    <?php if(Yii::$app->user->isGuest){ ?>                        <li class="item"><a id="loginMenu">Login</a></li>                    <?php } else { ?>                        <li class="item"><a href="<?=Yii::$app->request->baseUrl ?>" style="color:white">Home</a></li>                        <li class="item"><a id="give-stuff-modal-button" style="color:white" >Give Stuff</a></li>                        <li class="item"><a href="<?= Yii::$app->request->baseUrl . '/user/'  . \common\models\User::findUsername(Yii::$app->user->getId()) ?>"                                            style="color:white">                                <?= Html::img(Yii::$app->request->baseUrl . '/frontend/web/photos/' . \common\models\User::findOne([Yii::$app->user->getId()])->profile_pic,                                    ['style' => 'width:25px']) ?>                                <?= \common\models\User::findOne([Yii::$app->user->getId()])->first_name ?></a></li>                        <li class="dropdown" id="dropdown-menu-settings">                            <a href="#" style="color: white;" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-chevron-down"></span></a>                            <ul class="dropdown-menu">                                <li class="item"><a href="#">Settings</a></li>                                <li id="logout" class="item"><a  data-method="post" href="<?= $logout_link ?>">Logout</a></li>                            </ul>                        </li>                    <?php } ?>                </ul>            </div>        </div>    </nav>    <div class="container" style="margin-top:75px;  margin-left: 10px;margin-right: 0px; width: 100%">        <?= Breadcrumbs::widget([            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],        ]) ?>        <?= Alert::widget() ?>        <?= $content ?>    </div></div><?phpModal::begin([    'id' => 'give-stuff-modal',    'size' => Modal::SIZE_LARGE]);$create_stuff_form = new \frontend\models\CreateStuffForm();echo $this->render('../post/create', ['create_stuff_form' => $create_stuff_form]);Modal::end();?><?php$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/script.js');$this->endBody();?></html><?php $this->endPage() ?>

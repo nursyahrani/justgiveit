@@ -38,4 +38,14 @@ class Interested extends ActiveRecord
         return '{{%interested}}';
     }
 
+
+    public static function getInterestedPeople($stuff_id){
+        $sql = "SELECT * from user,interested where interested.user_id = user.id and interested.stuff_id = :stuff_id";
+
+        return \Yii::$app->db
+            ->createCommand($sql)
+            ->bindValue(':stuff_id', $stuff_id)
+            ->queryAll();
+    }
+
 }

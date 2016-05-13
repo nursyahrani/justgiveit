@@ -2,6 +2,8 @@
 namespace frontend\models;
 
 use common\models\User;
+use common\models\UserEmailAuthentication;
+use common\models\UserFacebookAuthentication;
 use yii\base\Model;
 use Yii;
 
@@ -22,10 +24,6 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
 
 
             ['email', 'filter', 'filter' => 'trim'],
@@ -36,7 +34,7 @@ class SignupForm extends Model
             ['first_name', 'required'],
             [['first_name', 'last_name'], 'string', 'min' => 1],
 
-            ['facebook_id', 'unique', 'targetClass' => '\common\modeks\UserFacebookAuthentication', 'message' => 'Facebook Id has been registered'],
+            ['facebook_id', 'unique', 'targetClass' => '\common\models\UserFacebookAuthentication', 'message' => 'Facebook Id has been registered'],
 
             ['password', 'string', 'min' => 6],
 
@@ -58,15 +56,39 @@ class SignupForm extends Model
         if ($this->validate()) {
             $user = new User();
             $user->username = $this->generateUsername();
+            $user->first_name = $this->first_name;
+            $user->last_name = $this->last_name;
+            if($this->photo_path != null){
+                $user->profile_pic = $this->photo_path;
 
-            if($user->email != null){
-                $user->email = $this->email;
             }
-            $user->setPassword($this->password);
             $user->generateAuthKey();
-            if ($user->save()) {
+            if($user->save()){
+
+                if($this->email != null){
+                    $user_email_auth = new UserEmailAuthentication();
+                    $user_email_auth->user_id = $user->id;
+                    $user_email_auth->email = $this->email;
+                    $user_email_auth->setPassword($this->password);
+                    if(!$user_email_auth->save()){
+                        return false;
+                    }
+                }
+
+                if($this->facebook_id != null){
+                    $user_facebook_auth = new UserFacebookAuthentication();
+                    $user_facebook_auth->user_id = $user->id;
+                    $user_facebook_auth->facebook_id = $this->facebook_id;
+                    if(!$user_facebook_auth->save()){
+                        return false;
+                    }
+                }
+
                 return $user;
+
             }
+
+
         }
 
         return null;

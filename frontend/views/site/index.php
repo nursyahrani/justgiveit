@@ -2,6 +2,7 @@
 
 use yii\widgets\ListView;
 use kop\y2sp\ScrollPager;
+
 /* @var $this yii\web\View */
 /* @var $post_data_provider \yii\data\ArrayDataProvider **/
 $this->title = 'Just Give it';
@@ -32,6 +33,7 @@ $this->title = 'Just Give it';
             ])
             ?>
         </div>
+
 
     </div>
 </div>

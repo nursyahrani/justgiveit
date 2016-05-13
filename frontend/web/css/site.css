@@ -1,8 +1,13 @@
 html,
 body {
     height: 100%;
+    background-color: lightgray;
 }
 
+.main-navbar{
+    background-color: darkred;
+
+}
 .post-name{
     font-weight: bold;
     font-size: 15px;
