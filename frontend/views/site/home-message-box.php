@@ -2,10 +2,9 @@
     use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
-
-<div class="row">
+<div class="home-message-box-container">
     <div class="col-md-12">
-       Send to: <?= $first_name . ' ' . $last_name ?>
+       Send to: <?= $full_name ?>
     </div>
 
     <div class="col-md-12">

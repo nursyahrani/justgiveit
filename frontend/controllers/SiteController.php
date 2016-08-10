@@ -7,12 +7,14 @@ use frontend\models\GiveStuffToUserForm;
 use frontend\models\SendMessageForm;
 use frontend\models\UploadProfilePicForm;
 use Yii;
+use yii\helpers\Json;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
+use frontend\service\ServiceFactory;
 use yii\data\ArrayDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -20,11 +22,20 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\Post;
 use common\models\Interested;
+use frontend\vo\HomeVoBuilder;
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+    private $service_factory;
+    
+    private $home_service;
+    
+    public function init() {
+        $this->service_factory = new ServiceFactory();
+        $this->home_service = $this->service_factory->getService(ServiceFactory::HOME_SERVICE);
+    }
     /**
      * @inheritdoc
      */
@@ -122,21 +133,16 @@ class SiteController extends Controller
         if(Yii::$app->user->isGuest){
             return $this->redirect(Yii::$app->request->baseUrl . '/site/login');
         }
-        if(isset($_GET['give'])){
-            $post_data = Post::getAllAskStuffs();
-        }
-        else{
-            $post_data = Post::getAllGiveStuffs();
+        
+        if(isset($_GET['tag'])) {
+            $tag = $_GET['tag'];
+            $home_vo = $this->home_service->getHomeInfoWithTag(Yii::$app->user->getId(), $tag, new HomeVoBuilder());
 
+        } else {
+            $home_vo = $this->home_service->getHomeInfo(Yii::$app->user->getId(), new HomeVoBuilder());
         }
-        $post_data_provider = new ArrayDataProvider([
-            'allModels' => $post_data,
-            'pagination' => [
-                'pageSize' => 8
-            ]
-        ]);
 
-        return $this->render('index', ['post_data_provider' => $post_data_provider]);
+        return $this->render('index', ['home_vo' => $home_vo]);
     }
 
     /**
@@ -319,5 +325,18 @@ class SiteController extends Controller
             if($give_stuff_to_user->create()){
             }
         }
+    }
+    
+    public function actionSearchTag() {
+        $q = isset($_GET['query']) ? $_GET['query'] : '';
+            
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+
+        $data = $this->home_service->searchIssue($q);
+        
+        $out['results'] = array_values($data);
+
+        echo Json::encode($out);
     }
 }
