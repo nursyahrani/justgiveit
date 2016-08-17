@@ -1,0 +1,38 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15 Aug, 2016, 5:16:01 PM
+    Author     : user
+*/
+
+.home-post-list-container {
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.home-post-list-creator-photo-path {
+    max-height: 40px;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+    margin-right: 4px;}
+
+.home-post-list-details {
+    margin-top: 4px;
+    display: flex;
+    padding-top: 4px;
+    border-top: 1px solid lightgray;
+}
+
+.home-post-list-details-name-and-created-time {
+    width: 100%;
+    
+}
+
+.home-post-list-button {
+    margin-top: 4px;
+    margin-bottom: 2px;
+}

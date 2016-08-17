@@ -21,6 +21,13 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'frontend/web/js/auto-height-text-area.js',
+        'frontend/web/js/button-with-tooltip.js',
+        'frontend/web/js/home-proposal-box.js',
+        'frontend/web/js/home-post-list.js',    
+        'frontend/web/js/post.js',
+        'frontend/web/js/script.js'  
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

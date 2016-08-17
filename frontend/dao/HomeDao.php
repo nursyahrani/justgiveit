@@ -12,9 +12,12 @@ use frontend\dao\PostDao;
 
 class HomeDao {
     
-    const GET_ALL_STUFFS = "SELECT *  from post,user where post.poster_id = user.id";
+    const GET_ALL_STUFFS = "SELECT post.*, user.id, user.first_name, user.last_name,
+            user.profile_pic, user.username  from post,user where post.poster_id = user.id";
     
-    const GET_ALL_STUFFS_WITH_TAG = "SELECT *  from post,user, post_tag 
+    const GET_ALL_STUFFS_WITH_TAG = "SELECT post.*, user.id, user.first_name, user.last_name,
+            user.profile_pic, user.username
+            from post,user, post_tag 
            where  post.poster_id = user.id
             and post_tag.post_id = post.stuff_id and post_tag.tag_name = :tag_name" ;
     private $post_dao;
@@ -45,6 +48,7 @@ class HomeDao {
             $post_builder->setDescription($result['description']);
             $post_builder->setTitle($result['title']);
             $post_builder->setImage($result['photo_path']);
+            $post_builder->setCreatedAt($result['created_at']);
             $post_builder->setPostCreatorId($result['poster_id']);
             $post_builder->setPostCreatorFirstName($result['first_name']);
             $post_builder->setPostCreatorLastName($result['last_name']);

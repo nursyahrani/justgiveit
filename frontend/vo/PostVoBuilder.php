@@ -12,6 +12,8 @@ class PostVoBuilder implements Builder {
     
     private $title;
     
+    private $total_bids;
+    
     private $description;
     
     private $image;
@@ -29,6 +31,10 @@ class PostVoBuilder implements Builder {
     private $post_creator_photo_path;
     
     private $tags;
+    
+    private $bid_list;
+    
+    private $created_at;
     
     public function build() {
         return new PostVo($this);
@@ -122,5 +128,28 @@ class PostVoBuilder implements Builder {
         $this->tags = $tags;
     }
 
+    function setCreatedAt($created_at) {
+        $this->created_at = $created_at;
+    }
     
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+    
+    public function setBidList($bid_list) {
+        $this->bid_list = $bid_list;
+    }
+    
+    public function getBidList() {
+        return $this->bid_list;
+    }
+    
+    
+    public function setTotalBids($total_bids) {
+        $this->total_bids = $total_bids;
+    }
+    
+    public function getTotalBids() {
+        return $this->total_bids;
+    }
 }

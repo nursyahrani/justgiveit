@@ -38,7 +38,8 @@ return [
                 'signup' => 'site/signup',
                 'user/<username:[. a-zA-Z 0-9]+>' => 'profile/index',
                 'tag/<tag:(.*)>' => 'site/index',
-                
+                'post/<id:\d+>/<title:(.*)>' => 'post/index'
+                    
 
             ]
         ],

@@ -27,4 +27,17 @@ class HomeVo implements Vo {
     public static   function createBuilder() {
         return new PostVoBuilder();
     }
+
+    public function getSideNavItems() {
+        $items = ['Books', 'Lecture notes', 'Clothes', 'Food', 'Accessories', 'Gadgets', 'Mobile phones', 'Recycle stuffs'];
+        $converted_items = array();
+        foreach($items as $item) {
+           $converted['label'] = $item;
+           $converted['url'] = \Yii::$app->request->baseUrl . '/tag/' . $item;
+           $converted_items[] = $converted;
+        }
+        
+        return $converted_items;
+    }
+    
 }

@@ -1,21 +1,58 @@
-$(document).ready(function(){
-    $(document).on('click', '.home-post-list-bid', function(event ) {
-        var post_id = $(this).data('id');
-        $("#send-message-modal-" + post_id).modal("show")
-            .find('#send-message-modal-' + post_id)
-            .load($(this).attr("value"));
+$(function(){
+   
+    $(document).ready(function() {
+
+        var app = new App($(this));
     });
+    //associated index
+    var App = function($root) {
+        this.$root = $root;
+        this.$site = null;
+        this.$post = null;
+        this.init();
+        this.initEvents();
+    };
     
-    $(".give-stuff-modal-button").click(function(){
-        $("#give-stuff-modal").modal("show")
-            .find('#give-stuff-modal')
-            .load($(this).attr("value"));
-    });
+    App.prototype.CSS_CLASSES = {
+        
+    };
+
+    App.prototype.init = function() {
+        if(this.$root.find('.site-index').length !== 0) {
+            this.$site = new Site(this.$root.find('.site-index'));   
+        } 
+        else if (this.$root.find('.post-index').length !== 0) {
+            this.$post = new Post(this.$root.find('.post-index'));
+        }
+    };
+    
+    App.prototype.initEvents = function() {
+        
+    };
+ 
+});
 
 
-    $("#send-message-user-profile").click(function(){
-        $("#send-message-user-profile-modal").modal("show")
-            .find('#send-message-user-profile-modal')
-            .load($(this).attr("value"));
+var Site = function($root) {
+    this.$root = $root;
+    this.$post_list = [];
+    this.init();
+
+};
+
+Site.prototype.CSS_CLASSES = {
+    HOME_POST_LIST: 'home-post-list-container'
+};
+
+Site.prototype.init = function() {
+    this.initPostList();
+};
+
+Site.prototype.initPostList = function() {
+    
+    var self = this;
+    $.each($("." + Site.prototype.CSS_CLASSES.HOME_POST_LIST), function(index, value) {
+        self.$post_list.push(new HomePostList($(value))); 
     });
-})
+};
+    

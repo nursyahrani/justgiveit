@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15 Aug, 2016, 8:26:58 PM
+    Author     : user
+*/
+
+.alert-box-container {
+    width: 50%;
+    left: 25%;
+    background: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.alert-box-hide {
+    background: transparent;
+    color: transparent;
+}
