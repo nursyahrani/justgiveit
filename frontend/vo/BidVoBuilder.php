@@ -17,9 +17,27 @@ class BidVoBuilder implements Builder {
     private $message;
     private $created_at;
     private $creator_photo_path;
+    private $obtain;
+    private $confirm;
     
     public function build() {
         return new BidVo($this);
+    }
+    
+    public function hasObtained() {
+        return $this->obtain;
+    }
+    
+    public function hasConfirmed() {
+        return $this->confirm;
+    }
+    
+    public function setHasObtained($obtain) {
+        $this->obtain = $obtain;
+    }
+    
+    public function setHasConfimed($confirm) {
+        $this->confirm = $confirm;
     }
 
     public function getCreatorUsername() {

@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use frontend\models\CreateStuffForm;
+
+use frontend\models\FavoriteForm;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -27,7 +29,7 @@ class PostController extends Controller
         $create_stuff_form->poster_id = Yii::$app->user->getId();
         if($create_stuff_form->load(Yii::$app->request->post()) && $create_stuff_form->validate()){
             if($create_stuff_form->create() ) {
-                    return $this->redirect(Yii::$app->request->baseUrl);
+                    return $this->redirect(Yii::$app->request->baseUrl . '/');
             }
         }
    
@@ -62,5 +64,108 @@ class PostController extends Controller
         }
         return json_encode($response);
 
+    }
+    
+    public function actionRequestFavorite() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {
+            $model = new FavoriteForm();
+            $model->user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            
+            if($model->validate() && $model->requestFavorite()) {
+                
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }        
+
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
+    
+    public function actionCancelFavorite() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {
+            
+            $model = new FavoriteForm();
+            $model->user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            if($model->validate() && $model->cancelFavorite()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }        
+
+        $data['status'] = 0;
+        return json_encode($data);
+        
+        
+    }
+    
+    public function actionGive() {
+        $data = array();
+        
+        
+        if(!Yii::$app->user->isGuest && isset($_POST['user_id']) && isset($_POST['stuff_id'])) {
+            
+            $model = new \frontend\models\GiveForm();
+            $model->current_user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            $model->proposer_id =   $_POST['user_id'];
+            if($model->validate() && $model->give()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }        
+        $data['status'] = 0;
+        return json_encode($data);
+        
+    }
+    
+    
+    public function actionCancelGive() {
+        $data = array();
+        
+        
+        if(!Yii::$app->user->isGuest && isset($_POST['user_id']) && isset($_POST['stuff_id'])) {
+            
+            $model = new \frontend\models\GiveForm();
+            $model->current_user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            $model->proposer_id =   $_POST['user_id'];
+            if($model->validate() && $model->cancelGive()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }        
+
+        $data['status'] = 0;
+        return json_encode($data);
+        
+    }
+    
+    public function actionEdit() {
+        $data = array();
+        if(Yii::$app->user->isGuest || !isset($_POST['title']) || !isset($_POST['description'])
+               || !isset($_POST['stuff_id']) || !isset($_POST['tags'])) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new \frontend\models\EditStuffInformationForm();
+        $model->user_id = \Yii::$app->user->getId();
+        $model->stuff_id = $_POST['stuff_id'];
+        $model->tags = $_POST['tags'];
+        $model->title = $_POST['title'];
+        $model->description = $_POST['description'];
+        if($model->validate() && $model->update()) {
+            $data['status'] = 1;
+        } else {
+            $data['status'] = 0;
+            $data['message'] = $model->getErrors();
+        }
+        return json_encode($data);
     }
 }

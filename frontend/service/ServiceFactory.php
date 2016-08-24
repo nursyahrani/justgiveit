@@ -4,6 +4,7 @@ namespace frontend\service;
 
 use frontend\dao\HomeDao;
 use frontend\dao\PostDao;
+use frontend\dao\ProfileDao;
 class ServiceFactory {
 
 
@@ -11,12 +12,16 @@ class ServiceFactory {
 
     const POST_SERVICE = "post_service";
 
+    const PROFILE_SERVICE = "profile_service";
+    
     public function getService($serviceType ){
 
         if($serviceType === self::HOME_SERVICE){
             return new HomeService(new HomeDao() );
         } else if ($serviceType === self::POST_SERVICE) {
             return new PostService(new PostDao());
+        } else if($serviceType === self::PROFILE_SERVICE) {
+            return new ProfileService(new ProfileDao());
         }
         return null;
     }

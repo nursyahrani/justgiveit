@@ -66,6 +66,10 @@ class CreateStuffForm extends Model
         return true;
     }
     
+    public function update() {
+        
+    }
+    
     private function checkExist($tag) {
         return Tag::find()->where(['tag_name' => $tag])->exists();
     }

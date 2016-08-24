@@ -12,17 +12,26 @@
         this.proposal_box = null;
         this.bid_container = null;
         this.$bid_container = null;
+        this.bidder_list = null;
+        this.$bidder_list = null;
+        this.$post_section = null;
+        this.post_section = null;
+        
         this.init();
         this.initEvents();
     };
     
     Post.prototype.init = function() {
-        this.$bid_button = this.$root.find('.post-bid-button');
+        this.$bid_button = this.$root.find('#post-bid-button');
         this.$proposal_box_modal = this.$root.find('.post-proposal-box-modal');
         this.$proposal_box = this.$root.find('.home-proposal-box-container');
         this.proposal_box = new HomeProposalBox(this.$proposal_box);
-        this.$bid_container = this.$root.find('.bid-container');
+        this.$bid_container = this.$root.find('#post-bid-containers');
         this.bid_container = new BidContainer(this.$bid_container);
+        this.$bidder_list = this.$root.find('#bidder-list');
+        this.bidder_list = new BidderList(this.$bidder_list);
+        this.$post_section = this.$root.find('#post-section');
+        this.post_section = new PostSection(this.$post_section);
     };
     
     Post.prototype.initEvents = function() {
@@ -32,8 +41,8 @@
             self.$proposal_box_modal.load($(this).attr("value"));
         });
         
-        this.$proposal_box.on(HomePostList.prototype.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT, function(e, stuff_id) {
-            
+        this.$proposal_box.on(HomeProposalBox.prototype.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT, function(e, data) {
+            window.location.href = data;
         });
     };
     

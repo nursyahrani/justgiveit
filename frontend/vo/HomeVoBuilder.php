@@ -10,9 +10,27 @@ class HomeVoBuilder implements Builder {
     
     private $post_list;
     
+    private $most_popular_post;
+    
+    private $home_profile_view;
     
     public function build() {
         return new HomeVo($this);
+    }
+    
+    public function getHomeProfileView() {
+        return $this->home_profile_view;
+    }
+    
+    public function setHomeProfileView($home_profile_view) {
+        $this->home_profile_view  = $home_profile_view;
+    }
+    public function getMostPopularPost() {
+        return $this->most_popular_post;
+    }
+    
+    public function setMostPopularPost($most_popular_post) {
+        $this->most_popular_post = $most_popular_post;
     }
     
     function getPostList() {

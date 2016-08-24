@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24 Aug, 2016, 5:18:32 PM
+    Author     : user
+*/
+
+.search-bar {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.search-bar-input {
+    border: 0;
+    width: 100%;    
+    border-bottom: 1px solid lightgoldenrodyellow;
+}
+
+input:focus {
+    outline: none;
+}
+
+.search-bar-holder {
+    display: flex;
+    min-width: 200px;
+    margin-right: 8px;
+    border-radius: 4px;
+    background: white;
+    padding: 4px;
+}
+
+.search-bar-holder-stuff {
+    width: 100%;
+    margin-right: 0;
+}
+
+.search-bar-icon {
+    margin-right: 4px;
+    top:3px;
+    margin-left: 2px;
+}

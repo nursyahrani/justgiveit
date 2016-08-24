@@ -39,7 +39,7 @@
                     'allowClear' => true,
                     'tags' => true,
                     'ajax' => [
-                        'url' => \yii\helpers\Url::to(['search-tag']),
+                        'url' => \yii\helpers\Url::to(['site/search-tag']),
                         'dataType' => 'json',
                            'data' => new JsExpression('function(params) { return {query:params.term}; }')
                     ],

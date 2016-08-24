@@ -10,14 +10,18 @@ and open the template in the editor.
 
 .home-post-list-container {
     background: white;
-    border-radius: 5px;
-    overflow: hidden;
+    height: 180px;
+    margin-bottom: 16px;
+    margin-right: 4px;
+    padding: 8px;
 }
 
+.home-post-list {
+    padding: 0;
+}
 .home-post-list-creator-photo-path {
     max-height: 40px;
     border-radius: 50%;
-    border: 1px solid lightgray;
     margin-right: 4px;}
 
 .home-post-list-details {
@@ -32,7 +36,62 @@ and open the template in the editor.
     
 }
 
+.home-post-list-name {
+    font-size: 14px;
+    text-align: left;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
 .home-post-list-button {
     margin-top: 4px;
     margin-bottom: 2px;
+    display: flex;
+}
+
+.home-post-list-total-bid {
+    margin-right: 4px;
+}
+
+.home-post-list-total-favorite {
+    margin-left: 4px;
+}
+
+.home-post-list-header {
+    font-size: 12px;
+    font-weight: bold;
+    color: gray;
+}
+
+.home-post-list-details-name {
+    color: blue;
+    font-weight: bold;
+}
+
+.home-post-list-name {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+.home-post-list-button-red {
+    color: red !important;
+}
+
+.home-post-list-disabled {
+    
+        cursor: not-allowed;
+}
+
+
+.home-post-list-img {
+    height: 100%;
+    width:50%;
+    vertical-align: top;
+    padding-right: 8px;
+}
+
+.home-post-list-view {
+    width: 45%;
+    display: inline-block;
 }

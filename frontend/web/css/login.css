@@ -1,0 +1,84 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21 Aug, 2016, 10:46:53 PM
+    Author     : user
+*/
+
+.login-input{
+    width: 100%;
+    padding-left: 12px;
+    border-radius: 2px;
+    height: 28px;
+    border: 1px solid lightgray;
+}
+
+.login-button {
+        background: white;
+    border: 0;
+    color: blue;
+    border: 1px solid;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 2px 10px;
+}
+
+.login-button:hover {
+    background: blue;
+    color: white;
+}
+
+.login-login-header {
+    font-size: 24px;
+    color: darkgray;
+    margin-bottom: 12px;
+}
+
+.login-auth-two {
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+.login-continue-with-facebook {
+    background: #507cc0;
+    color: white;
+    padding: 8px 10px;
+}
+
+.login-login-button-area {
+    display: flex;
+}
+
+.login-login-register-email {
+    width: 100%;
+    margin-right: 12px;
+}
+
+.login-error-msg {
+    font-size: 10px;
+    color: red;
+    margin-bottom: 8px;
+}
+
+.login-register-name {
+    display: flex;
+}
+
+.login-hide {
+    display: none;
+}
+
+.login-register-login {
+    width: 100%;
+}
+
+.login-register-button-area {
+    display: flex;
+}
+
+.login-register-last-name {
+    margin-bottom : 8px;
+}

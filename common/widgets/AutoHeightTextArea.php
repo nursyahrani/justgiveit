@@ -11,11 +11,15 @@ use yii\base\Widget;
 class AutoHeightTextArea extends Widget
 {
     
-    public $widget_class;
+    public $id;
     
-    public $placeholder;
+    public $widget_class = ''; 
     
-    public $rows; 
+    public $placeholder = '';
+    
+    public $rows = 1; 
+    
+    public $value = '';
     
     public $options;
     
@@ -35,14 +39,12 @@ class AutoHeightTextArea extends Widget
     public function run()
     {
         
-        if($this->rows === null ) {
-            $this->rows = 1;
-        }
-        
         return $this->render('auto-height-text-area', 
-                ['widget_class' => $this->widget_class, 
+                ['id' => $this->id,
+                'widget_class' => $this->widget_class, 
                 'placeholder' => $this->placeholder,
-                    'rows' => $this->rows
+                    'rows' => $this->rows,
+                    'value' => $this->value
                  ]);
     }
     

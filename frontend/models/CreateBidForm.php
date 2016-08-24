@@ -34,7 +34,7 @@ class CreateBidForm extends Model
      */
     public function bid()
     {
-        if ($this->validate()) {
+        if ($this->validate() && !$this->isOwner()) {
             if($this->checkExist()) {
                 return $this->updateBid();
             } else {
@@ -47,6 +47,10 @@ class CreateBidForm extends Model
     
     private function checkExist() {
         return Bid::find()->where(['proposer_id' => $this->proposer_id, 'stuff_id' => $this->stuff_id])->exists();
+    }
+    
+    private function isOwner() {
+        return \common\models\Post::find()->where(['stuff_id' => $this->stuff_id])->one()['poster_id'] === $this->proposer_id;
     }
     
     private function createBid() {

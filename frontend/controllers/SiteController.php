@@ -130,9 +130,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest){
-            return $this->redirect(Yii::$app->request->baseUrl . '/site/login');
-        }
         
         if(isset($_GET['tag'])) {
             $tag = $_GET['tag'];
@@ -152,18 +149,22 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+        
+        $data = array();
+        
+        if(isset($_POST['email']) && isset($_POST['password'])) {
+            $model = new LoginForm();
+            $model->email = $_POST['email'];
+            $model->password = $_POST['password'];
+            if ($model->validate() && $model->login()) {
+                return $this->goBack();
+            }   
+            $data['message'] = $model->getErrors();
         }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        
+        $data['status'] = 0;
+        
+        return json_encode($data);
     }
 
     /**
@@ -218,18 +219,26 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
+        $data = array();
+        
+        if(isset($_POST['first_name']) && isset($_POST['last_name'])
+                && isset($_POST['email']) && isset($_POST['password'])) {
+            $model = new SignupForm();
+            $model->email = $_POST['email'];
+            $model->first_name = $_POST['first_name'];
+            $model->last_name = $_POST['last_name'];
+            $model->password = $_POST['password'];
+            if ($model->validate() && $user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }
-            }
+            }   
+            $data['message'] = $model->getErrors();
         }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        
+        $data['status'] = 0;
+        
+        return json_encode($data);
     }
 
     /**

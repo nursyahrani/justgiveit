@@ -15,4 +15,14 @@ class UserLibrary {
     public static function buildUserLink($username) {
         return Yii::$app->request->baseUrl . '/user/' . $username;
     }
+    
+    public static function isOwner($creator_id) {
+        if(!Yii::$app->user->isGuest) {
+
+            return Yii::$app->user->getId() ===  (int)$creator_id;   
+        }
+        
+        
+        return false;
+    }
 }

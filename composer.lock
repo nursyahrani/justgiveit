@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "973678bcf4537648c47c675ad7711004",
-    "content-hash": "e33efad8d2d89b47733bfd3f86e1a483",
+    "hash": "ce1f6ff9a0a1b8a5f4638a7b70463240",
+    "content-hash": "2f4816b90616d6be9c649a86eb38279f",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -470,16 +470,16 @@
         },
         {
             "name": "facebook/php-sdk-v4",
-            "version": "5.3.0",
+            "version": "5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-sdk-v4.git",
-                "reference": "d1bbd31e606a40d07f9f68ab424bdbe7a6d7e002"
+                "reference": "7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/d1bbd31e606a40d07f9f68ab424bdbe7a6d7e002",
-                "reference": "d1bbd31e606a40d07f9f68ab424bdbe7a6d7e002",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk-v4/zipball/7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1",
+                "reference": "7ed1ecdae6a5b2f8b8f60e132d06594b39b16fb1",
                 "shasum": ""
             },
             "require": {
@@ -523,7 +523,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2016-08-06 21:30:48"
+            "time": "2016-08-09 11:32:26"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -731,12 +731,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-social.git",
-                "reference": "fe445075e9fdfefa3b3a432c5775566f3d7d409a"
+                "reference": "1ce72f2af37fc12cbe1a1ab0a66c6e5dce86191e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-social/zipball/fe445075e9fdfefa3b3a432c5775566f3d7d409a",
-                "reference": "fe445075e9fdfefa3b3a432c5775566f3d7d409a",
+                "url": "https://api.github.com/repos/kartik-v/yii2-social/zipball/1ce72f2af37fc12cbe1a1ab0a66c6e5dce86191e",
+                "reference": "1ce72f2af37fc12cbe1a1ab0a66c6e5dce86191e",
                 "shasum": ""
             },
             "require": {
@@ -776,7 +776,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-07-03 04:32:13"
+            "time": "2016-08-16 10:59:38"
         },
         {
             "name": "kartik-v/yii2-tabs-x",
@@ -1766,10 +1766,10 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "kartik-v/yii2-widget-select2": 20,
         "kop/yii2-scroll-pager": 20,
         "kartik-v/yii2-widget-fileinput": 20,
-        "kartik-v/yii2-social": 20,
-        "kartik-v/yii2-widget-select2": 20
+        "kartik-v/yii2-social": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -7,7 +7,7 @@ class m160808_073631_update_table_post_created_at_updated_at extends Migration
     public function up()
     {
         $this->execute("ALTER TABLE post drop column updated_at;ALTER TABLE post drop column created_at;");
-        $this->execute("ALTER TABLE post add updated_at int not null; ALTER TABLE POST add created_at int not null;");
+        $this->execute("ALTER TABLE post add updated_at int not null; ALTER TABLE post add created_at int not null;");
 
     }
 

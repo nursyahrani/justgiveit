@@ -1,3 +1,23 @@
+.site-post-area {
+    padding: 0;
+}
+
+.menu-bar {
+    display: flex;
+}
+
+.navbar-button {
+    width: 100%;
+}
+
+.logo {
+        width: 120px;
+    font-size: 16px;
+    font-weight: bold;
+    color: darkgray;
+    padding-left: 16px;
+}
+
 html,
 body {
     height: 100%;
@@ -10,7 +30,9 @@ body {
 
 .main-navbar{
     background-color: darkred;
-
+    height: 35px;
+    padding-left: 100px;
+    padding-right:  135px;
 }
 
 .well {
@@ -142,18 +164,9 @@ a.desc:after {
 	margin: 0;
 }
 
-@media (min-width: 960px) {
-	#columns {
-		column-count: 4;
-	}
+@media (max-width: 995px) {
+    
 }
-
-@media (min-width: 1100px) {
-	#columns {
-		column-count: 5;
-	}
-}
-
 
     .give-stuff-modal-button-section {
         display:none;
@@ -164,22 +177,6 @@ a.desc:after {
         
     }
 
-    .home-post-list-img {
-        height: 150px;
-        width:100%;
-        border-bottom: 2px solid gray;
-        border-top: 2px solid gray;
-
-    }
-    
-    .home-post-view {
-        padding:4px;
-    }
-    .home-post-list-name {
-        font-size: 16px;
-        text-align:left;
-        text-transform: capitalize;
-    }
     
     a {
         color: black;
@@ -236,64 +233,6 @@ a.desc:after {
     overflow: hidden;
 }
 
-.post-title {
-    font-size:20px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-.post-image {
-    width: 50%;
-    height: 100%;
-    padding: 5px;
-    
-    min-height: 200px;
-}
-
-.post-information {
-    width: 50%;
-    padding-top: 10px;
-    display: inline-block;
-}
-
-.post-image-profile-pic {
-    width: 30px;
-    height: 30px;
-    
-    border-radius: 50%;
-    margin-bottom: 4px;
-}
-
-.post-section {
-    border: 1px solid;
-    border-color: gray;
-    display:flex;
-}
-.post-index {
-    overflow: hidden;
-    background: white;
-    padding-top: 16px;
-}
-
-.post-user-information {
-    margin-top: 15px;
-}
-
-.post-bids-header {
-    padding-bottom: 4px;
-    border-bottom: 1px solid;
-    border-color: lightgray;
-    padding-top: 4px;
-    display: flex;
-    
-}
-
-.post-bids-label {
-    width: 100%;
-        font-size: 20px;
-    font-weight: bold;
-}
-
 .button-like-link {
         background: transparent;
     border: 0;
@@ -313,4 +252,103 @@ a.desc:after {
     border-radius: 50%;
     background: darkblue;
     color: white;
+}
+
+.profile-index {
+    background : white;
+    min-height: 400px;
+    margin-top: 75px;
+}
+
+.profile-header {
+    display: block;
+    padding: 8px;
+    overflow: hidden;
+    border-bottom: 1px solid lightgray;
+}
+
+.profile-data {
+    overflow: hidden;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.menu-btn {
+    font-weight: bold;
+    color: gray;
+    background: white;
+    padding: 2px 16px;
+    margin-top: 4px;
+}
+
+.menu-btn:hover {
+    background: red;
+    color: white;
+}
+
+.container {
+    margin-top: 35px;
+    margin-right: 0px;
+    width: 100%;
+}
+
+.main-container {
+    padding-left: 135px;
+    padding-right: 135px;
+}
+
+.site-index {
+    margin-top: 75px;
+}
+
+.menu-bar {
+        height: 42px;
+    justify-content: center;
+    background: white;
+    padding-top: 4px;
+}
+
+.menu-profile-pic {
+    height: 20px;
+    
+}
+
+
+@media (max-width: 890px ) {
+    .main-container {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    
+}
+
+@media (max-width: 890px ) {
+    .hide-right-side {
+        display: none;
+        
+    }
+    
+    .site-post-area {
+        width :100%;
+    }
+    
+}
+
+@media (max-width: 545px) {
+    .home-post-list {
+        width: 100%;
+    }
+}
+
+.site-banner {
+    margin-bottom:  15px;
+    padding: 8px;
+
+    color: darkgray;
+    letter-spacing: 1.3px;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0;
+    background: white
 }

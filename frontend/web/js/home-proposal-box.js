@@ -1,4 +1,4 @@
-/* 
+/*   
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -31,7 +31,7 @@ HomeProposalBox.prototype.init = function() {
 
 HomeProposalBox.prototype.initWidgetEvents = function() {
     this.proposal_sent_event_ = new CustomEvent(HomeProposalBox.prototype.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT);
-}
+};
 
 HomeProposalBox.prototype.initEvents = function() {
     this.$text_area.on('input', {self:this} ,this.inputTextArea_);

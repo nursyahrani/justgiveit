@@ -1,30 +1,25 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\Message;
-use common\models\User;
-use common\models\UserFacebookAuthentication;
-use frontend\models\SendMessageForm;
-use frontend\models\UploadProfilePicForm;
-use Yii;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
-use yii\base\InvalidParamException;
-use yii\data\ArrayDataProvider;
-use yii\web\BadRequestHttpException;
+use frontend\service\ServiceFactory;
+use frontend\service\ProfileService;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\Post;
-use common\models\Interested;
 /**
  * Site controller
  */
 class ProfileController extends Controller
 {
+    
+    private $service_factory;
+    
+    private $profile_service;
+    
+    public function init() {
+        $this->service_factory = new ServiceFactory();
+        $this->profile_service = $this->service_factory->getService(ServiceFactory::PROFILE_SERVICE);
+    }
     /**
      * @inheritdoc
      */
@@ -79,34 +74,32 @@ class ProfileController extends Controller
     }
 
     public function actionIndex(){
-        if(isset($_GET['username'])){
-
-            $user = User::find()->where(['username' => $_GET['username']])->one();
-
-            $message_provider = new ArrayDataProvider([
-                'allModels' => Message::getAllMessages($user['id']),
-                'pagination' => [
-                    'pageSize' => 5
-                ]
-            ]);
-
-            $message_sent_provider = new ArrayDataProvider([
-                'allModels' => Message::getAllSentMessge($user['id']),
-                'pagination' => [
-                    'pageSize' => 5
-                ]
-            ]);
-
-            $created_stuff_provider = new ArrayDataProvider([
-                'allModels' => Post::getStuffCreatedBy($user['id']),
-                'pagination' => [
-                    'pageSize' => 5
-                ]
-            ]);
-
-            return $this->render('index', ['message_received_provider' => $message_provider, 'user' => $user,
-            'message_sent_provider' => $message_sent_provider,
-            'created_stuff_provider' => $created_stuff_provider]);
+        if(!isset($_GET['username'])){
+            return false;
         }
+        $username = $_GET['username'];
+        if(!isset($_GET['request'])) {
+            $profile = $this->getProfileAndStuffListInfo($username);
+        } 
+        else {
+            $request = $_GET['request'];
+            if($request === 'stuff') {
+                $profile = $this->getProfileAndStuffListInfo($username);
+            }
+            else if ($request === 'bid') {
+                $profile = $this->getProfileAndBidListInfo($username);
+            }
+        }
+        return $this->render('index', ['profile' => $profile]);
+        
     }
+    
+    private function getProfileAndStuffListInfo($username) {
+        return $this->profile_service->getProfileAndStuffList(\Yii::$app->user->getId(), $username);
+    }
+    
+    private function getProfileAndBidListInfo($username) {
+        return $this->profile_service->getProfileAndBidList($username);
+    }
+    
 }

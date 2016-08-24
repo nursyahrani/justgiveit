@@ -8,7 +8,7 @@ namespace frontend\service;
  */
 use frontend\dao\HomeDao;
 use frontend\vo\HomeVoBuilder;
-
+use frontend\dao\ProfileDao;
 class HomeService {
     
     /**
@@ -17,19 +17,26 @@ class HomeService {
      */
     public $home_dao;
     
+    private $profile_dao;
+    
     function __construct() {
         $this->home_dao = new HomeDao();
+        $this->profile_dao  = new ProfileDao();
     }
     
     public function getHomeInfoWithTag($current_user_id, $tag, HomeVoBuilder $builder) {
-        $builder = $this->home_dao->getAllGiveStuffs($builder, $tag);
+        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, $tag));
+        $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
+        $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
+        
         return $builder->build();
     }
     
     public function getHomeInfo($current_user_id,  HomeVoBuilder $builder ) {
         
-        $builder = $this->home_dao->getAllGiveStuffs($builder);
-        
+        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id));
+        $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
+        $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
         return $builder->build();
     }
     

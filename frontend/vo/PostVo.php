@@ -5,6 +5,7 @@ namespace frontend\vo;
 use common\libraries\UserLibrary;
 use common\libraries\CommonLibrary; 
 use common\libraries\PostLibrary;   
+use Yii;
 
 class PostVo implements Vo {
     
@@ -26,6 +27,8 @@ class PostVo implements Vo {
     
     private $total_bids;
     
+    private $has_bid;
+    
     private $post_creator_photo_path;
     
     private $created_at;
@@ -35,6 +38,12 @@ class PostVo implements Vo {
     private $deadline;
     
     private $bid_list;
+    
+    private $total_favorites;
+    
+    private $suggested_post;
+    
+    private $has_favorited;
     
     function __construct(PostVoBuilder $builder) {
         $this->post_id  =$builder->getPostId();
@@ -47,19 +56,35 @@ class PostVo implements Vo {
         $this->post_creator_username = $builder->getPostCreatorUsername();
         $this->post_creator_photo_path = $builder->getPostCreatorPhotoPath();
         $this->deadline = $builder->getDeadline();
+        $this->suggested_post = $builder->getSuggestedPost();
         $this->total_bids = $builder->getTotalBids();
         $this->tags = $builder->getTags();
         $this->created_at = $builder->getCreatedAt();
         $this->bid_list = $builder->getBidList();
-        
+        $this->has_bid = $builder->hasBid();
+        $this->total_favorites = $builder->getTotalFavorites();
+        $this->has_favorited = $builder->hasFavorited();
     }
     
     public function getDeadline() {
         return CommonLibrary::getTextFromTimeDifference($this->deadline);
     }
     
+    public function getSuggestedPost() {
+        return $this->suggested_post;
+    }
+    
     public function getPostTags() {
         return $this->tags;
+    }
+    
+    public function getAssocArrayPostTags() {
+        $result = array();
+        foreach($this->tags as $tag) {
+            $result[$tag] = $tag;
+        }
+        
+        return $result;
     }
     
     public function getTitle() {
@@ -112,5 +137,30 @@ class PostVo implements Vo {
     
     public function getTotalBids() {
         return $this->total_bids;
+    }
+    
+    public function hasBid() {
+        return $this->has_bid;
+    }
+    
+    public function isOwner() {
+        if(Yii::$app->user->isGuest) {
+            return 0;
+           
+        } else {
+           if($this->post_creator_id == Yii::$app->user->getId()) {
+               return 1;
+            }  else {
+               return 0;
+           }
+        }
+    }
+    
+    public function hasFavorited() {
+        return $this->has_favorited;
+    }
+    
+    public function getTotalFavorites() {
+        return $this->total_favorites;
     }
 }

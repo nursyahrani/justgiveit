@@ -14,6 +14,12 @@ class PostVoBuilder implements Builder {
     
     private $total_bids;
     
+    private $total_favorites;
+    
+    private $has_favorited;
+    
+    private $suggested_post;
+    
     private $description;
     
     private $image;
@@ -36,10 +42,35 @@ class PostVoBuilder implements Builder {
     
     private $created_at;
     
+    private $has_bid;
+    
     public function build() {
         return new PostVo($this);
     }
     
+    public function hasBid() {
+        return $this->has_bid;
+    }
+    
+    public function setHasBid($has_bid) {
+        $this->has_bid = $has_bid;
+    }
+    
+    public function setHasFavorited($has_favorited) {
+        $this->has_favorited = $has_favorited;
+    }
+    
+    public function hasFavorited() {
+        return $this->has_favorited;
+    }
+    
+    public function setTotalFavorites($total_favorites) {
+        $this->total_favorites =  $total_favorites;
+    }
+    
+    public function getTotalFavorites() {
+        return $this->total_favorites;
+    }
     public function getPostId() {
         return $this->post_id;
     }
@@ -151,5 +182,13 @@ class PostVoBuilder implements Builder {
     
     public function getTotalBids() {
         return $this->total_bids;
+    }
+    
+    public function getSuggestedPost() {
+        return $this->suggested_post;
+    }
+    
+    public function setSuggestedPost($suggested_post) {
+        $this->suggested_post = $suggested_post;
     }
 }

@@ -6,7 +6,7 @@ use yii\base\Widget;
 
 class BidContainer extends Widget
 {
-    public $post;
+    public $bid_list;
     
     public $id;
     
@@ -25,7 +25,10 @@ class BidContainer extends Widget
 
     public function run()
     {
+        if($this->bid_list === null || count($this->bid_list) === 0) {
+            return 'No Result Found';
+        }
         return $this->render('bid-container',
-            ['post' => $this->post, 'id' => $this->id]);
+            ['bid_list' => $this->bid_list, 'id' => $this->id]);
     }
 }

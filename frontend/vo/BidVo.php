@@ -9,7 +9,6 @@ namespace frontend\vo;
  * and open the template in the editor.
  */
 
-use yii\data\ArrayDataProvider;
 use common\libraries\CommonLibrary;
 use common\libraries\UserLibrary;
 class BidVo implements Vo {
@@ -22,7 +21,9 @@ class BidVo implements Vo {
     private $stuff_id;
     private $message;
     private $created_at;
-
+    private $obtain;
+    private $confirm;
+    
     function __construct(BidVoBuilder $builder) {
         $this->creator_username = $builder->getCreatorUsername();
         $this->creator_first_name = $builder->getCreatorFirstName();
@@ -32,6 +33,8 @@ class BidVo implements Vo {
         $this->message = $builder->getMessage();
         $this->created_at = $builder->getCreatedAt();
         $this->creator_photo_path = $builder->getCreatorPhotoPath();
+        $this->obtain = $builder->hasObtained();
+        $this->confirm = $builder->hasConfirmed();
     }
 
     public static function createBuilder() {
@@ -48,6 +51,14 @@ class BidVo implements Vo {
 
     public function getCreatorFullName() {
         return $this->creator_first_name . ' ' . $this->creator_last_name;
+    }
+    
+    public function hasConfirmed(){
+        return $this->confirm;
+    }
+    
+    public function hasObtained() {
+        return $this->obtain;
     }
     
     public function getCreatorPhotoPath() {

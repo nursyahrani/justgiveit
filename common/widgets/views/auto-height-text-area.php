@@ -5,9 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 ?>
 
-<textarea class="<?= $widget_class ?> 
-          auto-height-text-area" rows=<?= $rows ?> placeholder="<?= $placeholder ?>" >
+<textarea id="<?= $id ?>" class="<?= $widget_class ?> 
+          auto-height-text-area" rows=<?= $rows ?> placeholder="<?= $placeholder ?>" 
+          ><?= $value ?>
 </textarea>

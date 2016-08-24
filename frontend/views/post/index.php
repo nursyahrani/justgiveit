@@ -3,41 +3,57 @@
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use frontend\widgets\HomeProposalBox;
-
+use frontend\widgets\BidderList;
+use frontend\widgets\PostSection;
+use common\widgets\ButtonWithTooltip;
+use frontend\widgets\ImageViewEditor;
 ?>
 
-<div class="col-xs-8 col-xs-offset-1 post-index">
-    <div class="post-section">
-        <?= Html::img($post->getImage(), ['class' => 'post-image']) ?>
+<div class="col-xs-12 col-md-12 post-index">
+    <div class="col-md-8 post-view">
+        
+        <div class="post-user-information">
+            <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-image-profile-pic']) ?> 
+            <?= Html::a( $post->getPostCreatorFullName() , $post->getPostCreatorUserLink()) ?>
+            &bull;
+            <?= $post->getCreatedAt() ?>
+        </div>
         <div class="post-information">
-            <div class="post-title">
-                <?= $post->getTitle() ?>            
+            <div class='post-information-image'>
+                <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'post' => $post, 'active' => true]) ?>
             </div>
-            <div class="post-description">
-                <?= $post->getDescription() ?>
+            <?= PostSection::widget(['id' => 'post-section', 'post' => $post]) ?>
+        </div>
+        <div class="post-bids">
+            <div class="post-bids-header">
+                <div class="post-bids-label">
+                    All bids
+                    <span class="post-bids-total-bids">
+                        <?= $post->getTotalBids() ?>
+                    </span>
+                </div>
+                <div class="post-bids-button">
+                    <?php if(!$post->isOwner()) { ?>
+                    <?= Html::button('<span class="glyphicon glyphicon-envelope"></span> Bid on this stuff', 
+                            ['class' => 'btn btn-primary post-bid-button', 'id' => 'post-bid-button']) ?>
+                    <?php } ?>
+                </div>
             </div>
-            <div class="post-user-information">
-                <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-image-profile-pic']) ?> 
-                <?= Html::a( $post->getPostCreatorFullName() , $post->getPostCreatorUserLink()) ?>
-            </div>
+            <?php if($post->isOwner()) { ?>
+                <?= \frontend\widgets\BidContainer::widget(['id' => 'post-bid-container', 
+                    'bid_list' => $post->getBidList()]) ?>
+            <?php } else { ?>
+            
+            <?php } ?>
         </div>
     </div>
-    <div class="post-bids">
-        <div class="post-bids-header">
-            <div class="post-bids-label">
-                All bids
-                <span class="post-bids-total-bids">
-                    <?= $post->getTotalBids() ?>
-                </span>
-            </div>
-            <div class="post-bids-button">
-                <?= Html::button('<span class="glyphicon glyphicon-envelope"></span> Bid on this stuff', 
-                        ['class' => 'btn btn-primary post-bid-button', 'id' => 'post-bid-button']) ?>
-            </div>
-        </div>
-        <?= \frontend\widgets\BidContainer::widget(['id' => 'post-bid-container', 'post' => $post]) ?>
+    <div class="col-md-4">
+        <?php if($post->isOwner()) { ?>
+            <?=BidderList::widget(['id' => 'bidder-list','stuff_id' => $post->getPostId(), 
+                'bid_list' => $post->getBidList()]) ?>
+        <?php } ?>
+        <?= frontend\widgets\SuggestedPost::widget(['id' => 'post-suggested-post', 'post_list' => $post->getSuggestedPost()]) ?>
     </div>
-    
     
     <?php
     Modal::begin([
