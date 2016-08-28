@@ -9,15 +9,13 @@ namespace frontend\widgets;
 
 use yii\web\AssetBundle;
 
-class HomePostListAsset extends AssetBundle
+class UploadPhotoAsset extends AssetBundle
 {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-
-
     public $css = [
-        'frontend/web/css/home-post-list.css'
+        'frontend/web/css/upload-photo.css'
     ];
     public $depends = [
         'yii\web\YiiAsset',

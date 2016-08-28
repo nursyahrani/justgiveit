@@ -9,7 +9,7 @@ use common\widgets\ButtonWithTooltip;
 use frontend\widgets\ImageViewEditor;
 ?>
 
-<div class="col-xs-12 col-md-12 post-index">
+<div class="col-xs-12 col-md-12 post-index" data-stuff_id="<?= $post->getPostId() ?>">
     <div class="col-md-8 post-view">
         
         <div class="post-user-information">
@@ -19,8 +19,10 @@ use frontend\widgets\ImageViewEditor;
             <?= $post->getCreatedAt() ?>
         </div>
         <div class="post-information">
-            <div class='post-information-image'>
-                <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'post' => $post, 'active' => true]) ?>
+            <div class='post-image'>
+                <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'image_path' => $post->getImage()
+                        , 'active' => true]) ?>
+                <?= Html::button('Change Image', ['class' => 'post-change-image hide']) ?>
             </div>
             <?= PostSection::widget(['id' => 'post-section', 'post' => $post]) ?>
         </div>
@@ -49,6 +51,7 @@ use frontend\widgets\ImageViewEditor;
     </div>
     <div class="col-md-4">
         <?php if($post->isOwner()) { ?>
+           
             <?=BidderList::widget(['id' => 'bidder-list','stuff_id' => $post->getPostId(), 
                 'bid_list' => $post->getBidList()]) ?>
         <?php } ?>
@@ -65,5 +68,13 @@ use frontend\widgets\ImageViewEditor;
         echo HomeProposalBox::widget(['post_vo' => $post]);
     Modal::end();
     ?>
+    
+    
+    <?php Modal::begin([
+        'id' => 'change-image-modal'
+    ]) ?>
+        <?= \frontend\widgets\ChangeImage::widget(['id' => 'change-image',
+            'initial_image' => $post->getImage()]) ?>
+    <?php Modal::end() ?>
 </div>
 

@@ -8,90 +8,94 @@ and open the template in the editor.
     Author     : user
 */
 
-.home-post-list-container {
+.post-card {
+    width: 190px;
     background: white;
-    height: 180px;
-    margin-bottom: 16px;
-    margin-right: 4px;
-    padding: 8px;
+    display: inline-block;
+    overflow: hidden;
 }
 
-.home-post-list {
-    padding: 0;
+@media (max-width: 450px) {
+    .post-card {
+        width: 300px;
+    }
 }
-.home-post-list-creator-photo-path {
+
+
+.post-card-creator-photo-path {
     max-height: 40px;
     border-radius: 50%;
     margin-right: 4px;}
 
-.home-post-list-details {
+.post-card-details {
     margin-top: 4px;
     display: flex;
     padding-top: 4px;
     border-top: 1px solid lightgray;
 }
 
-.home-post-list-details-name-and-created-time {
+.post-card-details-name-and-created-time {
     width: 100%;
     
 }
 
-.home-post-list-name {
+.post-card-name {
     font-size: 14px;
     text-align: left;
+    margin-top: 4px;
     font-weight: bold;
     text-transform: capitalize;
 }
 
-.home-post-list-button {
+.post-card-button {
     margin-top: 4px;
     margin-bottom: 2px;
     display: flex;
 }
 
-.home-post-list-total-bid {
+.post-card-total-bid {
     margin-right: 4px;
 }
 
-.home-post-list-total-favorite {
+.post-card-total-favorite {
     margin-left: 4px;
 }
 
-.home-post-list-header {
+.post-card-header {
     font-size: 12px;
     font-weight: bold;
     color: gray;
 }
 
-.home-post-list-details-name {
+.post-card-details-name {
     color: blue;
     font-weight: bold;
 }
 
-.home-post-list-name {
+.post-card-name {
+    display: block;
+    text-align: center;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
     overflow: hidden;
-    white-space: nowrap;
+    max-height: 32px;
+    color: blue;
+    height: 32px;
+    line-height: 16px;
 }
 
 
-.home-post-list-button-red {
+.post-card-button-red {
     color: red !important;
 }
 
-.home-post-list-disabled {
+.post-card-disabled {
     
         cursor: not-allowed;
 }
 
 
-.home-post-list-img {
-    height: 100%;
-    width:50%;
-    vertical-align: top;
-    padding-right: 8px;
-}
-
-.home-post-list-view {
-    width: 45%;
-    display: inline-block;
+.post-card-img {
+    width: 100%;
+    height: 190px;
 }

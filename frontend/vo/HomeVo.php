@@ -25,10 +25,7 @@ class HomeVo implements Vo {
     }
     
     public function getPostList() {
-        return new ArrayDataProvider([
-            'allModels' => $this->post_list,
-            'pagination' => false
-        ]);
+        return $this->post_list;
     }
     
     public function getHomeProfileView() {

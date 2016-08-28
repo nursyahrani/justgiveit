@@ -5,52 +5,30 @@ use kop\y2sp\ScrollPager;
 use frontend\widgets\HomePostList;
 use common\widgets\SimpleSideNav;
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
+use frontend\widgets\BannerWithSearch;
 use frontend\widgets\HomeProfileView;
+use frontend\widgets\PostList;
 /* @var $this yii\web\View */
 /* @var $home_vo frontend\vo\HomeVo **/
 $post_list_provider = $home_vo->getPostList();
 $this->title = 'Just Give it';
 ?>
 <div class="site-index">
-<!--        <div class='col-md-2'>
-            <?php //   SimpleSideNav::widget(['id' => 'simple-side-nav-tags', 'items' => $home_vo->getSidenavItems(),
-                //'title' => 'Navigation by tags']) ?>
-    </div>-->
-    <div class='col-md-9 col-xs-9 site-post-area'>
-        <?=        frontend\widgets\SearchBar::widget(['id' => 'search-bar']) ?>
-        <div class="site-banner">
-            <p>Give Small Things with Great Heart</p>
-           
-            <?= Html::button('Start Giving Stuff Today', ['class' => 'btn btn-primary site-banner-button']) ?>
+    <?=    BannerWithSearch::widget(['id' => 'banner-with-search']) ?>
+    <div class='site-view'>
+    
+        <div class='col-md-9 col-xs-9 site-post-area'>
+            <?=  PostList::widget(['id' => 'post-container', 'posts' => $home_vo->getPostList()]) ?>
         </div>
-        <?= ListView::widget([
-            'id' => 'home-list',
-            'dataProvider' => $post_list_provider,
-            'summary' => false,
-            'itemOptions' => ['class' => 'col-lg-6 col-md-12 col-xs-12 home-post-list'],
-            'pager' => [
-                'class' => ScrollPager::class,
-                'enabledExtensions' => [
-                    ScrollPager::EXTENSION_TRIGGER,
-                    ScrollPager::EXTENSION_SPINNER,
-                    ScrollPager::EXTENSION_NONE_LEFT,
-                    ScrollPager::EXTENSION_PAGING,
-                ],
-                'triggerOffset' => 100,
-            ],
-            'itemView' => function ($model, $key, $index, $widget) {
-                   return \frontend\widgets\HomePostList::widget(['id' => 'home-post-list-' . $model->getPostId(),
-                       'post_vo' => $model]);
-            }
-        ])
-        ?>
+        <div class="col-md-3 col-xs-3 col-lg-3 hide-right-side">
+            <?= HomeProfileView::widget(['id' => 'home-profile-view', 'profile' => $home_vo->getHomeProfileView()]) ?>
+            <?= SimpleSideNav::widget(['id' => 'simple-side-nav-tags', 'items' => $home_vo->getSidenavItems(),
+                    'title' => 'Navigation by tags']) ?>
+            <?= SimpleSideNav::widget(['id' => 'simple-side-most-popular', 'items' => $home_vo->getMostPopularPost(),
+             'title' => 'Popular Post']) ?>
+
+        </div>
     </div>
-    <div class="col-md-3 col-xs-3 col-lg-3 hide-right-side">
-        <?= HomeProfileView::widget(['id' => 'home-profile-view', 'profile' => $home_vo->getHomeProfileView()]) ?>
-        <?= SimpleSideNav::widget(['id' => 'simple-side-nav-tags', 'items' => $home_vo->getSidenavItems(),
-                'title' => 'Navigation by tags']) ?>
-        <?= SimpleSideNav::widget(['id' => 'simple-side-most-popular', 'items' => $home_vo->getMostPopularPost(),
-         'title' => 'Popular Post']) ?>
- 
-    </div>
+    
 </div>

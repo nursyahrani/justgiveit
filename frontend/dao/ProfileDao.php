@@ -21,9 +21,12 @@ class ProfileDao {
                                    
                             FROM (
                                 SELECT post.*, user.id, user.first_name, user.last_name,
-                                    user.profile_pic, user.username  
-                                from post,user
-                                where post.poster_id = user.id and user.username = :username) stuff_info
+                                    user.profile_pic, user.username  , image.image_path as photo_path
+                                from post,user, image
+                                where post.poster_id = user.id and user.username = :username and
+                                    image.image_id = post.image_id
+                                ) stuff_info
+                                
                             LEFT JOIN bid bid1
                             on stuff_info.stuff_id = bid1.stuff_id
                             LEFT JOIN bid bid2

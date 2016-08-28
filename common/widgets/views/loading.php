@@ -7,4 +7,5 @@
  */
 use yii\helpers\Html;
 ?>
-    <?= Html::img(common\libraries\CommonLibrary::loadingResourceUrl(), ['class' => 'loading-img']) ?>
+<?= Html::img(common\libraries\CommonLibrary::loadingResourceUrl(), 
+        ['id' => $id, 'class' => 'loading-img']) ?>

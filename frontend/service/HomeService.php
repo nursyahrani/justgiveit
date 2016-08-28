@@ -32,12 +32,21 @@ class HomeService {
         return $builder->build();
     }
     
-    public function getHomeInfo($current_user_id,  HomeVoBuilder $builder ) {
+    public function getHomeInfo($current_user_id, HomeVoBuilder $builder ) {
         
-        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id));
+        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, ''));
         $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
         return $builder->build();
+    }
+    
+    public function getMorePosts($current_user_id, $retrieved_post_ids ) {
+        return $this->home_dao->getAllGiveStuffs($current_user_id, $retrieved_post_ids);
+    }
+    
+    
+    public function getMorePostsWithTag($current_user_id, $retrieved_post_ids, $tag ) {
+        return $this->home_dao->getAllGiveStuffsWithTag($current_user_id, $retrieved_post_ids, $tag);
     }
     
     /**

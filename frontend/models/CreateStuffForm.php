@@ -15,7 +15,7 @@ class CreateStuffForm extends Model
 {
     public $title;
     public $description;
-    public $imageFile;
+    public $image_id;
     public $poster_id;
     
     public $tags;
@@ -28,25 +28,25 @@ class CreateStuffForm extends Model
             // name, email, subject and body are required
             [['title', 'description', 'tags'], 'required'],
             ['poster_id', 'integer'],
-            [['imageFile'], 'safe'],
+            [['image_id'], 'integer'],
             ['tags', 'each', 'rule' => ['string']],
-            [['imageFile'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
     public function create(){
-        $image = UploadedFile::getInstance($this, 'imageFile');
-
+        if(!$this->validate()) {
+            return null;
+        }
+        
         $post= new Post();
         $post->title = $this->title;
         $post->description = $this->description;
-        $post->photo_path = 'img/' .Yii::$app->security->generateRandomString() .  '.' .  $image->extension;
+        $post->image_id = $this->image_id;
         $post->poster_id = $this->poster_id;
         $post->deadline = time() + (7 * 24 *3600);
         if(!$post->save()){
             return null;
         }
-        $image->saveAs($post->photo_path);
         foreach($this->tags as $tag) {
             if(!$this->checkExist($tag)) {
                $tag_model = new Tag();
@@ -63,7 +63,7 @@ class CreateStuffForm extends Model
                 return false;
             }   
         }
-        return true;
+        return $post->stuff_id;
     }
     
     public function update() {

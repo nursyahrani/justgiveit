@@ -16,10 +16,12 @@ class UserLibrary {
         return Yii::$app->request->baseUrl . '/user/' . $username;
     }
     
-    public static function isOwner($creator_id) {
+    public static function isOwner($creator_id, $current_user_id = null) {
         if(!Yii::$app->user->isGuest) {
-
-            return Yii::$app->user->getId() ===  (int)$creator_id;   
+            if($current_user_id === null) {
+                $current_user_id = Yii::$app->user->getId();
+            }
+            return $current_user_id ===  (int)$creator_id;   
         }
         
         

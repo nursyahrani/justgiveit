@@ -146,9 +146,9 @@ class PostVo implements Vo {
     public function isOwner() {
         if(Yii::$app->user->isGuest) {
             return 0;
-           
         } else {
            if($this->post_creator_id == Yii::$app->user->getId()) {
+               
                return 1;
             }  else {
                return 0;

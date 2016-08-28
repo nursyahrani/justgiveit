@@ -28,14 +28,11 @@
                 'items' => $profile->getSimpleSidenav(), 'title' => 'Navigation']) ?>
         </div>
         <div class="col-md-10">
-            <?php if($profile->getGiveList() !== null) { 
-                foreach($profile->getGiveList() as $stuff) {
-                    echo '<div class="col-lg-6 col-md-12 col-xs-12">';
-                    echo HomePostList::widget(['id' => 'profile-post-' . $stuff->getPostId(), 'post_vo' => $stuff]);
-                    echo '</div>';
-                }
-             }
-             ?>
+            <?php if($profile->getGiveList() !== null) {  ?>
+                <?= 
+                frontend\widgets\PostList::widget(['id' => 'post-list', 'posts' => $profile->getGiveList()]) ?>
+                
+            <?php }   ?>
         </div>
     </div>
 </div>

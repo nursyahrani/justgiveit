@@ -1,8 +1,18 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
  */
 
+namespace frontend\widgets;
+
+use yii\web\AssetBundle;
+
+class CreatePostAsset extends AssetBundle
+{
+
+    public $basePath = '@webroot';
+    public $baseUrl = '@web' ;
+
+}

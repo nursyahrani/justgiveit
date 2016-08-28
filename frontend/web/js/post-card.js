@@ -1,10 +1,13 @@
-var HomePostList = function($root) {
+var PostCard = function($root) {
     this.$root = $root;
     this.stuff_id = this.$root.data('stuff_id');
+    this.id = this.$root.data('id');
     this.is_owner = this.$root.data('is_owner');
     this.$propose_button = null;
     this.$favorite_button = null;
     this.$total_favorite = null;
+    this.$image_view_editor = null;
+    this.image_view_editor = null;
     this.$proposal_box_modal = null;
     this.proposal_box = null;
     this.$proposal_box = null;
@@ -12,16 +15,18 @@ var HomePostList = function($root) {
     this.initEvents();
 };
 
-HomePostList.prototype.init = function () {
-    this.$propose_button = this.$root.find("." + HomePostList.prototype.CSS_CLASSES.PROPOSE_BUTTON);
-    this.$proposal_box_modal = this.$root.find("." + HomePostList.prototype.CSS_CLASSES.PROPOSAL_MODAL);
-    this.$proposal_box = this.$root.find("." + HomePostList.prototype.CSS_CLASSES.PROPOSAL_BOX);
-    this.$favorite_button = this.$root.find(".home-post-list-button-favorite");
-    this.$total_favorite = this.$root.find('.home-post-list-total-favorite');
+PostCard.prototype.init = function () {
+    this.$propose_button = this.$root.find("." + PostCard.prototype.CSS_CLASSES.PROPOSE_BUTTON);
+    this.$proposal_box_modal = this.$root.find("." + PostCard.prototype.CSS_CLASSES.PROPOSAL_MODAL);
+    this.$proposal_box = this.$root.find("." + PostCard.prototype.CSS_CLASSES.PROPOSAL_BOX);
+    this.$favorite_button = this.$root.find(".post-card-button-favorite");
+    this.$total_favorite = this.$root.find('.post-card-total-favorite');
+    this.$image_view_editor = this.$root.find("#" + this.id + "-image-view");
+    this.image_view_editor = new ImageViewEditor(this.$image_view_editor);
     this.proposal_box = new HomeProposalBox(this.$proposal_box);
 };
 
-HomePostList.prototype.initEvents = function() {
+PostCard.prototype.initEvents = function() {
     var self = this;
     this.$propose_button.click(function(e){
         if(self.is_owner ) {
@@ -41,7 +46,7 @@ HomePostList.prototype.initEvents = function() {
     });
 };
 
-HomePostList.prototype.clickFavoriteButton_ = function(e) {
+PostCard.prototype.clickFavoriteButton_ = function(e) {
     var self = e.data.self;
     if(CommonLibrary.isGuest()) {
         return false;
@@ -78,34 +83,34 @@ HomePostList.prototype.clickFavoriteButton_ = function(e) {
     }
 };
 
-HomePostList.prototype.CSS_CLASSES = {
-    PROPOSE_BUTTON : 'home-post-list-button-propose',
-    PROPOSAL_MODAL: 'home-post-list-proposal-box-modal', 
+PostCard.prototype.CSS_CLASSES = {
+    PROPOSE_BUTTON : 'post-card-button-propose',
+    PROPOSAL_MODAL: 'post-card-proposal-box-modal', 
     PROPOSAL_BOX: 'home-proposal-box-container'
 };
     
-HomePostList.prototype.increaseFavorite = function() {
+PostCard.prototype.increaseFavorite = function() {
     var favorite = parseInt(this.$total_favorite.html());
     var newFavorite = favorite + 1;
     this.$total_favorite.html(newFavorite);
 };
 
-HomePostList.prototype.decreaseFavorite = function() {
+PostCard.prototype.decreaseFavorite = function() {
     var favorite = parseInt(this.$total_favorite.html());
     var newFavorite = favorite - 1;
     this.$total_favorite.html(newFavorite);
 };
 
-HomePostList.prototype.markFavorite = function() {
+PostCard.prototype.markFavorite = function() {
   
-    this.$favorite_button.addClass('home-post-list-button-red');  
+    this.$favorite_button.addClass('post-card-button-red');  
 };
 
 
-HomePostList.prototype.unmarkFavorite = function() {
-    this.$favorite_button.removeClass('home-post-list-button-red');
+PostCard.prototype.unmarkFavorite = function() {
+    this.$favorite_button.removeClass('post-card-button-red');
 };
 
-HomePostList.prototype.hasFavorited = function() {
-    return this.$favorite_button.hasClass('home-post-list-button-red');
+PostCard.prototype.hasFavorited = function() {
+    return this.$favorite_button.hasClass('post-card-button-red');
 }

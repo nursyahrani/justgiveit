@@ -6,8 +6,22 @@
  * and open the template in the editor.
  */
 use yii\bootstrap\Html;
+use yii\bootstrap\Modal;
 ?>
-<div id='<?= $id ?>' class='image-view-editor'>
-    <?= Html::img($post->getImage(), ['class' => 'image-view-editor-image']) ?>
-    <?= Html::button('Change Photo', ['class' => 'image-view-editor-button']) ?>
+<div id='<?= $id ?>' class='image-view-editor' data-id="<?= $id ?>">
+    <?= Html::img($image_path, ['class' => 'image-view-editor-image default-image']) ?>
+
+    <?php
+        Modal::begin([
+            'options' => [
+                    'id' => $id . '-modal',
+                    'class' => 'image-view-editor-photo-modal'
+            ]
+        ]);
+            echo Html::img($image_path, ['class' => 'image-view-editor-image-modal']);
+
+        Modal::end();
+    ?>    
+    
+    
 </div>

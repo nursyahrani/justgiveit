@@ -11,6 +11,7 @@ use yii\base\Widget;
 class Loading extends Widget
 {
     
+    public $id;
     
     public function init()
     {
@@ -25,7 +26,7 @@ class Loading extends Widget
 
     public function run()
     {
-        return $this->render('loading');
+        return $this->render('loading', ['id' => $this->id]);
     }
     
 }

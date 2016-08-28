@@ -1,12 +1,10 @@
-.site-post-area {
-    padding: 0;
-}
-
 .menu-bar {
     display: flex;
+    
 }
 
 .navbar-button {
+    margin-right: 5px;
     width: 100%;
 }
 
@@ -292,15 +290,6 @@ a.desc:after {
     width: 100%;
 }
 
-.main-container {
-    padding-left: 135px;
-    padding-right: 135px;
-}
-
-.site-index {
-    margin-top: 75px;
-}
-
 .menu-bar {
         height: 42px;
     justify-content: center;
@@ -314,13 +303,6 @@ a.desc:after {
 }
 
 
-@media (max-width: 890px ) {
-    .main-container {
-        padding-left: 50px;
-        padding-right: 50px;
-    }
-    
-}
 
 @media (max-width: 890px ) {
     .hide-right-side {
@@ -351,4 +333,62 @@ a.desc:after {
     font-weight: bold;
     margin-top: 0;
     background: white
+}
+
+.site-input {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    border-radius: 4px;
+    background: none;
+    border: 1px solid lightgray;
+    outline: none;
+}
+
+.site-input-error {
+    margin-bottom: 12px;
+    display: block;
+    font-size: 10px;
+    color: red;
+
+
+}
+
+.site-blue-button {
+    background: blue;
+}
+
+.site-button {
+    margin-top: 6px;
+    padding: 2px 10px;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    border: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.site-big-banner {
+    background-image: url("justgiveit/frontend/web/common-img/banner.jpg");
+}
+
+.site-view {
+    width: 100%;
+    float: left;
+    margin-top: 24px;
+}
+
+.default-image {
+    width: 190px;
+    height: 190px;
+}
+
+@media (max-width: 450px) {
+    .default-image {
+        width: 300px;
+        height: 300px;
+    }
 }

@@ -8,7 +8,51 @@ and open the template in the editor.
     Author     : user
 */
 
-.image-view-editor-image{
+
+.image-view-editor-image:hover {
+    opacity:0.5;
+    cursor: zoom-in;
+}
+
+.image-view-editor-hide {
+    display: none;
+}
+
+.image-view-editor {
+    position: relative;
+}
+
+.image-view-editor-button {
+width: 100%;
+    top: 89%;
+    font-weight: bold;
+    position: absolute;
+    color: white;
+    background: tomato;
+    border: 0px;
+}
+
+.image-view-editor-image-modal {
     width: 100%;
     height: 100%;
+
+
+}
+
+.image-view-editor-photo-modal {
+    text-align: center;
+}
+
+.image-view-editor-change-photo {
+    
+    background: blue;
+    color: white;
+    border: 1px solid lightgray;
+    font-weight: bold;
+    padding: 3px 10px;
+    margin-top: 4px;
+}
+
+.image-view-editor-image-modal-for-change {
+    
 }

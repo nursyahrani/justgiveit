@@ -9,12 +9,18 @@ var App = function($root) {
     this.$post = null;
     this.$login_button = null;
     this.$login_modal =null;
-    this.init();
-    this.initEvents();
     this.$login_form = null;
     this.login_form = null;
     this.$profile_link_dropdown = null;
     this.profile_link_dropdown = null;
+    this.$create_post_modal = null;
+    this.$create_post_button  =null;
+    this.$create_post_form = null;
+    this.create_post_form = null;
+
+this.init();
+    this.initEvents();
+    
 };
 
 App.prototype.CSS_CLASSES = {
@@ -37,15 +43,18 @@ App.prototype.init = function() {
 
     this.$login_form = this.$root.find('#login-form');
     this.login_form = new Login(this.$login_form);
-
+    this.$create_post_modal = this.$root.find('#create-post-modal');
+    this.$create_post_button = this.$root.find('.give-stuff-modal-button');
     this.$profile_link_dropdown = this.$root.find('#profile-menu');
     this.profile_link_dropdown = new LinkDropdown(this.$profile_link_dropdown);
+    this.$create_post_form =this.$root.find('#create-post');
+    this.create_post_form = new CreatePost(this.$create_post_form);
 };
 
 App.prototype.initEvents = function() {
-    $(".give-stuff-modal-button").click(function(event){
-        $("#give-stuff-modal").modal("show").load($(this).attr("value"));
-    });
+    this.$create_post_button.click(function(event){
+        this.$create_post_modal.modal("show").load($(this).attr("value"));
+    }.bind(this));
 
 
     if(this.$root.find('#login-menu').length !== 0) {
@@ -63,7 +72,14 @@ App.prototype.initEvents = function() {
         });
     }
 };
-
-
-
-  
+$.getJSON('https://geoip-db.com/json/geoip.php?jsonp=?') 
+         .done (function(location)
+         {
+             console.log(location);
+            $('#country').html(location.country_name);
+            $('#state').html(location.state);
+            $('#city').html(location.city);
+            $('#latitude').html(location.latitude);
+            $('#longitude').html(location.longitude);
+            $('#ip').html(location.IPv4);               
+         }); 

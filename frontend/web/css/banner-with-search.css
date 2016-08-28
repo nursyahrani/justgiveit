@@ -1,0 +1,32 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26 Aug, 2016, 2:57:16 PM
+    Author     : user
+*/
+
+.banner-with-search {
+    height: 420px;
+    position: relative;
+}
+
+.banner-with-search-header {
+    top: 30%;
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    font-size: 34px;
+}
+
+.banner-with-search-bar {
+    top: 70%;
+    position: absolute;
+    width: 50%;
+    left: 25%;
+}
+

@@ -5,12 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-use frontend\widgets\HomePostList;
+use frontend\widgets\PostCard;
 ?>
 
 <div id="<?= $id ?>" class="suggested-post">
 
     <?php foreach($post_list as $post) { ?>
-        <?= HomePostList::widget(['id' => $id . '-post-' . $post->getPostId(), 'post_vo' => $post]) ?>
+        <?= PostCard::widget(['id' => $id . '-post-' . $post->getPostId(), 'post_vo' => $post]) ?>
     <?php } ?>
 </div>

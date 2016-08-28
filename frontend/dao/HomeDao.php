@@ -7,6 +7,7 @@ namespace frontend\dao;
  */
 use frontend\vo\HomeVoBuilder;
 use frontend\vo\PostVoBuilder;
+use common\libraries\DatabaseLibrary;
 use common\models\Tag;
 use frontend\dao\PostDao;
 
@@ -20,12 +21,13 @@ class HomeDao {
                             SELECT stuff_info.*,
                                    count(bid1.proposer_id) as total_bids ,
                                    (bid2.proposer_id is not null) as has_bid
-                                   
                             FROM (
                                 SELECT post.*, user.id, user.first_name, user.last_name,
-                                    user.profile_pic, user.username  
-                                from post,user
-                                where post.poster_id = user.id 
+                                    user.profile_pic, user.username  , image.image_path as photo_path
+                                from post,user,image
+                                where post.poster_id = user.id and image.image_id = post.image_id
+                                    and post.stuff_id not in ( :retrieved_post_ids)
+                                order by post.created_at desc
                                 limit :limit) stuff_info
                             LEFT JOIN bid bid1
                             on stuff_info.stuff_id = bid1.stuff_id
@@ -37,7 +39,9 @@ class HomeDao {
                         LEFT join favorite has_favorited
                         on stuff_with_bid_info.stuff_id = has_favorited.stuff_id and
                             has_favorited.user_id = :user_id
-                        group by (stuff_with_bid_info.stuff_id)    ";
+                        group by (stuff_with_bid_info.stuff_id)
+                        order by stuff_with_bid_info.created_at desc
+                        ";
     
     const GET_ALL_STUFFS_WITH_TAG = "
           SELECT stuff_with_bid_info.*,
@@ -50,9 +54,9 @@ class HomeDao {
                                    
                             FROM (
                                 SELECT post.*, user.id, user.first_name, user.last_name,
-                                    user.profile_pic, user.username  
-                                from post,user , post_tag
-                                where post.poster_id = user.id 
+                                    user.profile_pic, user.username , image.image_path as photo_path 
+                                from post,user , post_tag, image
+                                where post.poster_id = user.id  and image.image_id = post.image_id
             and post_tag.post_id = post.stuff_id and post_tag.tag_name = :tag_name
             limit :limit) stuff_info
                             LEFT JOIN bid bid1
@@ -95,24 +99,8 @@ class HomeDao {
         return $post_vos;
         
     }
-   
-    public function getAllGiveStuffs($current_user_id ,  $tag = null, $limit =5){
-                
-        if($tag === null) {
-            $results =  \Yii::$app->db
-            ->createCommand(self::GET_ALL_STUFFS)
-            ->bindParam(':user_id', $current_user_id)
-            ->bindParam(':limit', $limit)
-            ->queryAll();
-        } else {
-            $results =  \Yii::$app->db
-            ->createCommand(self::GET_ALL_STUFFS_WITH_TAG)
-            ->bindParam(':user_id', $current_user_id)
-            ->bindParam(':tag_name', $tag)
-            ->bindParam(':limit', $limit)
-            ->queryAll();
-        }
-        
+    
+    private function buildPost($results) {
         $post_list = array();
         foreach($results as $result) {
             $post_builder = new PostVoBuilder();
@@ -136,6 +124,42 @@ class HomeDao {
             $post_list[] = $post_builder->build();
         };
         return $post_list;
+    
+    }
+   
+    public function getAllGiveStuffs($current_user_id , $retrieved_post_ids, $limit = 5){
+        if(DatabaseLibrary::checkEligibility($retrieved_post_ids)) {
+            $query = str_replace(':retrieved_post_ids', $retrieved_post_ids, self::GET_ALL_STUFFS);
+
+        } else {
+            $query = str_replace(':retrieved_post_ids', '0', self::GET_ALL_STUFFS);
+        }
+        $results =  \Yii::$app->db
+            ->createCommand($query)
+            ->bindParam(':user_id', $current_user_id)
+            ->bindParam(':limit', $limit)
+            ->queryAll();
+        
+        
+        return $this->buildPost($results);
+    }
+    
+    public function getAllGiveStuffsWithTag($current_user_id, $retrieved_post_ids, $tag, $limit = 5) {
+        if(DatabaseLibrary::checkEligibility($retrieved_post_ids)) {
+            $query = str_replace(':retrieved_post_ids', $retrieved_post_ids, self::GET_ALL_STUFFS_WITH_TAG);
+
+        } else {
+            $query = str_replace(':retrieved_post_ids', '', self::GET_ALL_STUFFS_WITH_TAG);
+        }
+        $results =  \Yii::$app->db
+            ->createCommand($query)
+            ->bindParam(':user_id', $current_user_id)
+            ->bindParam(':limit', $limit)
+            ->bindParam(':tag', $tag)
+            ->queryAll();
+        
+        
+        return $this->buildPost($results);
     }
     
     public function searchIssue($query) {

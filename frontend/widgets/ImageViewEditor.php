@@ -8,7 +8,7 @@ class ImageViewEditor extends Widget
 {
     public $id;
     
-    public $post;
+    public $image_path;
     
     public $active;
     public function init()
@@ -27,6 +27,6 @@ class ImageViewEditor extends Widget
     public function run()
     {
         return $this->render('image-view-editor',
-            ['id' => $this->id, 'post' => $this->post, 'active' => $this->active]);
+            ['id' => $this->id, 'image_path' => $this->image_path, 'active' => $this->active]);
     }
 }

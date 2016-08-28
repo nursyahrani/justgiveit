@@ -25,15 +25,28 @@ class PostController extends Controller
 
 
     public function actionCreate(){
-        $create_stuff_form = new CreateStuffForm();
-        $create_stuff_form->poster_id = Yii::$app->user->getId();
-        if($create_stuff_form->load(Yii::$app->request->post()) && $create_stuff_form->validate()){
-            if($create_stuff_form->create() ) {
-                    return $this->redirect(Yii::$app->request->baseUrl . '/');
+        $data= array();
+        if(!Yii::$app->user->isGuest  && isset($_POST['title']) &&
+                isset($_POST['description']) && isset($_POST['tags']) 
+                && isset($_POST['image_id'])) {
+    
+            $create_stuff_form = new CreateStuffForm();
+            $create_stuff_form->poster_id = Yii::$app->user->getId();
+            $create_stuff_form->title = $_POST['title'];
+            $create_stuff_form->tags = $_POST['tags'];
+            $create_stuff_form->description = $_POST['description'];
+            $create_stuff_form->image_id = $_POST['image_id'];
+            $stuff_id =$create_stuff_form->create();
+            if($stuff_id !== null) {
+                $data['status'] = 1;
+                $data['stuff_id'] = $stuff_id;
+                return json_encode($data);
             }
         }
-   
-        return $this->render('post-create', ['create_stuff_form' => $create_stuff_form]) ;
+        
+        $data['status'] = 0;
+        return json_encode($data);
+
     }
     
     public function actionIndex() {
@@ -166,6 +179,23 @@ class PostController extends Controller
             $data['status'] = 0;
             $data['message'] = $model->getErrors();
         }
+        return json_encode($data);
+    }
+    
+    public function actionEditPostImage() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['image_id']) && isset($_POST['stuff_id'])) {
+            $model = new \frontend\models\EditPostImageForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->image_id = $_POST['image_id'];
+            $model->stuff_id = $_POST['stuff_id'];
+            if($model->edit()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }
+        
+        $data['status'] = 0;
         return json_encode($data);
     }
 }

@@ -7,6 +7,7 @@ use frontend\models\GiveStuffToUserForm;
 use frontend\models\SendMessageForm;
 use frontend\models\UploadProfilePicForm;
 use Yii;
+use common\models\Image;
 use yii\helpers\Json;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -18,8 +19,10 @@ use frontend\service\ServiceFactory;
 use yii\data\ArrayDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use common\libraries\CommonLibrary;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use frontend\widgets\PostCard;
 use common\models\Post;
 use common\models\Interested;
 use frontend\vo\HomeVoBuilder;
@@ -140,6 +143,36 @@ class SiteController extends Controller
         }
 
         return $this->render('index', ['home_vo' => $home_vo]);
+    }
+    
+    public function actionGetMorePosts() {
+        $data = array();
+        if (isset($_POST['ids'])) {
+            $limit = isset($_POST['limit']) ? $_POST['limit']  : 10;
+            $user_id = Yii::$app->user->getId();
+            $tag = isset($_POST['tag']) ? $_POST['tag'] : null;
+            if($tag === null) {
+                
+                $post_vos = $this->home_service->getMorePosts($user_id, 
+                        $_POST['ids']);
+            } else {
+                
+                $post_vos = $this->home_service->getMorePostsWithTag($user_id, 
+                        $_POST['ids'] , $tag);
+            }
+             
+            $view = '';
+            foreach($post_vos as $vo) {
+                $view .= PostCard::widget(
+                        ['id' => 'post-card-' . $vo->getPostId(), 'post_vo' => $vo]);
+            }
+            $data['status'] = 1;
+            $data['view'] = $view;
+        } else {    
+            $data['status'] = 0;
+        }
+        return json_encode($data);
+    
     }
 
     /**
@@ -347,5 +380,24 @@ class SiteController extends Controller
         $out['results'] = array_values($data);
 
         echo Json::encode($out);
+    }
+    
+    public function actionUploadImage() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_FILES['image'])) {
+           $model = new \frontend\models\UploadImageForm();
+           $model->file = $_FILES['image'];
+           $model->user_id = Yii::$app->user->getId();
+           $image_id = $model->save();
+           if($image_id  !== null) {
+                $data['status'] = 1;
+                $data['image_id'] = $image_id;
+                $image_path = Image::find()->where(['image_id' => $image_id])->one()['image_path'];
+                $data['image_path'] = CommonLibrary::buildImageLibrary($image_path);
+                return json_encode($data);   
+           }
+        }
+        $data['status'] = 0;
+        return json_encode($data);
     }
 }

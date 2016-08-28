@@ -13,8 +13,12 @@ class PostDao {
                         count(for_total_bids.stuff_id) as total_bids,
                         (for_has_bid.proposer_id is not null) as has_bid
                  from(
-                    select post.*, user.id as user_id, user.username, user.profile_pic, user.first_name, user.last_name                    
-                    from post , user where post.stuff_id = :post_id
+                    select post.*, image.image_path as photo_path,
+                    user.id as user_id, user.username, user.profile_pic, user.first_name, user.last_name                    
+                    
+                    from post , user, image 
+                    where post.stuff_id = :post_id and image.image_id = post.image_id
+                    
                  and post.poster_id = user.id ) post_info
                  left join bid for_total_bids
                  on for_total_bids.stuff_id = post_info.stuff_id

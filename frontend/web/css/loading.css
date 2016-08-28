@@ -11,4 +11,5 @@ and open the template in the editor.
 .loading-img {
     width: 15px;
     height: 15px;
+    display: none;
 }
