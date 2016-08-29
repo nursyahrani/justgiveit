@@ -12,12 +12,13 @@ namespace frontend\vo;
 use common\libraries\CommonLibrary;
 use common\libraries\UserLibrary;
 class BidVo implements Vo {
-
+    private $bid_id;
     private $creator_username;
     private $creator_first_name;
     private $creator_last_name;
     private $creator_photo_path;
     private $creator_id;
+    private $chosen_bid_reply;
     private $stuff_id;
     private $message;
     private $created_at;
@@ -34,13 +35,18 @@ class BidVo implements Vo {
         $this->created_at = $builder->getCreatedAt();
         $this->creator_photo_path = $builder->getCreatorPhotoPath();
         $this->obtain = $builder->hasObtained();
+        $this->bid_id = $builder->getBidId();
         $this->confirm = $builder->hasConfirmed();
+        $this->chosen_bid_reply = $builder->getChosenBidReply();
     }
 
     public static function createBuilder() {
         return new PostVoBuilder();
     }
-    
+
+    public function getChosenBidReply() {
+        return $this->chosen_bid_reply;
+    }
     public function getCreatedAt() {
         return CommonLibrary::getTimeText($this->created_at);
     }
@@ -78,6 +84,8 @@ class BidVo implements Vo {
         return $this->message;
     }
 
-
+    public function getBidId() {
+        return $this->bid_id;
+    }
 
 }

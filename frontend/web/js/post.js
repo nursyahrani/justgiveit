@@ -24,6 +24,7 @@ var Post = function($root) {
     this.$change_image_modal = null;
     this.$change_image = null;
     this.change_image = null;
+    
     this.init();
     this.initEvents();
 };

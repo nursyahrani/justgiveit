@@ -25,15 +25,23 @@ use yii\web\JsExpression;
         </div>
         <div class="post-section-description">
             <?= $post->getDescription() ?>
+        
+            <div class="post-section-view-button">
+                <?php if($post->isOwner()) { ?>
+                    <?= ButtonWithTooltip::widget(['id' => 'post-section-view-edit-button', 
+                        'tooltip_text' => 'Edit',
+                        'text' => '<span class="glyphicon glyphicon-pencil"></span>',
+                        'button_class' => 'button-like-link post-section-view-edit-button '
+                    ]) ?>
+                <?php } ?>
+            </div>
         </div>
-        <div class="post-section-view-button">
-            <?php if($post->isOwner()) { ?>
-                <?= ButtonWithTooltip::widget(['id' => 'post-section-view-edit-button', 
-                    'tooltip_text' => 'Edit',
-                    'text' => '<span class="glyphicon glyphicon-pencil"></span>',
-                    'button_class' => 'button-like-link post-section-view-edit-button '
-                ]) ?>
-            <?php } ?>
+        
+        <div class='post-section-information'>
+                <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-image-profile-pic']) ?> 
+                <?= Html::a( $post->getPostCreatorFullName() , $post->getPostCreatorUserLink()) ?>
+                &bull;
+                <?= $post->getCreatedAt() ?>
         </div>
 
     </div>

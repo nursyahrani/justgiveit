@@ -102,8 +102,7 @@ class SiteController extends Controller
     public function oAuthSuccess($client) {
         // get user data from client
         $userAttributes = $client->getUserAttributes();
-
-
+        
         // do some thing with user data. for example with $userAttributes['email']
         if(UserFacebookAuthentication::find()->where(['facebook_id' => $userAttributes['id']])->exists()){
             $user = User::find()->select('user.*')->innerJoin('user_facebook_authentication', 'user.id = user_facebook_authentication.user_id')
@@ -115,10 +114,14 @@ class SiteController extends Controller
             $model->facebook_id = $userAttributes['id'];
             $model->first_name = $userAttributes['first_name'];
             $model->last_name = $userAttributes['last_name'];
-            $url = "https://graph.facebook.com/". $userAttributes['id'] . "/picture?width=150";
+            
+            $model->country_code = isset($_POST['country_code']) ? $_POST['country_code'] : 'SG';
+            $model->city = isset($_POST['city']) ? $_POST['city'] : 'Singapore (Western Water Catchment)';
+            $model->country = isset($_POST['country']) ? $_POST['country'] : 'Singapore';
+            $url = "https://graph.facebook.com/". $userAttributes['id'] . "/picture?width=190";
             $photos = file_get_contents($url);
             $model->photo_path = (new UploadProfilePicForm())->uploadFacebookPhoto($photos);
-
+            
             if($user = $model->signup()){
                 Yii::$app->getUser()->login($user);
             }
@@ -149,12 +152,14 @@ class SiteController extends Controller
         $data = array();
         if (isset($_POST['ids'])) {
             $limit = isset($_POST['limit']) ? $_POST['limit']  : 10;
+            $location = isset($_POST['location']) ? $_POST['location'] : '';
+            $query = isset($_POST['query']) ? $_POST['query'] : '';
             $user_id = Yii::$app->user->getId();
             $tag = isset($_POST['tag']) ? $_POST['tag'] : null;
             if($tag === null) {
                 
                 $post_vos = $this->home_service->getMorePosts($user_id, 
-                        $_POST['ids']);
+                        $_POST['ids'], $query, $location);
             } else {
                 
                 $post_vos = $this->home_service->getMorePostsWithTag($user_id, 
@@ -255,12 +260,16 @@ class SiteController extends Controller
         $data = array();
         
         if(isset($_POST['first_name']) && isset($_POST['last_name'])
-                && isset($_POST['email']) && isset($_POST['password'])) {
+                && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['country_code'])
+                && isset($_POST['city']) && isset($_POST['country'])) {
             $model = new SignupForm();
             $model->email = $_POST['email'];
             $model->first_name = $_POST['first_name'];
             $model->last_name = $_POST['last_name'];
             $model->password = $_POST['password'];
+            $model->city = $_POST['city'];
+            $model->country_code = $_POST['country_code'];
+            $model->country = $_POST['country'];
             if ($model->validate() && $user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
@@ -399,5 +408,23 @@ class SiteController extends Controller
         }
         $data['status'] = 0;
         return json_encode($data);
+    }
+    
+    public function actionSearchCity() {
+        $q = isset($_GET['query']) ? $_GET['query'] : '';
+            
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        $exploded = explode(',', $q);
+        if(count($exploded) === 1) {
+            $data = $this->home_service->searchCountryCity($exploded[0]);
+        } else {
+            $data = $this->home_service->searchCountryCity($exploded[0], $exploded[1]);
+        }
+        
+        $out['results'] = array_values($data);
+
+        echo Json::encode($out);
+    
     }
 }

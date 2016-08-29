@@ -16,6 +16,28 @@ and open the template in the editor.
 }
 
 .bid {
+    padding-top: 8px;
+    background: white;
+    display: inline-block;
     margin-top: 4px;
     margin-bottom: 8px;
+}
+.bid-detail {
+    margin-top: 2px;
+}
+
+.bid-reply {
+    margin-top: 8px;
+}
+
+.bid-header {
+    
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.bid-footer {
+    
+    padding: 8px;
+    background: #ededed;
 }

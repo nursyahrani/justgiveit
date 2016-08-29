@@ -14,6 +14,8 @@ class HomeVoBuilder implements Builder {
     
     private $home_profile_view;
     
+    private $current_user_location;
+    
     public function build() {
         return new HomeVo($this);
     }
@@ -42,5 +44,12 @@ class HomeVoBuilder implements Builder {
         $this->post_list = $post_list;
     }
 
+    public function getCurrentUserLocation() {
+        return $this->current_user_location;
+    }
+    
+    public function setCurrentUserLocation($current_user_location) {
+        $this->current_user_location = $current_user_location;
+    }
     
 }

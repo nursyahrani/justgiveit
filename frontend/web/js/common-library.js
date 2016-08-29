@@ -15,4 +15,7 @@ CommonLibrary.validateEmail = function(email) {
     return re.test(email);  
 };
 
+CommonLibrary.getBidReplyTemplate = function() {
+    return $("#bid-reply-template").html();
+}
 

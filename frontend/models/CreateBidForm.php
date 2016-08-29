@@ -66,7 +66,8 @@ class CreateBidForm extends Model
     
     private function updateBid() {
         $bid = Bid::find()->where(['proposer_id' => $this->proposer_id, 'stuff_id' => $this->stuff_id])->one();
-        if($bid->message === $this->message) {
+        
+        if($bid->message !== $this->message) {
             $bid->message = $this->message;
             return $bid->update();
         }

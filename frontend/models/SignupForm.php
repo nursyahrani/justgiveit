@@ -6,15 +6,21 @@ use common\models\UserEmailAuthentication;
 use common\models\UserFacebookAuthentication;
 use yii\base\Model;
 use Yii;
+use common\models\City;
+use common\models\Country;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
+    const DEFAULT_CITY = 1;
     public $email;
     public $password;
     public $first_name;
+    public $city;
+    public $country;
+    public $country_code;
     public $last_name;
     public $facebook_id;
     public $photo_path;
@@ -31,7 +37,7 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\UserEmailAuthentication', 'message' => 'This email address has already been taken.'],
 
-            ['first_name', 'required'],
+            [['first_name', 'country_code', 'city', 'country'], 'required'],
             [['first_name', 'last_name'], 'string', 'min' => 1],
 
             ['facebook_id', 'unique', 'targetClass' => '\common\models\UserFacebookAuthentication', 'message' => 'Facebook Id has been registered'],
@@ -62,6 +68,13 @@ class SignupForm extends Model
                 $user->profile_pic = $this->photo_path;
 
             }
+            
+//            $json = file_get_contents("http://ip-api.com/json");
+//            $obj = json_decode($json);
+            
+            $city_id = $this->getLocation();
+            
+            $user->city_id = $city_id;
             $user->generateAuthKey();
             if($user->save()){
 
@@ -74,7 +87,7 @@ class SignupForm extends Model
                         return false;
                     }
                 }
-
+                
                 if($this->facebook_id != null){
                     $user_facebook_auth = new UserFacebookAuthentication();
                     $user_facebook_auth->user_id = $user->id;
@@ -92,6 +105,32 @@ class SignupForm extends Model
         }
 
         return null;
+    }
+    
+    private function getLocation() {
+        if(!Country::find()->where(['country_code' => $this->country_code])->exists()) {
+            $country = new Country();
+            $country->country_code = $this->country_code;
+            $country->country_default_name = $this->country;
+            if(!$country->save()) {
+                return self::DEFAULT_CITY;
+            }
+        }
+        $city = City::find()->where(['country_code' => $this->country_code, 
+            'city_name' => $this->city])->one();
+        if($city === null) {
+            $city = new City();
+            $city->country_code = $this->country_code;
+            $city->city_name = $this->city;
+            if(!$city->save()) {
+                return self::DEFAULT_CITY;
+            }
+        }
+        
+        return $city->city_id;
+        
+        
+        
     }
 
     public function generateUsername(){

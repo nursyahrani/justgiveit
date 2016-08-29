@@ -1,6 +1,6 @@
 $(document).ready(function() {
-      var app = new App($(this));
-  });
+    var app = new App($(this));
+});
 //associated index
 var App = function($root) {
     this.$root = $root;

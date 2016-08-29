@@ -10,6 +10,8 @@ class PostList extends Widget
     
     public $posts;
     
+    public $current_location = '';
+    
     public function init()
     {
         parent::init();
@@ -26,6 +28,7 @@ class PostList extends Widget
     public function run()
     {
         return $this->render('post-list',
-            ['id' => $this->id, 'posts' => $this->posts]);
+            ['id' => $this->id, 'posts' => $this->posts,
+                'current_location' => $this->current_location]);
     }
 }

@@ -24,9 +24,12 @@ and open the template in the editor.
 }
 
 .banner-with-search-bar {
-    top: 70%;
+        top: 70%;
     position: absolute;
-    width: 50%;
-    left: 25%;
+    width: 100%;
+    text-align: center;
 }
 
+.banner-with-search-bar-area {
+    display: inline-flex;
+}

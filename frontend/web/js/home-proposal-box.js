@@ -6,13 +6,13 @@
 
 var HomeProposalBox = function($root) {
     this.$root = $root;
-    this.$text_area = null;
-    this.$send_button = null;
-    this.$loading_area = null;
+    this.id = $root.data('id');
     this.proposal_sent_event_ = null;
     this.stuff_id = $root.data('stuff-id');
     this.post_link = $root.data('post-link');
-
+    this.text_area_class = null;
+    this.send_button_class = null;
+    this.loading_area_class = null;
     this.init();
     this.initEvents();
     this.initWidgetEvents();
@@ -23,10 +23,10 @@ HomeProposalBox.prototype.EVENT = {
 };
 
 HomeProposalBox.prototype.init = function() {
-    this.$text_area = this.$root.find('.home-proposal-box-text-area');
-    this.$send_button = this.$root.find('.home-proposal-box-send-button');
-    this.$loading_area = this.$root.find('.home-proposal-box-loading-area');
   
+    this.text_area_class = 'home-proposal-box-text-area';
+    this.send_button_class = 'home-proposal-box-send-button';
+    this.loading_area_class = 'home-proposal-box-loading-area';
 };
 
 HomeProposalBox.prototype.initWidgetEvents = function() {
@@ -34,52 +34,79 @@ HomeProposalBox.prototype.initWidgetEvents = function() {
 };
 
 HomeProposalBox.prototype.initEvents = function() {
-    this.$text_area.on('input', {self:this} ,this.inputTextArea_);
-    this.$send_button.on('click', {self:this}, this.sendButton_);
-    
-   
+    $(document).on('input', '#' + this.id, function(e) {
+        if(e.target && $(e.target).hasClass(this.text_area_class)) {
+            this.inputTextArea_();
+        }
+        
+    }.bind(this));
+
+    $(document).on('click', '#' + this.id, function(e) {
+        if(e.target && $(e.target).hasClass(this.send_button_class)) {
+            this.sendButton_();
+        }
+    }.bind(this));
 };
 
-HomeProposalBox.prototype.sendButton_ = function(e) {
-    var self = e.data.self;
-    var element = self.$root;
-    var message = self.$text_area.val();
+HomeProposalBox.prototype.sendButton_ = function() {
+    var message = this.getTextAreaVal();
     if(message === null || message === '') {
         return false;
     }
-
-    self.$loading_area.removeClass('home-proposal-box-hide');
+    this.showLoading();
     $.ajax({
         'url' : $("#base-url").val() + '/post/send-bid',
-        'data' : {stuff_id: self.stuff_id, message: message},
+        'data' : {stuff_id: this.stuff_id, message: message},
         'type' : 'post',
+        context: this,
         'success' : function(data) {
             var parsed  = JSON.parse(data);
             if(parsed.status === 1) {
-                self.triggerProposalSentEvent_();
+                this.triggerProposalSentEvent_();
             } else {
 
             }
-            self.$loading_area.addClass('home-proposal-box-hide');
+            this.hideLoading();
             
         }
     });
 };
 
-HomeProposalBox.prototype.inputTextArea_  = function(e) {
-    var self = e.data.self;
-    var message = $(this).val().trim();
+HomeProposalBox.prototype.inputTextArea_  = function() {
+    var message = this.getTextAreaVal().trim();
 
     if(message === null || message === '') {
-        self.$send_button.attr('disabled', true);
+        this.disableButton();
     } else {
-        self.$send_button.attr('disabled', false);
+        this.enableButton();
     }
 
 };
 
 HomeProposalBox.prototype.triggerProposalSentEvent_ = function() {
-    this.$root.trigger(this.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT, [this.post_link]);
+    $("#" + this.id).trigger(this.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT, [this.post_link]);
 };
 
-    
+HomeProposalBox.prototype.getTextAreaVal = function() {
+    return $("#"  + this.id).find('.' + this.text_area_class).val();
+};
+
+
+HomeProposalBox.prototype.showLoading = function() {
+    $("#" + this.id).find("." + this.loading_area_class).removeClass('hide');
+}
+
+
+HomeProposalBox.prototype.hideLoading = function() {
+    $("#" + this.id).find("." + this.loading_area_class).addClass('hide');
+}
+
+
+HomeProposalBox.prototype.enableButton = function() {
+    $("#" + this.id).find("." + this.send_button_class).attr('disabled', false);
+}
+
+
+HomeProposalBox.prototype.disableButton = function() {
+    $("#" + this.id).find("." + this.send_button_class).attr('disabled', true);
+}

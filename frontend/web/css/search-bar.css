@@ -10,7 +10,10 @@ and open the template in the editor.
 
 .search-bar {
     display: flex;
-    margin-bottom: 12px;
+    padding: 2px;
+    padding-left: 8px;
+    background: white;
+    min-width: 300px;
 }
 
 .search-bar-input {
@@ -26,8 +29,6 @@ input:focus {
 .search-bar-holder {
     display: flex;
     min-width: 200px;
-    margin-right: 8px;
-    border-radius: 4px;
     background: white;
     padding: 4px;
 }
@@ -41,4 +42,10 @@ input:focus {
     margin-right: 4px;
     top:3px;
     margin-left: 2px;
+}
+
+
+.search-bar-city > .select2 > .selection > .select2-selection {
+    border : 0;
+    border-radius: 0;
 }

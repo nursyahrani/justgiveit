@@ -25,23 +25,25 @@ class HomeService {
     }
     
     public function getHomeInfoWithTag($current_user_id, $tag, HomeVoBuilder $builder) {
+        $builder->setCurrentUserLocation(
+                $this->home_dao->getCurrentUserLocationTextForSearch($current_user_id));
         $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, $tag));
         $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
-        
         return $builder->build();
     }
     
     public function getHomeInfo($current_user_id, HomeVoBuilder $builder ) {
-        
-        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, ''));
+        $builder->setCurrentUserLocation(
+                $this->home_dao->getCurrentUserLocationTextForSearch($current_user_id));
+        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id']));
         $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
         return $builder->build();
     }
     
-    public function getMorePosts($current_user_id, $retrieved_post_ids ) {
-        return $this->home_dao->getAllGiveStuffs($current_user_id, $retrieved_post_ids);
+    public function getMorePosts($current_user_id, $retrieved_post_ids,$query,$location ) {
+        return $this->home_dao->getAllGiveStuffs($current_user_id, $retrieved_post_ids,$query,$location);
     }
     
     
@@ -55,5 +57,9 @@ class HomeService {
      */
     public function searchIssue($query) {
         return $this->home_dao->searchIssue($query);
+    }
+    
+    public function searchCountryCity($pre, $post = null) {
+        return $this->home_dao->searchCountryCity($pre, $post);
     }
 }

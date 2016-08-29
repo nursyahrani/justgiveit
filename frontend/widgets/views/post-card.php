@@ -37,8 +37,7 @@
             </div>
             <?= ButtonWithTooltip::widget(['id' => $id . '-bid-button', 
                 'tooltip_text' => !$post_vo->isOwner() ? ($post_vo->hasBid() ? 'You have bid' : 'Propose') : 'You are owner',
-                'text' => '<span class="glyphicon glyphicon-envelope"></span>',
-                'button_class' => 'button-like-link post-card-button-propose '
+                'button_class' => 'glyphicon glyphicon-envelope button-like-link post-card-button-propose '
                      . ($post_vo->hasBid() ? 'post-card-button-red ' : ' ') 
                 
                      . ($post_vo->isOwner() ? 'post-card-disabled' : '')
@@ -53,8 +52,7 @@
             
             <?= ButtonWithTooltip::widget(['id' => $id . '-favorite-button', 
                 'tooltip_text' => 'Favorite',
-                'text' => '<span class="glyphicon glyphicon-heart"></span>',
-                'button_class' => 'button-like-link post-card-button-favorite ' 
+                'button_class' => 'glyphicon glyphicon-heart button-like-link post-card-button-favorite ' 
                 
                      . ($post_vo->hasFavorited() ? 'post-card-button-red' : ''),
                 'button_options' => [
@@ -68,6 +66,7 @@
     
     <?php
     Modal::begin([
+        'id' => $id . '-proposal-modal',
         'options' => [
             'class' => 'post-card-proposal-box-modal'
         ],

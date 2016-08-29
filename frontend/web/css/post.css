@@ -29,18 +29,17 @@
     font-weight: bold;
 }
 
-.post-view {
-    background: white;
-}
-
 .post-user-information {
     margin-top: 8px;
 }
 .post-information {
-    margin-top: 8px;
+    padding: 8px;
+    padding-bottom: 16px;
     position: relative;
     overflow: hidden;
     width: 100%;
+    background: white;
+    border-radius: 8px;
 }
 .post-information-image {
     margin-right: 12px;

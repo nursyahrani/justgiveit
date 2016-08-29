@@ -8,6 +8,8 @@ class SearchBar extends Widget
 {
     public $id;
     
+    public $initial_location;
+    
     public function init()
     {
         parent::init();
@@ -24,6 +26,6 @@ class SearchBar extends Widget
     public function run()
     {
         return $this->render('search-bar',
-            ['id' => $this->id]);
+            ['id' => $this->id, 'initial_location' => $this->initial_location]);
     }
 }

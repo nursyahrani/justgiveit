@@ -11,6 +11,7 @@ use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\bootstrap\Modal;
 use common\widgets\AutoHeightTextArea;
+use common\widgets\Loading;
 ?>
 
 <div class='create-post' id='<?= $id ?>' data-id='<?= $id ?>'>
@@ -30,7 +31,7 @@ use common\widgets\AutoHeightTextArea;
             <?= Select2::widget([
                 'id' => 'create-post-information-tags',
                 'class' => 'create-post-information-tags',
-                 'name' => 'tags',
+                'name' => 'tags',
                 'maintainOrder' => true,
                 'options' => ['placeholder' => 'Select Tags ...', 'multiple' => true],
                 'pluginOptions' => [

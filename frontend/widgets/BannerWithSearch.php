@@ -7,6 +7,8 @@ use yii\base\Widget;
 class BannerWithSearch extends Widget
 {
     public $id;
+    
+    public $initial_location;
     public function init()
     {
         parent::init();
@@ -22,6 +24,6 @@ class BannerWithSearch extends Widget
     public function run()
     {
         return $this->render('banner-with-search',
-            ['id' => $this->id]);
+            ['id' => $this->id, 'initial_location' => $this->initial_location]);
     }
 }

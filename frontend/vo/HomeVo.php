@@ -17,11 +17,13 @@ class HomeVo implements Vo {
     
     private $home_profile_view;
     
+    private $current_location;
     
     function __construct(HomeVoBuilder $builder) {
         $this->post_list = $builder->getPostList();
         $this->most_popular_post = $builder->getMostPopularPost();
         $this->home_profile_view = $builder->getHomeProfileView();
+        $this->current_location = $builder->getCurrentUserLocation();
     }
     
     public function getPostList() {
@@ -59,4 +61,7 @@ class HomeVo implements Vo {
         return $items;
     }
     
+    public function getCurrentUserLocation() {
+        return $this->current_location;
+    }
 }

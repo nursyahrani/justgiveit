@@ -32,6 +32,13 @@ var Login = function($root) {
     this.$register_email_error = null;
     this.$register_password_error =null;
     
+    //auth
+    this.$login_with_facebook = null;
+    
+    this.country;
+    this.country_code;
+    this.city;
+    
     this.init();
     this.initEvents();
 };
@@ -61,7 +68,16 @@ Login.prototype.init = function() {
     this.$register_first_name_error = this.$root.find('.login-register-first-name-error');
     this.$register_email_error = this.$root.find('.login-register-email-error');
     this.$register_password_error = this.$root.find('.login-register-password-error');
-
+    var self = this;
+    
+    this.$login_with_facebook = this.$root.find('.login-continue-with-facebook');
+    //get json
+    $.getJSON('http://ip-api.com/json', function(data) {
+        self.country_code = data['countryCode'];
+        self.city  = data['city'];
+        self.country = data['country'];
+    });
+    
 };
 
 Login.prototype.initEvents = function() {
@@ -79,6 +95,17 @@ Login.prototype.initEvents = function() {
     this.$login_register_button.click({self:this}, this.submitRegisterForm_);
     this.$login_login_button.click({self:this}, this.submitLoginForm_);
     
+    this.$login_with_facebook.click(function(e){
+        $.ajax({
+            url: $("#base-url").val() + "//site/auth?authclient=facebook",
+            type: 'post',
+            context: this,
+            data: {country_code: this.country_code, country: this.country, city: this.city},
+            success: function(data) {
+                
+            }
+        });
+    }.bind(this));
 };
 
 Login.prototype.submitRegisterForm_ = function(e) {
@@ -150,7 +177,8 @@ Login.prototype.validateRegisterInServerSide = function() {
         type: 'post',
         context: this,
         data: {first_name: this.getRegisterFirstNameField(), last_name: this.getRegisterLastNameField(),
-                email: this.getRegisterEmailField(), password: this.getRegisterPasswordField()},
+                email: this.getRegisterEmailField(), password: this.getRegisterPasswordField(),
+            country: this.country, country_code: this.country_code, city: this.city},
         success: function(data){
             var parsedData = JSON.parse(data);
             if(parsedData['status'] === 0) {

@@ -63,6 +63,8 @@ class PostController extends Controller
         $response = array();
         if(Yii::$app->user->isGuest || !isset($_POST['stuff_id']) || !isset($_POST['message'])) {
             $response['status'] = 0;
+            $response['error'] = 'Requirements Failure';
+            return json_encode($response);
         }
         
         $create_bid_form = new \frontend\models\CreateBidForm();
@@ -71,6 +73,7 @@ class PostController extends Controller
         $create_bid_form->message = $_POST['message'];
         if(!$create_bid_form->bid()) {
             $response['status'] = 0;
+            $response['error'] = 'Fail to update server: ';
         } else {
             $response['status'] = 1;
 

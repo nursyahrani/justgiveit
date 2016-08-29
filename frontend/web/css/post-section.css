@@ -64,7 +64,8 @@ and open the template in the editor.
 }
 
 .post-section-view-button {
-    margin-top: 12px;
+
+    display: inline-flex;
 }
 
 .post-section-edit-cancel-button {
@@ -76,3 +77,6 @@ and open the template in the editor.
     
 }
 
+.post-section-information {
+    margin-top: 8px;
+}

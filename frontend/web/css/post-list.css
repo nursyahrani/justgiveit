@@ -11,4 +11,10 @@ and open the template in the editor.
 
 .post-list {
     text-align: center;
+
+    
+}
+
+.post-list-header {
+    display: inline-block;
 }

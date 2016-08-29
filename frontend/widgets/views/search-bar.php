@@ -6,18 +6,35 @@
  * and open the template in the editor.
  */
 use yii\bootstrap\Html;
+use kartik\select2\Select2;
+use yii\web\JsExpression;
 ?>
 
-<div id ="<?= $id ?>" class="search-bar">
-    <div class="search-bar-holder">
-        <i class="glyphicon glyphicon-map-marker search-bar-icon"></i>
-        <?=  Html::textInput('search-bar', null, ['class' =>'search-bar-input search-bar-input-city',
-            'placeholder' => 'Search Country/City']) ?>
-    </div>
+<div id ="<?= $id ?>" class="search-bar" data-id="<?= $id ?>">
+    
     <div class="search-bar-holder search-bar-holder-stuff">
-        <i class="glyphicon glyphicon-search search-bar-icon"></i>
         <?=  Html::textInput('search-bar', null, ['class' =>'search-bar-input search-bar-input-search',
             'placeholder' => 'Search Stuff']) ?>
-        
     </div>
+    <div class="search-bar-city">
+        <?= Select2::widget([
+                'id' => $id . '-city',
+                'class' => 'post-list-city',
+                'name' => 'city',
+                'value' => $initial_location['id'],
+                'initValueText' => $initial_location['text'],
+                'options' => ['placeholder' => 'Search City ...'],
+                'pluginOptions' => [
+                    'ajax' => [
+                        'url' => \yii\helpers\Url::to(['site/search-city']),
+                        'dataType' => 'json',
+                           'data' => new JsExpression('function(params) { return {query:params.term}; }')
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(topic_name) { return topic_name.text; }'),
+                    'templateSelection' => new JsExpression('function (topic_name) { return topic_name.text; }'),
+                ],
+            ]) ?>
+    </div>
+    <?= Html::button('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-primary search-bar-button']) ?>
 </div>

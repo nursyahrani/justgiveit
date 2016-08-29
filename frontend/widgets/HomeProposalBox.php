@@ -6,6 +6,8 @@ use yii\base\Widget;
 
 class HomeProposalBox extends Widget
 {
+    public $id;
+    
     public $post_vo;
     
     public function init()
@@ -24,6 +26,6 @@ class HomeProposalBox extends Widget
     public function run()
     {
         return $this->render('home-proposal-box',
-            ['post_vo' => $this->post_vo]);
+            ['post_vo' => $this->post_vo , 'id' => $this->id]);
     }
 }

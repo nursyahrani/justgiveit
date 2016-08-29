@@ -54,14 +54,15 @@ use yii\helpers\Html;
         </div>
     </div>
     <div class="login-auth-two">
-        <a href="<?= Yii::$app->request->baseUrl ?>/site/auth?authclient=facebook" 
+        <?= Html::button('Continue with Facebook', ['class' => 'btn btn-primary login-continue-with-facebook']) ?>
+<!--        <a href="<?= Yii::$app->request->baseUrl ?>/site/auth?authclient=facebook" 
             id="login-continue-with-facebook" 
             class="login-continue-with-facebook"
              <span class="input-group register-data">
                 <span class="fa fa-facebook"></span>
                  Continue With Facebook
              </span>
-        </a>
+        </a>-->
             
     </div>
 </div>

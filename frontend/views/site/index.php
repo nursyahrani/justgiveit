@@ -1,11 +1,5 @@
 <?php
-
-use yii\widgets\ListView;
-use kop\y2sp\ScrollPager;
-use frontend\widgets\HomePostList;
 use common\widgets\SimpleSideNav;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
 use frontend\widgets\BannerWithSearch;
 use frontend\widgets\HomeProfileView;
 use frontend\widgets\PostList;
@@ -15,7 +9,7 @@ $post_list_provider = $home_vo->getPostList();
 $this->title = 'Just Give it';
 ?>
 <div class="site-index">
-    <?=    BannerWithSearch::widget(['id' => 'banner-with-search']) ?>
+    <?=    BannerWithSearch::widget(['id' => 'banner-with-search', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
     <div class='site-view'>
     
         <div class='col-md-9 col-xs-9 site-post-area'>

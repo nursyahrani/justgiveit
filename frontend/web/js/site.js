@@ -4,6 +4,8 @@ var Site = function($root) {
     this.$post_list = null;
     this.post_list = null;
     this.$banner_button = null;
+    this.banner_search = null;
+    this.$banner_search = null;
     this.trigger_button_click_event_ = null;
     this.init();
     this.initEvents();
@@ -22,7 +24,8 @@ Site.prototype.init = function() {
     this.$post_list = this.$root.find('.post-list');
     this.post_list = new PostList(this.$post_list);
     this.$banner_button = this.$root.find('.site-banner-button');
-    
+    this.$banner_search = this.$root.find('#banner-with-search');
+    this.banner_search = new BannerWithSearch(this.$banner_search);
 };
 
 Site.prototype.initEvents = function() {
@@ -33,6 +36,12 @@ Site.prototype.initEvents = function() {
         }
         self.triggerBannerButtonClick();
     });
+    
+    this.$banner_search.on(BannerWithSearch.prototype.EVENT.BANNER_WITH_SEARCH_SEARCH, 
+        function(e,data) {
+            this.post_list.searchNewData(data['query'], data['location']);
+        }.bind(this)
+    );
 };
 
 Site.prototype.initWidgetEvents =function() {

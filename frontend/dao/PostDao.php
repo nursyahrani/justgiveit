@@ -34,6 +34,12 @@ class PostDao {
     const GET_BID_LIST = "SELECT bid.* , user.id, user.first_name, user.last_name, user.username, user.profile_pic 
             from bid, user where bid.stuff_id = :stuff_id and bid.proposer_id = user.id";
     
+    private $bid_dao;
+    
+    public function __construct() {
+        $this->bid_dao = new BidDao;
+    }
+    
     public function getPostTag($post_id) {
         $results =  \Yii::$app->db
             ->createCommand(self::GET_POST_TAG)
@@ -54,6 +60,7 @@ class PostDao {
         $bid_list = array();
         foreach($results as $result) {
             $bid = new BidVoBuilder();
+            $bid->setBidId($result['bid_id']);
             $bid->setCreatorFirstName($result['first_name']);
             $bid->setCreatorLastName($result['last_name']);
             $bid->setCreatorId($result['id']);
@@ -63,6 +70,7 @@ class PostDao {
             $bid->setCreatedAt($result['created_at']);
             $bid->setHasConfimed($result['confirm']);
             $bid->setHasObtained($result['obtain']);
+            $bid->setChosenBidReply($this->bid_dao->getOneBidReply($result['bid_id']));
             $bid->setCreatorPhotoPath($result['profile_pic']);
             $bid_list[] = $bid->build();
         }

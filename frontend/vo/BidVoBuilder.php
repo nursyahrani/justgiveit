@@ -1,14 +1,11 @@
 <?php
 namespace frontend\vo;
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+use Yii;
 
 class BidVoBuilder implements Builder {
 
-    
+    private  $bid_id;
     private $creator_username;
     private $creator_first_name;
     private $creator_last_name;
@@ -19,9 +16,18 @@ class BidVoBuilder implements Builder {
     private $creator_photo_path;
     private $obtain;
     private $confirm;
+    private $chosen_bid_reply;
     
     public function build() {
         return new BidVo($this);
+    }
+    
+    public function getChosenBidReply() {
+        return $this->chosen_bid_reply;
+    }
+    
+    public function setChosenBidReply($chosen_bid_reply) {
+        $this->chosen_bid_reply = $chosen_bid_reply;
     }
     
     public function hasObtained() {
@@ -103,4 +109,14 @@ class BidVoBuilder implements Builder {
     public function setCreatorPhotoPath($creator_photo_path) {
         $this->creator_photo_path = $creator_photo_path;
     }
+    
+    public function getBidId() {
+        return $this->bid_id;
+        
+    }
+    
+    public function setBidId($bid_id) {
+        $this->bid_id = $bid_id;
+    }
+    
 }

@@ -9,6 +9,8 @@ var PostList = function($root) {
     this.$root = $root;
     this.stuff_ids = '';
     this.id = $root.data('id');
+    this.location = $root.data('location');
+    this.query = '';
     this.post_cards = [];
     this.$post_list_area = null;
     this.permit_retrieve_post = true;
@@ -47,12 +49,11 @@ PostList.prototype.retrievePostWhenScroll_ = function(e) {
             $.ajax({
                 url: $("#base-url").val() + "/site/get-more-posts",
                 type: 'post',
-                data: {'ids' : self.stuff_ids},
+                data: {'ids' : self.stuff_ids, query: self.query, location: self.location},
                 success: function(data) {
                     var parsedData = JSON.parse(data);
                     if(parsedData['status'] === 1) {
                         self.$post_list_area.append(parsedData['view']);
-  
                         $(parsedData['view']).filter('.post-card').each(function(index, value) {
                             self.post_cards.push(new PostCard($(value)));
                             self.stuff_ids += "," + $(value).data('stuff_id');
@@ -64,9 +65,39 @@ PostList.prototype.retrievePostWhenScroll_ = function(e) {
                     self.permit_retrieve_post = true;
                     
                 }
-            })   
+            });   
         }
     }
 
 };
 
+PostList.prototype.searchNewData  = function(query, location) {
+    this.query = query;
+    this.location = location;
+    
+    $.ajax({
+        url: $("#base-url").val() + "/site/get-more-posts",
+        type: 'post',
+        context: this,
+        data: {'ids' : this.stuff_ids, query: this.query, location: this.location},
+        success: function(data) {
+            var parsedData = JSON.parse(data);
+            if(parsedData['status'] === 1) {
+                this.$post_list_area.html(parsedData['view']);
+                this.post_cards = [];
+                this.stuff_ids = "0";
+                $(parsedData['view']).filter('.post-card').each(function(index, value) {
+                    var post_card = new PostCard($(value));
+                    this.post_cards.push(post_card);
+                    post_card.initEvents();
+                    this.stuff_ids += "," + $(value).data('stuff_id');
+                });
+            }
+            this.permit_retrieve_post = true;
+        },
+        error : function(data) {
+            this.permit_retrieve_post = true;
+
+        }
+    });
+};
