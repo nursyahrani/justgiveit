@@ -11,6 +11,9 @@ class ImageViewEditor extends Widget
     public $image_path;
     
     public $active;
+    
+    public $modal_title;
+    
     public function init()
     {
         parent::init();
@@ -27,6 +30,9 @@ class ImageViewEditor extends Widget
     public function run()
     {
         return $this->render('image-view-editor',
-            ['id' => $this->id, 'image_path' => $this->image_path, 'active' => $this->active]);
+            ['id' => $this->id, 
+            'image_path' => $this->image_path, 
+            'active' => $this->active,
+                'modal_title' => $this->modal_title]);
     }
 }

@@ -20,8 +20,10 @@ class BidVo implements Vo {
     private $creator_id;
     private $chosen_bid_reply;
     private $stuff_id;
+    private $quantity;
     private $message;
     private $created_at;
+    private $total_replies;
     private $obtain;
     private $confirm;
     
@@ -32,12 +34,14 @@ class BidVo implements Vo {
         $this->creator_id = $builder->getCreatorId();
         $this->stuff_id = $builder->getStuffId();
         $this->message = $builder->getMessage();
+        $this->quantity = $builder->getQuantity();
         $this->created_at = $builder->getCreatedAt();
         $this->creator_photo_path = $builder->getCreatorPhotoPath();
         $this->obtain = $builder->hasObtained();
         $this->bid_id = $builder->getBidId();
         $this->confirm = $builder->hasConfirmed();
         $this->chosen_bid_reply = $builder->getChosenBidReply();
+        $this->total_replies = $builder->getTotalReplies();
     }
 
     public static function createBuilder() {
@@ -64,7 +68,7 @@ class BidVo implements Vo {
     }
     
     public function hasObtained() {
-        return $this->obtain;
+        return $this->obtain === '0';
     }
     
     public function getCreatorPhotoPath() {
@@ -87,5 +91,12 @@ class BidVo implements Vo {
     public function getBidId() {
         return $this->bid_id;
     }
-
+    
+    public function getQuantity() {
+        return $this->quantity;
+    }
+    
+    public function getTotalReplies() {
+        return $this->total_replies;
+    }
 }

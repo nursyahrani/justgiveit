@@ -2,8 +2,7 @@
 namespace frontend\models;
 
 use common\models\User;
-use common\models\UserEmailAuthentication;
-use common\models\UserFacebookAuthentication;
+use common\models\Post;
 use yii\base\Model;
 use Yii;
 use common\models\Bid;
@@ -15,15 +14,17 @@ class CreateBidForm extends Model
     public $stuff_id;
     public $proposer_id;
     public $message;
+    public $quantity;
     /*
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['proposer_id', 'stuff_id', 'message'], 'required'],
+            [['proposer_id', 'stuff_id', 'quantity', 'message'], 'required'],
             [['proposer_id', 'stuff_id'], 'integer'],
-            ['message', 'string']
+            ['message', 'string'],
+            ['quantity', 'integer', 'min' => 1]
         ];
     }
 
@@ -34,7 +35,7 @@ class CreateBidForm extends Model
      */
     public function bid()
     {
-        if ($this->validate() && !$this->isOwner()) {
+        if ($this->validate() && !$this->isOwner() && $this->isQuantityValid()) {
             if($this->checkExist()) {
                 return $this->updateBid();
             } else {
@@ -53,11 +54,16 @@ class CreateBidForm extends Model
         return \common\models\Post::find()->where(['stuff_id' => $this->stuff_id])->one()['poster_id'] === $this->proposer_id;
     }
     
+    private function isQuantityValid() {
+        return intval(Post::find()->where(['stuff_id' => $this->stuff_id])->one()['quantity']) >= $this->quantity;
+    }
+    
     private function createBid() {
         $bid = new Bid();
         $bid->proposer_id = $this->proposer_id;
         $bid->stuff_id = $this->stuff_id;
         $bid->message = $this->message;
+        $bid->quantity = $this->quantity;
         if($bid->save()){
             return true;
         }
@@ -67,8 +73,9 @@ class CreateBidForm extends Model
     private function updateBid() {
         $bid = Bid::find()->where(['proposer_id' => $this->proposer_id, 'stuff_id' => $this->stuff_id])->one();
         
-        if($bid->message !== $this->message) {
+        if($bid->message !== $this->message || $bid->quantity !== $this->quantity) {
             $bid->message = $this->message;
+            $bid->quantity = $this->quantity;
             return $bid->update();
         }
         

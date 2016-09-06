@@ -10,6 +10,8 @@ class BidVoBuilder implements Builder {
     private $creator_first_name;
     private $creator_last_name;
     private $creator_id;
+    private $quantity;
+    private $total_replies;
     private $stuff_id;
     private $message;
     private $created_at;
@@ -24,6 +26,14 @@ class BidVoBuilder implements Builder {
     
     public function getChosenBidReply() {
         return $this->chosen_bid_reply;
+    }
+    
+    public function getQuantity() {
+        return $this->quantity;
+    }
+    
+    public function setQuantity($quantity) {
+        $this->quantity = $quantity;
     }
     
     public function setChosenBidReply($chosen_bid_reply) {
@@ -119,4 +129,11 @@ class BidVoBuilder implements Builder {
         $this->bid_id = $bid_id;
     }
     
+    public function setTotalReplies($total_replies) {
+        $this->total_replies = $total_replies;  
+    }
+    
+    public function getTotalReplies() {
+        return $this->total_replies;
+    }
 }

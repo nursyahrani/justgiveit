@@ -33,3 +33,15 @@ and open the template in the editor.
 .banner-with-search-bar-area {
     display: inline-flex;
 }
+
+
+@media (max-width: 450px) {
+    
+    .banner-with-search {
+        height: 300px;
+    }
+    
+    .banner-with-search-header {
+        font-size: 24px;
+    }
+}

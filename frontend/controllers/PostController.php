@@ -23,31 +23,39 @@ class PostController extends Controller
         $this->post_service = $this->service_factory->getService(ServiceFactory::POST_SERVICE);
     }
 
+    public function actionCreate() {
+        return $this->render('create-post');
+    }
 
-    public function actionCreate(){
+    public function actionProcessCreate(){
         $data= array();
         if(!Yii::$app->user->isGuest  && isset($_POST['title']) &&
                 isset($_POST['description']) && isset($_POST['tags']) 
                 && isset($_POST['image_id'])) {
-    
+            
             $create_stuff_form = new CreateStuffForm();
             $create_stuff_form->poster_id = Yii::$app->user->getId();
             $create_stuff_form->title = $_POST['title'];
             $create_stuff_form->tags = $_POST['tags'];
             $create_stuff_form->description = $_POST['description'];
             $create_stuff_form->image_id = $_POST['image_id'];
+            $create_stuff_form->quantity = $_POST['quantity'];
             $stuff_id =$create_stuff_form->create();
+                
             if($stuff_id !== null) {
                 $data['status'] = 1;
                 $data['stuff_id'] = $stuff_id;
                 return json_encode($data);
             }
+            $data['message'] = $create_stuff_form->getErrors();
         }
         
         $data['status'] = 0;
         return json_encode($data);
 
     }
+    
+   
     
     public function actionIndex() {
         if(!isset($_GET['id'])) {
@@ -61,7 +69,7 @@ class PostController extends Controller
     
     public function actionSendBid() {
         $response = array();
-        if(Yii::$app->user->isGuest || !isset($_POST['stuff_id']) || !isset($_POST['message'])) {
+        if(Yii::$app->user->isGuest || !isset($_POST['stuff_id']) || !isset($_POST['message']) || !isset($_POST['quantity'])) {
             $response['status'] = 0;
             $response['error'] = 'Requirements Failure';
             return json_encode($response);
@@ -71,9 +79,14 @@ class PostController extends Controller
         $create_bid_form->proposer_id = Yii::$app->user->getId();
         $create_bid_form->stuff_id = $_POST['stuff_id'];
         $create_bid_form->message = $_POST['message'];
+        $create_bid_form->quantity = $_POST['quantity'];
         if(!$create_bid_form->bid()) {
             $response['status'] = 0;
-            $response['error'] = 'Fail to update server: ';
+            $error = '';
+            if($create_bid_form->hasErrors()) {
+                $error = $create_bid_form->getErrors()[0];
+            }
+            $response['error'] = 'Fail to update server: ' . $error;
         } else {
             $response['status'] = 1;
 
@@ -120,47 +133,6 @@ class PostController extends Controller
         
     }
     
-    public function actionGive() {
-        $data = array();
-        
-        
-        if(!Yii::$app->user->isGuest && isset($_POST['user_id']) && isset($_POST['stuff_id'])) {
-            
-            $model = new \frontend\models\GiveForm();
-            $model->current_user_id = Yii::$app->user->getId();
-            $model->stuff_id = $_POST['stuff_id'];
-            $model->proposer_id =   $_POST['user_id'];
-            if($model->validate() && $model->give()) {
-                $data['status'] = 1;
-                return json_encode($data);
-            }
-        }        
-        $data['status'] = 0;
-        return json_encode($data);
-        
-    }
-    
-    
-    public function actionCancelGive() {
-        $data = array();
-        
-        
-        if(!Yii::$app->user->isGuest && isset($_POST['user_id']) && isset($_POST['stuff_id'])) {
-            
-            $model = new \frontend\models\GiveForm();
-            $model->current_user_id = Yii::$app->user->getId();
-            $model->stuff_id = $_POST['stuff_id'];
-            $model->proposer_id =   $_POST['user_id'];
-            if($model->validate() && $model->cancelGive()) {
-                $data['status'] = 1;
-                return json_encode($data);
-            }
-        }        
-
-        $data['status'] = 0;
-        return json_encode($data);
-        
-    }
     
     public function actionEdit() {
         $data = array();
@@ -195,6 +167,9 @@ class PostController extends Controller
             if($model->edit()) {
                 $data['status'] = 1;
                 return json_encode($data);
+            }
+            if($model->hasErrors()) {
+                $data['error'] = $model->getErrors()[0];
             }
         }
         

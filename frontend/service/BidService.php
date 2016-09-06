@@ -19,5 +19,8 @@ class BidService {
         return $this->bid_dao->getBidReplyInfo($bid_reply_id);
     }
     
+    public function getMoreReplies($bid_id, $last_time, $offset) {
+        return $this->bid_dao->getMoreReplies($bid_id, $last_time,$offset);
+    }
     
 }

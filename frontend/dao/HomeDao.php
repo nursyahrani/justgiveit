@@ -27,16 +27,19 @@ class HomeDao {
                                 from post,user,image, city, post_tag
                                 where post.poster_id = user.id and image.image_id = post.image_id
                                     and post.stuff_id not in ( :retrieved_post_ids) and user.city_id = city.city_id
-                                    and  post_tag.post_id = post.stuff_id and (city.city_id LIKE :location or
+                                    and  post_tag.post_id = post.stuff_id 
+                                    and( \":tags\" = \"''\" or post_tag.tag_name in ( :tags ) ) 
+                                    and (city.city_id LIKE :location or
                                     city.country_code LIKE :location) and (post_tag.tag_name LIKE :query  or
-                                    post.title LIKE :query)
+                                    post.title LIKE :query) 
                                 group by (post.stuff_id)
                                 order by post.created_at desc
-                                limit :limit) stuff_info
+                                ) stuff_info
                             LEFT JOIN bid bid1
                             on stuff_info.stuff_id = bid1.stuff_id
                             LEFT JOIN bid bid2
                             on stuff_info.stuff_id = bid2.stuff_id and bid2.proposer_id = :user_id
+                            
                             group by (stuff_info.stuff_id)) stuff_with_bid_info
                         LEFT join favorite for_total_favorites
                         on stuff_with_bid_info.stuff_id = for_total_favorites.stuff_id
@@ -44,37 +47,10 @@ class HomeDao {
                         on stuff_with_bid_info.stuff_id = has_favorited.stuff_id and
                             has_favorited.user_id = :user_id
                         group by (stuff_with_bid_info.stuff_id)
-                        order by stuff_with_bid_info.created_at desc
+                        order by stuff_with_bid_info.created_at desc  
+                        limit :limit
                         ";
     
-    const GET_ALL_STUFFS_WITH_TAG = "
-          SELECT stuff_with_bid_info.*,
-                                count(for_total_favorites.user_id) as total_favorites,
-                                (has_favorited.user_id is not null) as has_favorited
-                        from (    
-                            SELECT stuff_info.*,
-                                   count(bid1.proposer_id) as total_bids ,
-                                   (bid2.proposer_id is not null) as has_bid
-                                   
-                            FROM (
-                                SELECT post.*, user.id, user.first_name, user.last_name,
-                                    user.profile_pic, user.username , image.image_path as photo_path 
-                                from post,user , post_tag, image
-                                where post.poster_id = user.id  and image.image_id = post.image_id
-            and post_tag.post_id = post.stuff_id and post_tag.tag_name = :tag_name
-            limit :limit) stuff_info
-                            LEFT JOIN bid bid1
-                            on stuff_info.stuff_id = bid1.stuff_id
-                            LEFT JOIN bid bid2
-                            on stuff_info.stuff_id = bid2.stuff_id and bid2.proposer_id = :user_id
-                            group by (stuff_info.stuff_id)) stuff_with_bid_info
-                        LEFT join favorite for_total_favorites
-                        on stuff_with_bid_info.stuff_id = for_total_favorites.stuff_id
-                        LEFT join favorite has_favorited
-                        on stuff_with_bid_info.stuff_id = has_favorited.stuff_id and
-                            has_favorited.user_id = :user_id
-                        group by (stuff_with_bid_info.stuff_id)  
-" ;
     
     const GET_MOST_POPULAR_STUFF = "SELECT post.stuff_id, post.title, count(post.stuff_id) as total_bids
             from post left join bid 
@@ -113,12 +89,6 @@ class HomeDao {
         ->createCommand(self::GET_CURRENT_USER_LOCATION_TEXT_FOR_SEARCH)
                 ->bindParam(':user_id', $user_id)
         ->queryOne();
-        
-       if($result === null) {
-            $result = array();
-            $result['id'] = 'SG';
-            $result['text'] = 'Singapore';
-        }
         return $result;
     }
     
@@ -133,9 +103,7 @@ class HomeDao {
             $post_builder->setPostId($item['stuff_id']);
             $post_vos[] = $post_builder->build();
         }
-        
         return $post_vos;
-        
     }
     
     private function buildPost($results) {
@@ -165,16 +133,12 @@ class HomeDao {
     
     }
    
-    public function getAllGiveStuffs($current_user_id , $retrieved_post_ids, $search_query, $location, $limit = 5){
+    public function getAllGiveStuffs($current_user_id , $retrieved_post_ids, $search_query, $location, $tags, $limit = 15){
         $location = "%" . $location . "%";
         $search_query = "%" . $search_query . "%";
+        $query = str_replace(':retrieved_post_ids', DatabaseLibrary::stringedItems($retrieved_post_ids), self::GET_ALL_STUFFS);
+        $query = str_replace(':tags', DatabaseLibrary::stringedItems($tags), $query);
         
-        if(DatabaseLibrary::checkEligibility($retrieved_post_ids)) {
-            $query = str_replace(':retrieved_post_ids', $retrieved_post_ids, self::GET_ALL_STUFFS);
-
-        } else {
-            $query = str_replace(':retrieved_post_ids', '0', self::GET_ALL_STUFFS);
-        }
         $results =  \Yii::$app->db
             ->createCommand($query)
             ->bindParam(':user_id', $current_user_id)
@@ -186,25 +150,7 @@ class HomeDao {
         
         return $this->buildPost($results);
     }
-    
-    public function getAllGiveStuffsWithTag($current_user_id, $retrieved_post_ids, $tag, $limit = 5) {
-        if(DatabaseLibrary::checkEligibility($retrieved_post_ids)) {
-            $query = str_replace(':retrieved_post_ids', $retrieved_post_ids, self::GET_ALL_STUFFS_WITH_TAG);
-
-        } else {
-            $query = str_replace(':retrieved_post_ids', '', self::GET_ALL_STUFFS_WITH_TAG);
-        }
-        $results =  \Yii::$app->db
-            ->createCommand($query)
-            ->bindParam(':user_id', $current_user_id)
-            ->bindParam(':limit', $limit)
-            ->bindParam(':tag', $tag)
-            ->queryAll();
         
-        
-        return $this->buildPost($results);
-    }
-    
     public function searchIssue($query) {
         $results = Tag::find()->select(['tag_name'])->where(['like','tag_name', $query])->all();
         $data = array();
@@ -219,7 +165,6 @@ class HomeDao {
     
     public function searchCountryCity($pre, $post = NULL) {
         $pre = '%' . $pre . '%';
-       
         if($post === null) {
             $post = '%%';
             $country_limit = 2;
@@ -236,10 +181,6 @@ class HomeDao {
                 ->bindParam(':limit', $city_limit)
                 ->queryAll();
             $results = array_merge($results_country, $results_city);
-            
-            
-
-
         } else {
             $post = '%' . $post. '%';
             $results_city =  \Yii::$app->db
@@ -255,7 +196,6 @@ class HomeDao {
             $datum['text'] = $result['text'];
             $data[] = $datum;
         }
-        
         return $data;
     }
 }

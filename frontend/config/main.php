@@ -59,7 +59,7 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
+        ]
     ],
     'params' => $params,
     'timeZone' => 'Asia/Singapore'

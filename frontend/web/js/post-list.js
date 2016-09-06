@@ -11,9 +11,21 @@ var PostList = function($root) {
     this.id = $root.data('id');
     this.location = $root.data('location');
     this.query = '';
+    this.tags =[];
     this.post_cards = [];
     this.$post_list_area = null;
     this.permit_retrieve_post = true;
+
+    //loading
+    this.$new_loading = null;
+    this.new_loading = null;
+    this.$get_more_loading = null;
+    this.get_more_loading = null;
+    
+    this.$reached_the_end = null;
+    //retrieving
+    this.is_retrieving = false;
+    
     this.init();
     this.initEvents();
 };
@@ -31,55 +43,64 @@ PostList.prototype.init = function() {
         }
     }.bind(this));
     
+    this.$new_loading = this.$root.find('#' + this.id + "-new-loading");
+    this.new_loading = new Loading(this.$new_loading);
+    this.$get_more_loading = this.$root.find('#' + this.id + "-get-more-loading");
+    this.get_more_loading = new Loading(this.$get_more_loading);
     this.$post_list_area = this.$root.find('.post-list-area');
+    this.$reached_the_end = this.$root.find('.post-list-no-more');
 };
 
 PostList.prototype.initEvents = function() {
-    $(window).scroll({self:this}, this.retrievePostWhenScroll_);
+  
 };
 
-PostList.prototype.retrievePostWhenScroll_ = function(e) {
-    var self = e.data.self;
-    var scrollPercentage = 
-            ((document.documentElement.scrollTop + document.body.scrollTop) / 
-            (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100);
-    if(scrollPercentage > PostList.prototype.SCROLL_VALUE) {
-        if(self.permit_retrieve_post) {
-            self.permit_retrieve_post = false;
-            $.ajax({
-                url: $("#base-url").val() + "/site/get-more-posts",
-                type: 'post',
-                data: {'ids' : self.stuff_ids, query: self.query, location: self.location},
-                success: function(data) {
-                    var parsedData = JSON.parse(data);
-                    if(parsedData['status'] === 1) {
-                        self.$post_list_area.append(parsedData['view']);
-                        $(parsedData['view']).filter('.post-card').each(function(index, value) {
-                            self.post_cards.push(new PostCard($(value)));
-                            self.stuff_ids += "," + $(value).data('stuff_id');
-                        });
-                    }
-                    self.permit_retrieve_post = true;
-                },
-                error : function(data) {
-                    self.permit_retrieve_post = true;
-                    
-                }
-            });   
-        }
-    }
+PostList.prototype.getHeight = function() {
+    return this.$root.height();
 
 };
 
-PostList.prototype.searchNewData  = function(query, location) {
+PostList.prototype.setNewTags = function(tags ) {
+    this.tags = tags;
+    
+    this.searchNewData();
+    this.is_retrieving = false;
+    
+    this.$reached_the_end.addClass('hide');
+
+};
+
+PostList.prototype.setQueryAndLocation = function(query, location) {
     this.query = query;
     this.location = location;
     
+    setTimeout(this.searchNewData.bind(this), 300);
+    this.is_retrieving = false;
+    this.$reached_the_end.addClass('hide');
+}
+
+PostList.prototype.stringifyArray = function(items) {
+    var stringify = '';
+    var first = true;
+    for(var index in items) {
+        if(first) {
+            stringify += items[index];
+            first  = false;
+        } else {
+            stringify += "," + items[index];
+        }
+    }
+    
+    return stringify;
+}
+
+PostList.prototype.searchNewData  = function() {
+    this.new_loading.show();
     $.ajax({
-        url: $("#base-url").val() + "/site/get-more-posts",
+        url: $("#base-url").val() + "/site/search-new-data",
         type: 'post',
         context: this,
-        data: {'ids' : this.stuff_ids, query: this.query, location: this.location},
+        data: {query: this.query, location: this.location, tags : this.stringifyArray(this.tags)},
         success: function(data) {
             var parsedData = JSON.parse(data);
             if(parsedData['status'] === 1) {
@@ -89,15 +110,48 @@ PostList.prototype.searchNewData  = function(query, location) {
                 $(parsedData['view']).filter('.post-card').each(function(index, value) {
                     var post_card = new PostCard($(value));
                     this.post_cards.push(post_card);
-                    post_card.initEvents();
                     this.stuff_ids += "," + $(value).data('stuff_id');
-                });
+                }.bind(this));
             }
-            this.permit_retrieve_post = true;
+            this.new_loading.hide();
         },
         error : function(data) {
-            this.permit_retrieve_post = true;
-
+            this.new_loading.hide();
         }
     });
+};
+
+PostList.prototype.getMorePosts  = function() {
+    if(!this.is_retrieving) {
+        this.get_more_loading.show();
+
+        this.is_retrieving = true;
+        $.ajax({
+            url: $("#base-url").val() + "/site/get-more-posts",
+            type: 'post',
+            context: this,
+            data: {query: this.query, ids: this.stuff_ids, location: this.location, tags : this.stringifyArray(this.tags)},
+            success: function(data) {
+                this.is_retrieving = false;
+                var parsedData = JSON.parse(data);
+                if(parsedData['status'] === 1) {
+                    this.$post_list_area.append(parsedData['view']);
+                    if(parsedData['view'] === '') {
+                        this.is_retrieving = true;
+                        this.$reached_the_end.removeClass('hide');
+                    }
+                    $(parsedData['view']).filter('.post-card').each(function(index, value) {
+                        var post_card = new PostCard($(value));
+                        this.post_cards.push(post_card);
+                        this.stuff_ids += "," + $(value).data('stuff_id');
+                    }.bind(this));
+                }
+                this.get_more_loading.hide();
+            },
+            error : function(data) {
+                this.is_retrieving = false;
+                this.get_more_loading.hide();
+            }
+        });
+    }
 };

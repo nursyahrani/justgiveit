@@ -11,11 +11,13 @@ var CreatePost = function($root) {
     
     //global valid
     this.imageValid = true;
+    
     //field
     this.$tags = null;
     this.$title = null;
     this.$description = null;
     this.$image = null;
+    this.$quantity = null;
     //field error
     this.$tags_error = null;
     this.$title_error = null;
@@ -39,14 +41,15 @@ CreatePost.prototype.init = function() {
     this.$title = this.$root.find('.create-post-information-title');
     this.$description = this.$root.find('.create-post-information-description');
     this.$image = this.$root.find('.create-post-image-view');
+    this.$quantity = this.$root.find('.create-post-information-quantity');
     //error
     this.$tags_error = this.$root.find('.create-post-information-tags-error');
     this.$title_error = this.$root.find('.create-post-information-title-error');
     this.$description_error = this.$root.find('.create-post-information-description-error');
     this.$image_error = this.$root.find('.create-post-information-image-error');
-    
+    this.$quantity_error =this.$root.find('.create-post-information-quantity-error');
     //button
-    this.$create_button = this.$root.find('.create-post-create-btn');
+    this.$create_button = this.$root.find('.create-post-create');
     this.$select_photo_input = this.$root.find('.create-post-image-select-photo');
     this.$upload_photo_modal = this.$root.find('#' + this.id + "-modal");
     
@@ -119,11 +122,11 @@ CreatePost.prototype.postData = function(image_id) {
     this.loading.show();
     
     $.ajax({
-        url: $("#base-url").val() + "/post/create",
+        url: $("#base-url").val() + "/post/process-create",
         type: 'post',
         context: this,
         data: {title: this.getTitleVal(), description: this.getDescriptionVal(),
-                image_id:image_id, tags: this.getTagsVal()},
+                image_id:image_id, tags: this.getTagsVal(), quantity: this.getQuantityVal()},
         success: function(data) {
             var parsed = JSON.parse(data);
             if(parsed['status'] === 1) {
@@ -172,6 +175,13 @@ CreatePost.prototype.validateInClient = function() {
         this.hideError(this.$tags_error);
     }
     
+    if(this.getQuantityVal() === 0 || this.getQuantityVal() === null) {
+        valid = false;
+        this.showError(this.$quantity_error, 'Quantity should be at least 1');
+    } else {
+        this.hideError(this.$quantity_error);
+    }
+    
     return valid;
 };
 
@@ -200,3 +210,11 @@ CreatePost.prototype.getImageVal = function() {
     return this.$select_photo_input.val();
 }
 
+CreatePost.prototype.getQuantityVal = function() {
+    var quantity = this.$quantity.val();
+    if(quantity === null) {
+        quantity = 0;
+    }
+    
+    return parseInt( quantity);
+}

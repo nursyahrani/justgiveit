@@ -20,6 +20,8 @@ and open the template in the editor.
 
 .image-view-editor {
     position: relative;
+    width:100%;
+    height: 100%;
 }
 
 .image-view-editor-button {
@@ -35,8 +37,8 @@ width: 100%;
 .image-view-editor-image-modal {
     width: 100%;
     height: 100%;
-
-
+    max-width: 300px;
+    max-height: 400px;
 }
 
 .image-view-editor-photo-modal {
@@ -53,6 +55,10 @@ width: 100%;
     margin-top: 4px;
 }
 
+.image-view-editor-image {
+    width: 100%;
+    height: 100%;
+}
 .image-view-editor-image-modal-for-change {
     
 }

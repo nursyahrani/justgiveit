@@ -10,7 +10,8 @@ class BidContainer extends Widget
     
     public $id;
     
-
+    public $post_owner;
+    
     public function init()
     {
         parent::init();
@@ -29,6 +30,6 @@ class BidContainer extends Widget
             return 'No Result Found';
         }
         return $this->render('bid-container',
-            ['bid_list' => $this->bid_list, 'id' => $this->id]);
+            ['bid_list' => $this->bid_list, 'id' => $this->id, 'post_owner' => $this->post_owner]);
     }
 }

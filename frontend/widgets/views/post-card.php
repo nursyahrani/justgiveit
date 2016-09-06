@@ -25,9 +25,11 @@
 
 
 <div id="<?= $id ?>" class="post-card" data-stuff_id="<?= $post_id ?>" 
-     data-is_owner ="<?= $post_vo->isOwner() ?>" data-id="<?= $id ?>">
-    <?= ImageViewEditor::widget(['id' => $id . '-image-view' , 
-        'image_path' => $post_vo->getImage() , 'active' => false]) ?>
+     data-is_owner ="<?= $post_vo->isOwner() ?>" data-id="<?= $id ?>" data-post_link="<?= $post_link ?>">
+    <div class="post-card-img">
+        <?= ImageViewEditor::widget(['id' => $id . '-image-view' , 
+        'image_path' => $post_vo->getImage() , 'active' => false, 'modal_title' => $post_vo->getTitle()]) ?>
+    </div>
     <div class="post-card-view">
         <?= Html::a($post_title, $post_link, ['class' => 'post-card-name'])     ?>
        
@@ -35,33 +37,21 @@
             <div class="post-card-total-bid">
                 <?= $post_vo->getTotalBids() ?>
             </div>
-            <?= ButtonWithTooltip::widget(['id' => $id . '-bid-button', 
-                'tooltip_text' => !$post_vo->isOwner() ? ($post_vo->hasBid() ? 'You have bid' : 'Propose') : 'You are owner',
-                'button_class' => 'glyphicon glyphicon-envelope button-like-link post-card-button-propose '
-                     . ($post_vo->hasBid() ? 'post-card-button-red ' : ' ') 
+            <span class="glyphicon glyphicon-envelope post-card-logo <?= ($post_vo->hasBid()) ? 'post-card-button-red' : '' ?>" >
                 
-                     . ($post_vo->isOwner() ? 'post-card-disabled' : '')
-                ,
-                'button_options' => [
-                    'data-has_bid' => $post_vo->hasBid()
-                ]
-            ]) ?>
+            </span>
             <div class="post-card-total-favorite">
                 <?= $post_vo->getTotalFavorites() ?>
             </div>
             
-            <?= ButtonWithTooltip::widget(['id' => $id . '-favorite-button', 
-                'tooltip_text' => 'Favorite',
-                'button_class' => 'glyphicon glyphicon-heart button-like-link post-card-button-favorite ' 
+            <span class="glyphicon glyphicon-heart post-card-logo <?= ($post_vo->hasFavorited()) ? 'post-card-button-red' : '' ?>" >
                 
-                     . ($post_vo->hasFavorited() ? 'post-card-button-red' : ''),
-                'button_options' => [
-                    'data-has_favorite' => $post_vo->hasFavorited()
-                ]
-            ]) ?>
-
+            </span>
+            
+            <div class="post-card-right">
+                <?= $post_vo->getPostTags()[0] ?>
+            </div>
         </div>
-        
     </div>
     
     <?php

@@ -7,13 +7,10 @@
  */
 use common\libraries\CommonLibrary;
 use yii\helpers\Html;
-use kartik\select2\Select2;
-use common\widgets\ButtonWithTooltip;
+use common\widgets\QuantityWidget;
 use common\widgets\AutoHeightTextArea;
-use yii\web\JsExpression;
-
 ?>
-<div id="<?= $id ?>" data-stuff_id ="<?= $post->getPostId() ?>" class="post-section">
+<div id="<?= $id ?>" data-id="<?= $id ?>" data-stuff_id ="<?= $post->getPostId() ?>" class="post-section">
     <div class="post-section-view">
         <div class="post-section-tags">
             <?php foreach($post->getPostTags() as $tag) { ?>
@@ -23,68 +20,48 @@ use yii\web\JsExpression;
         <div class="post-section-title">
             <?= $post->getTitle() ?>            
         </div>
-        <div class="post-section-description">
-            <?= $post->getDescription() ?>
-        
-            <div class="post-section-view-button">
-                <?php if($post->isOwner()) { ?>
-                    <?= ButtonWithTooltip::widget(['id' => 'post-section-view-edit-button', 
-                        'tooltip_text' => 'Edit',
-                        'text' => '<span class="glyphicon glyphicon-pencil"></span>',
-                        'button_class' => 'button-like-link post-section-view-edit-button '
-                    ]) ?>
-                <?php } ?>
-            </div>
-        </div>
-        
-        <div class='post-section-information'>
-                <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-image-profile-pic']) ?> 
-                <?= Html::a( $post->getPostCreatorFullName() , $post->getPostCreatorUserLink()) ?>
-                &bull;
-                <?= $post->getCreatedAt() ?>
-        </div>
+        <?php if(!$post->isOwner()) { ?>
+            <div class="post-section-quantity">
+                <?= QuantityWidget::widget(['id' => $id . '-quantity-widget']) ?>
+                <div class="post-section-quantity-error site-input-error">
 
-    </div>
-    <div class="post-section-edit post-section-hide">
+                </div>
+            </div>
+            <div class="post-section-text-area-section">
+                <?= AutoHeightTextArea::widget(['id' => $id . '-text-area', 'widget_class' => 'post-section-text-area',
+                    'placeholder' => 'Write proposal here..','rows' => 4
+                    ])   ?> 
+                <div class="post-section-text-area-section-error site-input-error">
+
+                </div>
+            </div>
+            <div class="post-section-button-section">
+                <?php if(!$post->hasBid()) { ?>
+                <?= Html::button('<span class="glyphicon glyphicon-send"></span> Send Proposal', ['class' => 'btn btn-primary'
+                    . ' post-section-bid']) ?>
+                <?php } else {?>
+                
+                <?= Html::button('<span class="glyphicon glyphicon-send"></span> Send New Proposal', ['class' => 'btn btn-primary'
+                    . ' post-section-bid']) ?>
+                <?php } ?>
+                
+                <?= Html::button('<span class="glyphicon glyphicon-heart"></span> Send Thanks', 
+                                ['class' => (!$post->hasFavorited() ? '' : ' hide') . ' btn btn-danger post-section-request-favorite ']
+                        ) ?>
+
+                <?= Html::button('<span class="glyphicon glyphicon-heart"></span> Thanks Sent', 
+                        ['class' => (!$post->hasFavorited() ? 'hide' : ' cancel') . ' btn btn-danger post-section-cancel-favorite ']) ?>
+            </div>
         
-        <?= Select2::widget([
-                'id' => 'post-section-edit-tags',
-                'class' => 'post-section-edit-tags',
-                'name' => 'tags',
-                'value' => $post->getPostTags(),
-                'maintainOrder' => true,
-                'options' => ['placeholder' => 'Select Tags ...', 'multiple' => true],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'ajax' => [
-                        'url' => \yii\helpers\Url::to(['site/search-tag']),
-                        'dataType' => 'json',
-                           'data' => new JsExpression('function(params) { return {query:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(topic_name) { return topic_name.text; }'),
-                    'templateSelection' => new JsExpression('function (topic_name) { return topic_name.text; }'),
-                ],
-        ]) ?>
-        <div class="post-section-edit-tags-error post-section-error">
-            
-        </div>
-        <?= Html::textInput('post-section-edit-title', $post->getTitle(), 
-                ['class' => 'post-section-edit-title', 'placeholder' => 'Title', 'name' => 'title']) ?>
-        <div class="post-section-edit-title-error post-section-error">
-            
-        </div>
-        <?= AutoHeightTextArea::widget(['id' => 'post-section-edit-description', 
-            'widget_class' => 'post-section-edit-description', 'placeholder' => 'Description',
-            'value' => $post->getDescription()]); ?>
-        <div class="post-section-error post-section-edit-description-error">
-            
-        </div>
-        
-        <div class="post-section-edit-button" align="right">
-            <?= Html::button('Edit', ['class' => 'post-section-button post-section-edit-edit-button']) ?>
-            <?= Html::button('Cancel', ['class' => 'post-section-button post-section-edit-cancel-button']) ?>
-        </div>
+        <?php } else { ?>
+            <div class="post-section-owner">
+                You are the owner
+            </div>
+            <div class="post-section-owner-button">
+                <?= Html::button('<span class="glyphicon glyphicon-pencil"></span> Edit', ['class' => 'btn btn-primary post-section-owner-edit']) ?>
+                
+                <?= Html::button('<span class="glyphicon glyphicon-remove"></span> Delete', ['class' => 'btn btn-danger post-section-owner-delete']) ?>
+            </div>
+        <?php } ?>
     </div>
 </div>

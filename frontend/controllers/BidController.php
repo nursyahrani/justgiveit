@@ -1,12 +1,8 @@
 <?php
 namespace frontend\controllers;
 
-use frontend\models\CreateStuffForm;
-
-use frontend\models\FavoriteForm;
 use Yii;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 use frontend\widgets\BidReply;
 use frontend\service\ServiceFactory;
 use frontend\models\BidReplyForm;
@@ -43,6 +39,59 @@ class BidController extends Controller
             $data['view'] = BidReply::widget(['id' => 'bid-reply-' . $bid_reply_id, 'bid_reply' => $bid_reply_vo]);
            
         } else {
+            $data['status'] = 0;
+        }
+        
+        return json_encode($data);
+    }
+    
+    
+    public function actionGive() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['bid_id'])) {
+            $model = new \frontend\models\GiveForm();
+            $model->post_owner_id = Yii::$app->user->getId();
+            $model->bid_id = $_POST['bid_id'];
+            if($model->validate() && $model->give()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
+    
+    public function actionCancelGive() {
+        
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['bid_id'])) {
+            $model = new \frontend\models\GiveForm();
+            $model->post_owner_id = Yii::$app->user->getId();
+            $model->bid_id = $_POST['bid_id'];
+            if($model->validate() && $model->cancelGive()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
+    public function actionGetMoreReplies() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['bid_id']) && isset($_POST['first_created_at']) && isset($_POST['offset'])) {
+            $bid_replies = $this->bid_service->getMoreReplies($_POST['bid_id'], $_POST['first_created_at'], $_POST['offset']);
+            $data['status'] = 1;
+            $data['count'] = count($bid_replies);
+            $view = '';
+            foreach($bid_replies as $bid_reply) {   
+                $view .= BidReply::widget(['id' => 'bid-reply-' . $bid_reply->getBidReplyId(), 'bid_reply' => $bid_reply]);
+            }
+           
+            $data['view'] = $view;
+        }
+        else {
             $data['status'] = 0;
         }
         

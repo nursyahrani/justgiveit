@@ -44,6 +44,13 @@ class PostVoBuilder implements Builder {
     
     private $has_bid;
     
+    private $meet_up;
+    
+    private $delivery;
+    
+    private $quantity;
+    
+    
     public function build() {
         return new PostVo($this);
     }
@@ -190,5 +197,29 @@ class PostVoBuilder implements Builder {
     
     public function setSuggestedPost($suggested_post) {
         $this->suggested_post = $suggested_post;
+    }
+    
+    public function getQuantity() {
+        return $this->quantity;
+    }
+    
+    public function isDeliveryPrefered() {
+        return $this->delivery;
+    }
+    
+    public function isMeetupPrefered() {
+        return $this->meet_up;
+    }
+    
+    public function setQuantity($quantity) {
+        $this->quantity =$quantity;
+    }
+    
+    public function setDelivery($delivery) {
+        $this->delivery = $delivery;
+    }
+    
+    public function setMeetup($meet_up) {
+        $this->meet_up = $meet_up;
     }
 }

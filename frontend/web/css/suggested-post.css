@@ -1,0 +1,14 @@
+.suggested-post {
+        max-width: 385px;
+    background: white;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.suggested-post-header {
+        padding-bottom: 2px;
+    font-size: 14px;
+    color: gray;
+    text-align: left;
+    font-weight: bold;
+}

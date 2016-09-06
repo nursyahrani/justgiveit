@@ -45,6 +45,12 @@ class PostVo implements Vo {
     
     private $has_favorited;
     
+    private $quantity;
+    
+    private $delivery;
+    
+    private $meet_up;
+    
     function __construct(PostVoBuilder $builder) {
         $this->post_id  =$builder->getPostId();
         $this->title = $builder->getTitle();
@@ -64,6 +70,10 @@ class PostVo implements Vo {
         $this->has_bid = $builder->hasBid();
         $this->total_favorites = $builder->getTotalFavorites();
         $this->has_favorited = $builder->hasFavorited();
+        $this->quantity = $builder->getQuantity();
+        $this->delivery = $builder->isDeliveryPrefered();
+        $this->meet_up = $builder->isMeetupPrefered();
+        
     }
     
     public function getDeadline() {
@@ -156,6 +166,18 @@ class PostVo implements Vo {
         }
     }
     
+    public function getQuantity() {
+        return $this->quantity;
+        
+    }
+    
+    public function isDeliveryPrefered() {
+        return $this->delivery;
+    }
+    
+    public function isMeetupPrefered() {
+        return $this->meet_up;
+    }
     public function hasFavorited() {
         return $this->has_favorited;
     }

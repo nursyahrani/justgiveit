@@ -23,16 +23,22 @@ class PostDao {
                  left join bid for_total_bids
                  on for_total_bids.stuff_id = post_info.stuff_id
                  left join bid for_has_bid
-                 on for_has_bid.stuff_id = post_info.stuff_id and post_info.user_id = :user_id
+                 on for_has_bid.stuff_id = post_info.stuff_id and for_has_bid.proposer_id = :user_id
                  group by (post_info.stuff_id)) stuff_with_bid_info
             LEFT JOIN favorite for_total_favorites
             on for_total_favorites.stuff_id = stuff_with_bid_info.stuff_id
             LEFT JOIN favorite for_has_favorited
-            on for_has_favorited.stuff_id = stuff_with_bid_info.stuff_id and stuff_with_bid_info.user_id = :user_id
+            on for_has_favorited.stuff_id = stuff_with_bid_info.stuff_id and for_has_favorited.user_id = :user_id
             group by (stuff_with_bid_info.stuff_id)";
     
-    const GET_BID_LIST = "SELECT bid.* , user.id, user.first_name, user.last_name, user.username, user.profile_pic 
-            from bid, user where bid.stuff_id = :stuff_id and bid.proposer_id = user.id";
+    const GET_BID_LIST = "SELECT bid_info.*, count(bid_reply.bid_id) as total_replies from(
+                        SELECT bid.* , user.id, user.first_name, user.last_name, 			user.username, user.profile_pic
+                       from bid, user
+                       where bid.stuff_id = :stuff_id and bid.proposer_id = user.id) bid_info
+                       left join bid_reply
+                       on bid_info.bid_id = bid_reply.bid_id
+                       group by(bid_info.bid_id)";
+    
     
     private $bid_dao;
     
@@ -72,6 +78,8 @@ class PostDao {
             $bid->setHasObtained($result['obtain']);
             $bid->setChosenBidReply($this->bid_dao->getOneBidReply($result['bid_id']));
             $bid->setCreatorPhotoPath($result['profile_pic']);
+            $bid->setQuantity($result['quantity']);
+            $bid->setTotalReplies($result['total_replies']);
             $bid_list[] = $bid->build();
         }
         return $bid_list;
@@ -101,6 +109,7 @@ class PostDao {
         $builder->setTotalFavorites($result['total_favorites']);
         $builder->setHasFavorited($result['has_favorited']);
         $builder->setPostId($result['stuff_id']);
+        $builder->setQuantity($result['quantity']);
         return $builder;
     }
 }   

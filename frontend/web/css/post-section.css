@@ -1,16 +1,5 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 24 Aug, 2016, 6:08:02 PM
-    Author     : user
-*/
-
 .post-section {
-    width: 50%;
-    display: inline-block;
+    width: 100%;
 }
 
 .post-section-button {
@@ -23,9 +12,9 @@ and open the template in the editor.
 }
 
 .post-section-title {
-    font-size:20px;
+    font-size: 24px;
     font-weight: bold;
-    letter-spacing: 2px;
+    height: 48px;
 }
 
 .post-section-edit-title {
@@ -63,6 +52,15 @@ and open the template in the editor.
     
 }
 
+.post-section-view {
+    
+    background: white;
+    /* padding-left: 16px; */
+    padding: 8px;
+    padding-left: 16px;
+    border-radius: 4px;
+}
+
 .post-section-view-button {
 
     display: inline-flex;
@@ -78,5 +76,30 @@ and open the template in the editor.
 }
 
 .post-section-information {
+    margin-top: 8px;
+}
+
+.post-section-quantity {
+    margin-top: 8px;
+}
+
+.post-section-text-area-section {
+    margin-top: 16px;
+}
+
+.post-section-text-area {
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.post-section-button-section {
+    margin-top: 16px;
+}
+
+.post-section-cancel-favorite {
+    opacity: 0.5;
+}
+
+.post-section-owner-button {
     margin-top: 8px;
 }

@@ -25,6 +25,7 @@ use yii\web\JsExpression;
                 'initValueText' => $initial_location['text'],
                 'options' => ['placeholder' => 'Search City ...'],
                 'pluginOptions' => [
+                    'allowClear' => true,   
                     'ajax' => [
                         'url' => \yii\helpers\Url::to(['site/search-city']),
                         'dataType' => 'json',
@@ -36,5 +37,4 @@ use yii\web\JsExpression;
                 ],
             ]) ?>
     </div>
-    <?= Html::button('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-primary search-bar-button']) ?>
 </div>

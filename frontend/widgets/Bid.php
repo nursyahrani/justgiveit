@@ -9,6 +9,8 @@ class Bid extends Widget
     public $bid;
     
     public $id;
+    
+    public $post_owner;
     public function init()
     {
         parent::init();
@@ -25,6 +27,6 @@ class Bid extends Widget
     {
         return $this->render('bid',
             ['id' => $this->id,
-                'bid' => $this->bid]);
+                'bid' => $this->bid, 'post_owner' => $this->post_owner]);
     }
 }

@@ -5,10 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+use yii\helpers\Html;
 use frontend\widgets\BidReply;
 ?>
 
-<div class="bid-reply-container" id="<?= $id ?>" data-id="<?= $id ?>" data-bid_id="<?= $bid_id ?>">
+<div class="bid-reply-container" id="<?= $id ?>" data-id="<?= $id ?>" data-bid_id="<?= $bid_id ?>"
+     data-offset="<?= $offset ?>" data-first_created_at="<?= $first_created_at ?>"> 
     <div class="bid-reply-container-item-transition">
         
     </div>
@@ -19,4 +21,8 @@ use frontend\widgets\BidReply;
         <?php } ?>
         
     </div>
+    
+    <?= Html::button("Load Replies (<span class='bid-reply-container-total-replies'>$total_more_replies</span>+) ", 
+            ['class' => (($total_more_replies === 0) ? 'hide' : '') . ' bid-reply-container-load-replies '  ]); ?>
+
 </div>

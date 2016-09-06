@@ -1,5 +1,5 @@
 /*
-To change this license header, choose License Headers in Project Properties.
+o change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
@@ -16,11 +16,10 @@ and open the template in the editor.
 }
 
 .bid {
-    padding-top: 8px;
     background: white;
     display: inline-block;
-    margin-top: 4px;
-    margin-bottom: 8px;
+    width: 100%;
+    margin-bottom: 12px;
 }
 .bid-detail {
     margin-top: 2px;
@@ -37,7 +36,25 @@ and open the template in the editor.
 }
 
 .bid-footer {
-    
+    border-radius: 4px;
     padding: 8px;
     background: #ededed;
+}
+
+.bid-header-below {
+    font-size:12px;
+    color: gray;
+    margin-top: 4px;
+    display: flex;
+}
+
+.bid-give , .bid-cancel-give{
+        margin-left: 12px;
+    border: 0;
+    background: none;
+    vertical-align: top;
+    color: blue;
+}
+.bid-give:hover , .bid-cancel-give:hover {
+    text-decoration: underline;
 }

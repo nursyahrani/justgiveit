@@ -97,7 +97,7 @@ Login.prototype.initEvents = function() {
     
     this.$login_with_facebook.click(function(e){
         $.ajax({
-            url: $("#base-url").val() + "//site/auth?authclient=facebook",
+            url: $("#base-url").val() + "/site/auth?authclient=facebook",
             type: 'post',
             context: this,
             data: {country_code: this.country_code, country: this.country, city: this.city},

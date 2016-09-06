@@ -4,6 +4,7 @@ var PostCard = function($root) {
     this.stuff_id = this.$root.data('stuff_id');
     this.id = this.$root.data('id');
     this.is_owner = this.$root.data('is_owner');
+    this.post_link = this.$root.data('post_link');
     
     this.propose_button_class = null;
     this.favorite_button_class = null;

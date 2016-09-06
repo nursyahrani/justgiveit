@@ -37,7 +37,7 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\UserEmailAuthentication', 'message' => 'This email address has already been taken.'],
 
-            [['first_name', 'country_code', 'city', 'country'], 'required'],
+            [['first_name'], 'required'],
             [['first_name', 'last_name'], 'string', 'min' => 1],
 
             ['facebook_id', 'unique', 'targetClass' => '\common\models\UserFacebookAuthentication', 'message' => 'Facebook Id has been registered'],
@@ -66,18 +66,13 @@ class SignupForm extends Model
             $user->last_name = $this->last_name;
             if($this->photo_path != null){
                 $user->profile_pic = $this->photo_path;
-
             }
-            
-//            $json = file_get_contents("http://ip-api.com/json");
-//            $obj = json_decode($json);
-            
-            $city_id = $this->getLocation();
-            
-            $user->city_id = $city_id;
+            if($this->city !== null) {
+                $city_id = $this->getLocation();
+                $user->city_id = $city_id;
+            }
             $user->generateAuthKey();
             if($user->save()){
-
                 if($this->email != null){
                     $user_email_auth = new UserEmailAuthentication();
                     $user_email_auth->user_id = $user->id;
@@ -87,7 +82,6 @@ class SignupForm extends Model
                         return false;
                     }
                 }
-                
                 if($this->facebook_id != null){
                     $user_facebook_auth = new UserFacebookAuthentication();
                     $user_facebook_auth->user_id = $user->id;
@@ -96,12 +90,8 @@ class SignupForm extends Model
                         return false;
                     }
                 }
-
                 return $user;
-
             }
-
-
         }
 
         return null;

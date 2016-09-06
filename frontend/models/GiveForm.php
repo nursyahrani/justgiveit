@@ -2,30 +2,36 @@
 namespace frontend\models;
 use yii\base\Model;
 use Yii;
+use common\models\Post;
 use common\models\Bid;
 /**
  * Signup form
  */
 class GiveForm extends Model
 {
-    public $stuff_id;
-    public $proposer_id;
-    public $current_user_id;
+    public $bid_id;
+    public $post_owner_id;
+    
+    public $bid_dao;
+    
+    public function __construct() {
+        $this->bid_dao = new \frontend\dao\BidDao;
+    }
     /*
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['stuff_id', 'proposer_id'], 'required'],
-            [['proposer_id', 'stuff_id'], 'integer']
+            [['bid_id', 'post_owner_id'], 'required'],
+            [['bid_id', 'post_owner_id'], 'integer']
         ];
     }
     
     public function give() {
         
         if($this->validate() && $this->checkExist() && $this->isOwner()) {
-            $bid = Bid::find()->where(['stuff_id' => $this->stuff_id, 'proposer_id' => $this->proposer_id])->one();
+            $bid = Bid::find()->where(['bid_id' => $this->bid_id])->one();
             $bid->obtain = 1;
             return $bid->update();
         }
@@ -35,20 +41,19 @@ class GiveForm extends Model
     
     public function cancelGive() {
         if($this->validate() && $this->checkExist() && $this->isOwner()) {
-            $bid = Bid::find()->where(['stuff_id' => $this->stuff_id, 'proposer_id' => $this->proposer_id])->one();
+            $bid = Bid::find()->where(['bid_id' => $this->bid_id])->one();
             $bid->obtain = 0;
-            
             return $bid->update();
         }
         return false;
     }
     
     private function isOwner() {
-        return \common\models\Post::find()->where(['stuff_id' => $this->stuff_id])->one()['poster_id'] === $this->current_user_id;
+        return $this->bid_dao->getPostOwner($this->bid_id) === $this->post_owner_id;
     
     }
     
     private function checkExist() {
-        return Bid::find()->where(['stuff_id' => $this->stuff_id, 'proposer_id' => $this->proposer_id])->exists();
+        return Bid::find()->where(['bid_id' => $this->bid_id])->exists();
     }
 }

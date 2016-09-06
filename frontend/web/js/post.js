@@ -8,9 +8,6 @@ var Post = function($root) {
     this.$root = $root;
     this.stuff_id = $root.data('stuff_id');
     this.$bid_button = null;
-    this.$proposal_box_modal = null;
-    this.$proposal_box = null; 
-    this.proposal_box = null;
     this.bid_container = null;
     this.$bid_container = null;
     this.bidder_list = null;
@@ -24,16 +21,15 @@ var Post = function($root) {
     this.$change_image_modal = null;
     this.$change_image = null;
     this.change_image = null;
-    
+    this.$post_comment_container = null;
+    this.post_comment_container = null;
+   
     this.init();
     this.initEvents();
 };
 
 Post.prototype.init = function() {
     this.$bid_button = this.$root.find('#post-bid-button');
-    this.$proposal_box_modal = this.$root.find('.post-proposal-box-modal');
-    this.$proposal_box = this.$root.find('.home-proposal-box-container');
-    this.proposal_box = new HomeProposalBox(this.$proposal_box);
     this.$bid_container = this.$root.find('#post-bid-containers');
     this.bid_container = new BidContainer(this.$bid_container);
     this.$bidder_list = this.$root.find('#bidder-list');
@@ -47,6 +43,9 @@ Post.prototype.init = function() {
     this.$change_image_modal = this.$root.find('#change-image-modal');
     this.$change_image = this.$root.find('#change-image');
     this.change_image = new ChangeImage(this.$change_image);
+    this.$post_comment_container = this.$root.find("#post-comment-container");
+    this.post_comment_container = new PostCommentContainer(this.$post_comment_container);
+    
 };
 
 Post.prototype.initEvents = function() {
@@ -56,10 +55,6 @@ Post.prototype.initEvents = function() {
         self.$proposal_box_modal.load($(this).attr("value"));
     });
 
-    this.$proposal_box.on(HomeProposalBox.prototype.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT, function(e, data) {
-        window.location.href = data;
-    });
-    
     this.$post_image.hover( function(){
         this.$change_image_button.removeClass('hide');
     }.bind(this));
@@ -86,6 +81,7 @@ Post.prototype.initEvents = function() {
         this.$change_image_modal.modal("hide");
         
     }.bind(this));
+    
 };
 
 Post.prototype.changeImage = function(image_id) {

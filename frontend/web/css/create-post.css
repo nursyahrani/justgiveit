@@ -15,7 +15,7 @@ and open the template in the editor.
 .create-post-image-view {
     
     min-height: 150px;
-    max-height: 240px;
+    max-height: 150px;
     width: 100%;
     background: black;
 }
@@ -27,4 +27,63 @@ and open the template in the editor.
     text-align: center;
     cursor: pointer;
     border: 1px solid lightgray;
+}
+
+.create-post-index {
+    
+    padding: 64px;
+    padding-left: 128px;
+    margin-top: 20px;
+    padding-right: 200px;
+}
+
+.create-post-image {
+        position: relative;
+    display: inline-block;
+    width: 150px;
+}
+
+.create-post-header {
+    
+    height: 34px;
+    font-size: 24px;
+    border-bottom: 1px solid red;
+    margin-bottom: 12px;
+    color: red;
+    font-weight: bold;
+}
+
+.create-post-create {
+        margin-top: 6px;
+    padding: 5px 20px;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: 0;
+}
+
+.create-post-information-area {
+    display: flex;
+}
+
+.create-post-information-label {
+    
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    width: 400px;
+}
+
+.create-post-information-field {
+    width: 100%;
+}
+
+.create-post-information-subheader {
+    
+    font-size: 16px;
+    font-weight: bold;
+    height: 24px;
+    border-bottom: 1px solid darkgray;
+    margin-bottom: 14px;
 }

@@ -10,6 +10,8 @@ var Bid = function($root) {
     this.bid_reply_container = null;
     this.$bid_reply_container = null;
     
+    this.bid_give_class = 'bid-give';
+    this.cancel_give_class = 'bid-cancel-give';
     this.init();
     this.initEvents();
 };
@@ -21,11 +23,48 @@ Bid.prototype.init = function() {
     
     this.$bid_reply_container = $("#" + this.id).find("#" + this.bid_reply_container_id);
     this.bid_reply_container = new BidReplyContainer(this.$bid_reply_container);
+    
 };
 
 Bid.prototype.initEvents = function() {
     var map = {13: false};
   
+    
+    $(document).on('click', '#' + this.id, function(event) {
+        if(event.target && ($(event.target).hasClass(this.bid_give_class))) {
+            $("#" + this.id).find('.' + this.cancel_give_class).removeClass('hide');
+            $("#" + this.id).find('.' + this.bid_give_class).addClass('hide');
+
+            $.ajax({
+                url: $("#base-url").val() + "/bid/give",
+                type: 'post',
+                context: this,
+                data: {bid_id: this.bid_id},
+                success: function(data) {
+                },
+                error : function(data) {
+                }
+            });
+
+        }
+        else if(event.target && ($(event.target).hasClass(this.cancel_give_class))) {
+            
+            $("#" + this.id).find('.' + this.bid_give_class).removeClass('hide');
+            $("#" + this.id).find('.' + this.cancel_give_class).addClass('hide');
+
+            $.ajax({
+                url: $("#base-url").val() + "/bid/cancel-give",
+                type: 'post',
+                context: this,
+                data: {bid_id: this.bid_id},
+                success: function(data) {
+                },
+                error : function(data) {
+                }
+            });
+        }
+    }.bind(this)); 
+    
     
     $(document).on('keypress', '#' + this.id, function(event) {
         if(event.target && ($(event.target).prop('id') === this.text_area_id)) {

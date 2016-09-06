@@ -10,4 +10,23 @@ and open the template in the editor.
 
 .bid-reply-container-item-transition {
     opacity: 0.5;
+
+}
+
+.bid-reply-container-load-replies {
+    
+    background: none;
+    padding: 0;
+    
+    border: 0;
+    color: blue;
+    font-size: 10px;
+}
+
+.bid-reply-container-load-replies:hover {
+    text-decoration: underline;
+}
+
+.bid-reply-container-load-replies:focus {
+    outline: none;
 }

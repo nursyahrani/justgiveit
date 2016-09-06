@@ -41,6 +41,7 @@ class EditPostImageForm extends Model
         }
         
         if(!UserLibrary::isOwner($post->poster_id, $this->user_id)) {
+            
             return null;
         }
         

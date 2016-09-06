@@ -41,6 +41,10 @@ class BidReplyVo implements Vo {
         return CommonLibrary::getTimeText($this->created_at);
     }
     
+    public function getCreatedAtTimestamp() {
+        return $this->created_at;
+    }
+    
     public function getCreatorUserLink() {
         return UserLibrary::buildUserLink($this->creator_username);
     }

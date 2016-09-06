@@ -17,6 +17,7 @@ class CreateStuffForm extends Model
     public $description;
     public $image_id;
     public $poster_id;
+    public $quantity;
     
     public $tags;
     /**
@@ -29,6 +30,7 @@ class CreateStuffForm extends Model
             [['title', 'description', 'tags'], 'required'],
             ['poster_id', 'integer'],
             [['image_id'], 'integer'],
+            ['quantity', 'integer', 'min' => 1],
             ['tags', 'each', 'rule' => ['string']],
         ];
     }
@@ -43,6 +45,7 @@ class CreateStuffForm extends Model
         $post->description = $this->description;
         $post->image_id = $this->image_id;
         $post->poster_id = $this->poster_id;
+        $post->quantity = $this->quantity;
         $post->deadline = time() + (7 * 24 *3600);
         if(!$post->save()){
             return null;

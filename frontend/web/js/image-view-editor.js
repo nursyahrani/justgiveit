@@ -24,6 +24,6 @@ ImageViewEditor.prototype.initEvents = function() {
 };
 
 ImageViewEditor.prototype.setImage = function(image_path) {
-    $("#" +id).find("." + this.image_class).attr('src', image_path);
-    $("#" + id).find("." + this.image_view_image_in_modal_class).attr('src', image_path);
+    $("#" + this.id).find("." + this.image_class).attr('src', image_path);
+    $("#" + this.id).find("." + this.image_view_image_in_modal_class).attr('src', image_path);
 };

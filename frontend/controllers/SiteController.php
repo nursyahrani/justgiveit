@@ -13,10 +13,11 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
+use frontend\models\AddNewCityForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use frontend\service\ServiceFactory;
-use yii\data\ArrayDataProvider;
+use frontend\models\UpdateUserCityForm;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use common\libraries\CommonLibrary;
@@ -70,8 +71,6 @@ class SiteController extends Controller
         ];
     }
 
-
-
     /**
      * @inheritdoc
      */
@@ -114,14 +113,9 @@ class SiteController extends Controller
             $model->facebook_id = $userAttributes['id'];
             $model->first_name = $userAttributes['first_name'];
             $model->last_name = $userAttributes['last_name'];
-            
-            $model->country_code = isset($_POST['country_code']) ? $_POST['country_code'] : 'SG';
-            $model->city = isset($_POST['city']) ? $_POST['city'] : 'Singapore (Western Water Catchment)';
-            $model->country = isset($_POST['country']) ? $_POST['country'] : 'Singapore';
             $url = "https://graph.facebook.com/". $userAttributes['id'] . "/picture?width=190";
             $photos = file_get_contents($url);
             $model->photo_path = (new UploadProfilePicForm())->uploadFacebookPhoto($photos);
-            
             if($user = $model->signup()){
                 Yii::$app->getUser()->login($user);
             }
@@ -136,11 +130,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        
+        $check_ip = new \common\models\CheckIp();
+        $check_ip->ip = $ip  = !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+        if($check_ip->save()) {
+            
+        }
         if(isset($_GET['tag'])) {
             $tag = $_GET['tag'];
             $home_vo = $this->home_service->getHomeInfoWithTag(Yii::$app->user->getId(), $tag, new HomeVoBuilder());
-
+             
         } else {
             $home_vo = $this->home_service->getHomeInfo(Yii::$app->user->getId(), new HomeVoBuilder());
         }
@@ -148,36 +146,42 @@ class SiteController extends Controller
         return $this->render('index', ['home_vo' => $home_vo]);
     }
     
+    public function actionSearchNewData() {
+        $data = array();
+        $query = isset($_POST['query']) ? $_POST['query'] : "";
+        $location = isset($_POST['location']) ? $_POST['location'] : "";
+        $tags = isset($_POST['tags']) ? $_POST['tags'] : "";
+        $user_id = Yii::$app->user->getId();
+        $post_vos = $this->home_service->getPosts($user_id, '', $query, $location, $tags);
+        
+        $view = '';
+        foreach($post_vos as $vo) {
+            $view .= PostCard::widget(
+                    ['id' => 'post-card-' . $vo->getPostId(), 'post_vo' => $vo]);
+        }
+        $data['status'] = 1;
+        $data['view'] = $view;
+        return json_encode($data);
+    }
+    
     public function actionGetMorePosts() {
         $data = array();
-        if (isset($_POST['ids'])) {
-            $limit = isset($_POST['limit']) ? $_POST['limit']  : 10;
-            $location = isset($_POST['location']) ? $_POST['location'] : '';
-            $query = isset($_POST['query']) ? $_POST['query'] : '';
-            $user_id = Yii::$app->user->getId();
-            $tag = isset($_POST['tag']) ? $_POST['tag'] : null;
-            if($tag === null) {
-                
-                $post_vos = $this->home_service->getMorePosts($user_id, 
-                        $_POST['ids'], $query, $location);
-            } else {
-                
-                $post_vos = $this->home_service->getMorePostsWithTag($user_id, 
-                        $_POST['ids'] , $tag);
-            }
-             
-            $view = '';
-            foreach($post_vos as $vo) {
-                $view .= PostCard::widget(
-                        ['id' => 'post-card-' . $vo->getPostId(), 'post_vo' => $vo]);
-            }
-            $data['status'] = 1;
-            $data['view'] = $view;
-        } else {    
-            $data['status'] = 0;
+        $query = isset($_POST['query']) ? $_POST['query'] : "";
+        $location = isset($_POST['location']) ? $_POST['location'] : "";
+        $tags = isset($_POST['tags']) ? $_POST['tags'] : "";
+        $user_id = Yii::$app->user->getId();
+        $ids = isset($_POST['ids']) ? $_POST['ids'] : "";
+        $post_vos = $this->home_service->getPosts($user_id, $ids, $query, $location, $tags);
+        
+        $view = '';
+        foreach($post_vos as $vo) {
+            $view .= PostCard::widget(
+                    ['id' => 'post-card-' . $vo->getPostId(), 'post_vo' => $vo]);
         }
+        $data['status'] = 1;
+        $data['view'] = $view;
         return json_encode($data);
-    
+        
     }
 
     /**
@@ -199,9 +203,7 @@ class SiteController extends Controller
             }   
             $data['message'] = $model->getErrors();
         }
-        
         $data['status'] = 0;
-        
         return json_encode($data);
     }
 
@@ -343,7 +345,6 @@ class SiteController extends Controller
                 $interest = new Interested();
                 $interest->user_id = $user_id;
                 $interest->stuff_id = $stuff_id;
-
                 if(!$interest->save()){
                     return false;
                 }
@@ -380,14 +381,10 @@ class SiteController extends Controller
     
     public function actionSearchTag() {
         $q = isset($_GET['query']) ? $_GET['query'] : '';
-            
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
-
         $data = $this->home_service->searchIssue($q);
-        
         $out['results'] = array_values($data);
-
         echo Json::encode($out);
     }
     
@@ -426,5 +423,42 @@ class SiteController extends Controller
 
         echo Json::encode($out);
     
+    }
+    
+    public function actionUpdateUserCity() {
+        $data = array();
+        if(!isset($_POST['city']) || !isset($_POST['country']) || !isset($_POST['country_code'])) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new AddNewCityForm();
+        $model->city = $_POST['city'];
+        $model->country = $_POST['country'];
+        $model->country_code = $_POST['country_code'];
+        $city_id = $model->getId();
+        
+        if(!Yii::$app->user->isGuest && $city_id) {
+            $update_model = new UpdateUserCityForm();
+            $update_model->user_id = Yii::$app->user->getId();
+            $update_model->city_id = $city_id;
+            $update_model->update();
+        }
+        
+        if($city_id !== false) {
+            $data['status'] = 1;
+            return json_encode($data);
+        } else {
+            $data['status'] = 0;
+            $data['city_id'] = $city_id;
+            return json_encode($data);
+        }
+    }
+    
+    public function actionLog() {
+        $ll = new \common\models\LL();
+        $ll->latitude = $_POST['latitude'];
+        $ll->longitude = $_POST['longitude'];
+        $ll->save();
     }
 }

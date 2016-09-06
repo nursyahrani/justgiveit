@@ -9,13 +9,14 @@ use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
 ?>
 <div id='<?= $id ?>' class='image-view-editor' data-id="<?= $id ?>">
-    <?= Html::img($image_path, ['class' => 'image-view-editor-image default-image']) ?>
+    <?= Html::img($image_path, ['class' => 'image-view-editor-image']) ?>
 
     <?php
         Modal::begin([
+            'id' => $id . '-modal',
+            'header' => "<h4 align='center'>". $modal_title . "</h4>",
             'options' => [
-                    'id' => $id . '-modal',
-                    'class' => 'image-view-editor-photo-modal'
+                'class' => 'image-view-editor-photo-modal'
             ]
         ]);
             echo Html::img($image_path, ['class' => 'image-view-editor-image-modal']);

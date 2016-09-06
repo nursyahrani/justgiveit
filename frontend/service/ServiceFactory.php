@@ -14,8 +14,10 @@ class ServiceFactory {
 
     const PROFILE_SERVICE = "profile_service";
     
+    const POST_COMMENT_SERVICE = "post_comment_service";
     
     const BID_SERVICE = "bid_service";
+    
     public function getService($serviceType ){
 
         if($serviceType === self::HOME_SERVICE){
@@ -26,6 +28,8 @@ class ServiceFactory {
             return new ProfileService(new ProfileDao());
         } else if($serviceType === self::BID_SERVICE) {
             return new BidService();
+        } else if($serviceType === self::POST_COMMENT_SERVICE) {
+            return new PostCommentService();
         }
         return null;
     }

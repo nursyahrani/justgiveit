@@ -1,125 +1,121 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+//pre-loaded
 
 var PostSection = function($root) {
     this.$root = $root;
-    this.$view = null;
-    this.$edit = null;
-    this.$go_to_edit_button = null;
-    this.$edit_cancel_button = null;
-    this.$edit_edit_button = null;
+    this.id = $root.data('id');
     this.stuff_id = $root.data('stuff_id');
-    //field
-    this.$title = null;
-    this.$description = null;
-    this.$tags = null;
-    
-    //error field.
-    this.$title_error = null;
-    this.$description_error = null;
-    this.$tags_error = null;
+
+    //proposal_field = null;
+    this.$quantity = null;
+    this.quantity = null;
+    this.$text_area = null;
+    this.$bid_button = null;
+    this.$request_favorite_button = null;
+    this.$cancel_favorite_button = null;
+    //proposal field error
+    this.$quantity_error = null;
+    this.$text_area_error = null;
     
     this.init();
     this.initEvents();
 };
 
+
 PostSection.prototype.init = function() {
-    this.$view = this.$root.find('.post-section-view');
-    this.$edit = this.$root.find('.post-section-edit');
-    this.$go_to_edit_button = this.$root.find('#post-section-view-edit-button');
-    this.$edit_cancel_button = this.$root.find('.post-section-edit-cancel-button');
-    this.$edit_edit_button = this.$root.find('.post-section-edit-edit-button');
     
-    this.$title = this.$root.find('.post-section-edit-title');
-    this.$description = this.$root.find('.post-section-edit-description');
-    this.$tags = this.$root.find('#post-section-edit-tags');
+    this.$quantity = this.$root.find('#' + this.id + '-quantity-widget');
+    this.quantity = new QuantityWidget(this.$quantity);
+    this.$text_area = this.$root.find('#' + this.id + '-text-area');
+    this.$bid_button = this.$root.find('.post-section-bid');
     
-    this.$title_error = this.$root.find('.post-section-edit-title-error');
-    this.$description_error = this.$root.find('.post-section-edit-description-error');
-    this.$tags_error = this.$root.find('.post-section-edit-tags-error');
-}
+    //proposal field error
+    this.$text_area_error = this.$root.find('.post-section-text-area-section-error');
+    this.$quantity_error = this.$root.find('.post-section-quantity-error');
+    
+    this.$request_favorite_button = this.$root.find('.post-section-request-favorite');
+    this.$cancel_favorite_button = this.$root.find('.post-section-cancel-favorite');
+};
 
 PostSection.prototype.initEvents = function() {
-    this.$go_to_edit_button.click(function(e) {
-        this.$view.addClass('post-section-hide');
-        this.$edit.removeClass('post-section-hide');
+    this.$bid_button.click(function(e) {
+        var valid = this.validateInClient();
+        if(valid) {
+            this.sendProposal();
+        }
     }.bind(this));
     
-    this.$edit_cancel_button.click(function(e){
-        this.$view.removeClass('post-section-hide');
-        this.$edit.addClass('post-section-hide');
+    this.$request_favorite_button.click(function(e) {
+        $.ajax({
+          url : $("#base-url").val() + '/post/request-favorite',
+          type: 'post',
+          data: {stuff_id: this.stuff_id},
+          success: function(data) {
+              var parsedData = JSON.parse(data);
+              if(parsedData['status'] === 1 ) {
+                    window.location.reload();
+              }
+          }
+
+        });   
+
     }.bind(this));
     
-    this.$edit_edit_button.click({self:this},this.edit_);
+    
+    this.$cancel_favorite_button.click(function(e) {
+        $.ajax({
+          url : $("#base-url").val() + '/post/cancel-favorite',
+          type: 'post',
+          data: {stuff_id: this.stuff_id},
+          success: function(data) {
+              var parsedData = JSON.parse(data);
+              if(parsedData['status'] === 1 ) {
+                    window.location.reload();
+              }
+          }
+
+        });   
+    }.bind(this));
 };
 
-PostSection.prototype.edit_ = function(e) {
-    var self = e.data.self;
-    $valid = self.validateInClient();
-    if($valid) {
-        self.submitEditToServer();
-    }
-};
-
-PostSection.prototype.submitEditToServer = function() {
-   $.ajax({
-       url: $("#base-url").val() + "/post/edit",
-       type: 'post',
-       data: {title: this.getTitleVal(), description: this.getDescriptionVal(), tags: this.getTagsVal()
-       , stuff_id:this.stuff_id},
-       success: function(data) {
-           var parsed = JSON.parse(data);
-           if(parsed['status'] === 1) {
-               window.location.reload();
-           }
-       }
-   })
+PostSection.prototype.sendProposal = function() {
+    $.ajax({
+        url: $("#base-url").val() + "/post/send-bid",
+        type: 'post',
+        data: {quantity: this.getQuantityVal(), message: this.getTextareaVal(), stuff_id: this.stuff_id},
+        success: function(data) {
+            var parsed = JSON.parse(data);
+            if(parsed['status'] === 1) {
+                window.location.reload();
+            }
+        }
+    })
 };
 
 PostSection.prototype.validateInClient = function() {
     $valid = true;
     
-    if(this.getTitleVal() === null || this.getTitleVal() === '') {
+    if(this.getQuantityVal() === 0) {
         $valid = false;
-        this.showError(this.$title_error, 'Title should not be empty');
+        this.showError(this.$quantity_error, 'Quantity should be at least 1');
     } else {
-        this.hideError(this.$title_error);
+        this.hideError(this.$quantity_error);
     }
-    
-    
-    if(this.getDescriptionVal() === null || this.getDescriptionVal() === '') {
+   
+    if(this.getTextareaVal() === null || this.getTextareaVal() === '') {
         $valid = false;
-        this.showError(this.$description_error, 'Description should not be empty');
+        this.showError(this.$text_area_error, 'Please send a word to the owner to convince them you deserve this stuff');
     } else {
-        this.hideError(this.$description_error);
-    }
-    
-    
-    if(this.getTagsVal() === null || this.getTagsVal().length === 0) {
-        $valid = false;
-        this.showError(this.$tags_error, 'Please choose at least 1 tag');
-    } else {
-        this.hideError(this.$tags_error);
+        this.hideError(this.$text_area_error);
     }
     return $valid;
 };  
 
-PostSection.prototype.getTitleVal = function() {
-    return this.$title.val();
+PostSection.prototype.getQuantityVal = function() {
+    return this.quantity.getQuantity();
 };
 
-
-PostSection.prototype.getDescriptionVal = function() {
-    return this.$description.val();
-};
-
-
-PostSection.prototype.getTagsVal = function() {
-    return this.$tags.val();
+PostSection.prototype.getTextareaVal = function() {
+    return this.$text_area.val();
 }
 
 PostSection.prototype.showError = function($element, $message) {

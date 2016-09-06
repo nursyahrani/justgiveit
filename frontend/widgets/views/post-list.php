@@ -7,15 +7,12 @@
  */
 use frontend\widgets\PostCard;
 use common\widgets\Loading;
-use kartik\select2\Select2;
-use yii\web\JsExpression;
 ?>
 
 <div id="<?= $id ?>" class="post-list" data-id="<?= $id ?>"
      data-location="<?= $current_location ?>">
-    <div class="post-list-search-loading hide">
-        <?=        Loading::widget() ?>
-    </div>
+    
+    <?= Loading::widget(['id' => $id .'-new-loading']) ?>
     <div class="post-list-area">
         <?php foreach($posts as $post) { ?>
             <?= PostCard::widget(['id' => $id . '-item-' . $post->getPostId(),
@@ -23,7 +20,9 @@ use yii\web\JsExpression;
 
         <?php } ?>
     </div>
-    <div class="post-list-loading">
-        <?= Loading::widget(['id' => $id .'-loading']) ?>
+    
+    <?= Loading::widget(['id' => $id .'-get-more-loading']) ?>
+    <div class="post-list-no-more hide">
+        You reached the end
     </div>
 </div>

@@ -16,6 +16,19 @@ use frontend\widgets\BidReplyContainer;
         <div class="bid-detail">
             <?= $bid->getMessage() ?>
         </div>
+        
+        <div class="bid-header-below">
+            <div class="bid-header-quantity">
+                Quantity: <?= $bid->getQuantity() ?>
+            </div>
+            
+            <?php if($post_owner) { ?>
+                <?= Html::button('Give the stuff', ['class' => (($bid->hasObtained()) ? '' : 'hide ') . 'bid-give']) ?>
+
+                <?= Html::button('Cancel Give the stuff', ['class' => (($bid->hasObtained()) ? 'hide ' : '') .  'bid-cancel-give']) ?>
+
+            <?php } ?>
+        </div>
     </div>
     <div class="bid-footer">
         <div class="bid-reply">
@@ -23,7 +36,7 @@ use frontend\widgets\BidReplyContainer;
         </div>
 
         <?= BidReplyContainer::widget(['id' => $id . '-bid-reply-container', 
-            'chosen_bid_reply' => $bid->getChosenBidReply(), 'total_bid' => 0,
+            'chosen_bid_reply' => $bid->getChosenBidReply(), 'total_replies' => $bid->getTotalReplies(),
             'bid_id' => $bid->getBidId()]) ?>
     </div>
 </div>
