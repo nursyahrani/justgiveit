@@ -51,11 +51,17 @@ class PostVo implements Vo {
     
     private $meet_up;
     
+    private $post_comments;
+   
+    private $total_comments;
+    
+    
     function __construct(PostVoBuilder $builder) {
         $this->post_id  =$builder->getPostId();
         $this->title = $builder->getTitle();
         $this->description = $builder->getDescription();
         $this->image = $builder->getImage();
+        $this->total_comments = $builder->getTotalComments();
         $this->post_creator_id = $builder->getPostCreatorId();
         $this->post_creator_first_name = $builder->getPostCreatorFirstName();
         $this->post_creator_last_name = $builder->getPostCreatorLastName();
@@ -73,7 +79,7 @@ class PostVo implements Vo {
         $this->quantity = $builder->getQuantity();
         $this->delivery = $builder->isDeliveryPrefered();
         $this->meet_up = $builder->isMeetupPrefered();
-        
+        $this->post_comments = $builder->getPostComments();
     }
     
     public function getDeadline() {
@@ -184,5 +190,13 @@ class PostVo implements Vo {
     
     public function getTotalFavorites() {
         return $this->total_favorites;
+    }
+    
+    public function getPostComments() {
+        return $this->post_comments;
+    }
+    
+    public function getTotalComments() {
+        return $this->total_comments;
     }
 }

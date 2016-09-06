@@ -22,6 +22,9 @@ class PostVoBuilder implements Builder {
     
     private $description;
     
+    private $post_comments;
+    
+    private $total_comments;
     private $image;
     
     private $post_creator_id;
@@ -221,5 +224,22 @@ class PostVoBuilder implements Builder {
     
     public function setMeetup($meet_up) {
         $this->meet_up = $meet_up;
+    }
+    
+    public function getPostComments() {
+        return $this->post_comments;
+    }
+    
+    public function setPostComments($post_comments) {
+        $this->post_comments = $post_comments;
+    }
+    
+    
+    public function getTotalComments() {
+        return $this->total_comments;
+    }
+    
+    public function setTotalComments($total_comments) {
+        $this->total_comments = $total_comments;
     }
 }

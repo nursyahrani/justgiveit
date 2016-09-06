@@ -7,6 +7,7 @@ var PostCommentContainer = function($root) {
     this.submit_comment_class = null;
     this.text_area_id = null;
     this.text_area_error_class = null;
+    this.post_comment_area_class = null;
     this.init();
     this.initEvents();
 };
@@ -15,6 +16,7 @@ PostCommentContainer.prototype.init = function() {
     this.submit_comment_class = 'post-comment-container-submit-comment';
     this.text_area_id = this.id + "-text-area";
     this.text_area_error_class = 'post-comment-container-text-box-error';
+    this.post_comment_area_class = 'post-comment-container-area';
 };
 
 PostCommentContainer.prototype.initEvents = function() {
@@ -35,6 +37,8 @@ PostCommentContainer.prototype.submitComment = function() {
             context: this,
             data: {message: this.getTextAreaVal(), post_id: this.post_id},
             success: function(data) {
+                var parsed = JSON.parse(data);
+                this.prependToItemArea(parsed['view']);
                 this.setTextAreaToNull();
                 this.enableSubmitButton();
             }
@@ -69,4 +73,8 @@ PostCommentContainer.prototype.enableSubmitButton = function() {
 
 PostCommentContainer.prototype.disableSubmitButton = function() {
     $("#" + this.id).find('.' + this.submit_comment_class).addClass('disabled');
+}
+
+PostCommentContainer.prototype.prependToItemArea = function(view) {
+    $("#" + this.id).find('.' + this.post_comment_area_class).prepend(view);
 }

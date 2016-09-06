@@ -19,7 +19,7 @@ class PostCommentService {
     }
     
     function getCommentInfo($comment_id) {
-        
+        return $this->post_comment_dao->getPostCommentInfo($comment_id);
     }
     
     

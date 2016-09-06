@@ -9,7 +9,7 @@ use frontend\widgets\ImageViewEditor;
 $item_tabs = [];
 if($post->isOwner()) {
     $item_tabs[] = [
-        'label' => 'Bids',
+        'label' => "Bids ("  . $post->getTotalBids() . ')',
         'content' => \frontend\widgets\BidContainer::widget(['id' => 'bid-container', 'bid_list' => $post->getBidList(), 'post_owner' => $post->isOwner()])
     ];
 } else {
@@ -24,10 +24,11 @@ $item_tabs[] = [
     'content' =>  $post->getDescription() 
 ];
 
-  
 $item_tabs[] = [
-    'label' => 'Comments',
-    'content' => \frontend\widgets\PostCommentContainer::widget(['id' => 'post-comment-container', 'post_id' => $post->getPostId()])
+    'label' => 'Comments (' . $post->getTotalComments() . ')',
+    'content' => \frontend\widgets\PostCommentContainer::widget(['id' => 'post-comment-container', 
+        'post_id' => $post->getPostId(), 
+        'post_comments' => $post->getPostComments()])
 ]
 ?>
 

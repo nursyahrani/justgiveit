@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap\Html;
+use frontend\widgets\PostComment;
 ?>
 
 <div id="<?= $id ?>" class="post-comment-container" data-id="<?= $id ?>" data-post_id="<?= $post_id ?>">
@@ -12,7 +13,9 @@ use yii\bootstrap\Html;
         <?= Html::button('Comment', ['class' => 'btn btn-primary post-comment-container-submit-comment']) ?>
     </div>
     <div class="post-comment-container-area">
-        
+        <?php foreach($post_comments as $post_comment) { ?>
+            <?= PostComment::widget(['id' => $id . '-post-comment-' . $post_comment->getCommentId(), 'post_comment' => $post_comment]) ?>
+        <?php } ?>
     </div>
     
 </div>

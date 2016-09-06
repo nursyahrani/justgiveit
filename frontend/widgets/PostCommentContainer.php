@@ -8,7 +8,10 @@ class PostCommentContainer extends Widget
 {
     public $id;
     
+    public $post_comments;
+    
     public $post_id;
+    
     public function init()
     {
         parent::init();
@@ -25,6 +28,6 @@ class PostCommentContainer extends Widget
     public function run()
     {
         return $this->render('post-comment-container',
-            ['id' => $this->id , 'post_id' => $this->post_id]);
+            ['id' => $this->id , 'post_id' => $this->post_id, 'post_comments' => $this->post_comments]);
     }
 }

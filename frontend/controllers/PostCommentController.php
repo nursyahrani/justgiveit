@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use frontend\service\ServiceFactory;
+use frontend\widgets\PostComment;
 /**
  * Site controller
  */
@@ -29,6 +30,8 @@ class PostCommentController extends Controller
             $comment_id = $model->create();
             if($comment_id !== false) {
                 $data['status'] = 1;
+                $post_comment = $this->post_comment_service->getCommentInfo($comment_id);
+                $data['view'] = PostComment::widget(['id' => 'new-post-comment-' . $comment_id, 'post_comment' => $post_comment]);
                 return json_encode($data);
                
             } 

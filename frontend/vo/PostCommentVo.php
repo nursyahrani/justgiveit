@@ -29,7 +29,6 @@ class PostCommentVo implements Vo {
         $this->creator_id = $builder->getCreatorId();
         $this->stuff_id = $builder->getStuffId();
         $this->message = $builder->getMessage();
-        $this->quantity = $builder->getQuantity();
         $this->created_at = $builder->getCreatedAt();
         $this->creator_photo_path = $builder->getCreatorPhotoPath();
         $this->comment_id = $builder->getCommentId();
