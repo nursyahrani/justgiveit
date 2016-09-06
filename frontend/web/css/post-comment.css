@@ -26,3 +26,17 @@ and open the template in the editor.
 .post-comment-message {
     margin-top: 4px;
 }
+
+.post-comment-reply, .post-comment-edit, .post-comment-delete {
+    font-size: 12px;
+    color: blue;
+    margin-right: 4px;
+    background: none;
+    border: 0;
+    padding: 0;
+}
+
+.post-comment-reply:hover, .post-comment-edit:hover, .post-comment-delete:hover {
+    text-decoration: underline;
+}
+

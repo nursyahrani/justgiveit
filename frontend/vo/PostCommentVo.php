@@ -70,5 +70,9 @@ class PostCommentVo implements Vo {
     public function getMessage() {
         return $this->message;
     }
+    
+    public function isOwner() {
+        return UserLibrary::isOwner($this->creator_id);
+    }
 
 }

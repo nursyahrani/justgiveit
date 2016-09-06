@@ -7,22 +7,36 @@ var PostCommentContainer = function($root) {
     this.submit_comment_class = null;
     this.text_area_id = null;
     this.text_area_error_class = null;
+    this.post_comment_class = null;
     this.post_comment_area_class = null;
+    this.post_comments = [];
     this.init();
     this.initEvents();
 };
 
 PostCommentContainer.prototype.init = function() {
+    
+
     this.submit_comment_class = 'post-comment-container-submit-comment';
     this.text_area_id = this.id + "-text-area";
     this.text_area_error_class = 'post-comment-container-text-box-error';
     this.post_comment_area_class = 'post-comment-container-area';
+    this.post_comment_class = 'post-comment';
+    $.each($("#" + this.id).find('.post-comment') , function(index, value) {
+        this.post_comments.push(new PostComment($(value))); 
+        
+    }.bind(this));
 };
 
 PostCommentContainer.prototype.initEvents = function() {
     $(document).on('click', "#" + this.id, function(e) {
         if(e.target && $(e.target).hasClass(this.submit_comment_class)) {
             this.submitComment();
+        }
+    }.bind(this));
+    
+    $(document).on(PostComment.prototype.EVENTS.POST_COMMENT_DELETE_EVENT, "#" + this.id, function(e,data) {
+        if(e.target && $(e.target).hasClass(this.post_comment_class)) {
         }
     }.bind(this));
 };
@@ -39,6 +53,9 @@ PostCommentContainer.prototype.submitComment = function() {
             success: function(data) {
                 var parsed = JSON.parse(data);
                 this.prependToItemArea(parsed['view']);
+                this.post_comments.push(new PostComment($(parsed['view']))); 
+
+
                 this.setTextAreaToNull();
                 this.enableSubmitButton();
             }

@@ -40,4 +40,22 @@ class PostCommentController extends Controller
         $data['status'] = 0;
         return json_encode($data);
     }
+    
+    public function actionDelete() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['comment_id'])) {
+            $model = new \frontend\models\DeletePostCommentForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->comment_id = $_POST['comment_id'];
+            $result = $model->delete();
+            if($result !== false) {
+                $data['status'] = 1;
+                return json_encode($data);
+               
+            } 
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
 }

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 ?>
 
-<div id="<?= $id ?>" class="post-comment">
+<div id="<?= $id ?>" class="post-comment" data-id="<?= $id ?>" data-comment_id="<?= $post_comment->getCommentId() ?>">
     <div class="post-comment-header">
         <?=        Html::img($post_comment->getCreatorPhotoPath(), ['class' => 'post-comment-creator-photo']) ?>
         <?= Html::a($post_comment->getCreatorFullName(), $post_comment->getCreatorUserLink(), ['class' => 'post-comment-user-link']); ?>
@@ -13,5 +13,14 @@ use yii\helpers\Html;
     </div>
     <div class="post-comment-message">
         <?= $post_comment->getMessage() ?>
+    </div>
+    <div class="post-comment-button">
+        <?= Html::button('Reply', ['class' => 'post-comment-reply']) ?>
+        <?php if($post_comment->isOwner()) { ?>
+        
+        <?= Html::button('Edit', ['class' => 'post-comment-edit']) ?>
+        <?= Html::button('Delete', ['class' => 'post-comment-delete']) ?>
+        
+        <?php } ?>
     </div>
 </div>

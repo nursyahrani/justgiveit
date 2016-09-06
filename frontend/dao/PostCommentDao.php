@@ -5,7 +5,9 @@ class PostCommentDao {
     const POST_COMMENT_INFO = "SELECT  * from user inner join post_comment on user.id = post_comment.user_id
              where post_comment.comment_id = :comment_id";
     
-    const POST_COMMENT_LIST = "select * from user inner join post_comment on user.id = post_comment.user_id and post_comment.post_id = :post_id";
+    const POST_COMMENT_LIST = "select * from user inner join post_comment on user.id = post_comment.user_id 
+            and post_comment.post_id = :post_id and post_comment.post_comment_status = 10
+            order by post_comment.created_at desc";
     
     
     public function getPostCommentInfo($comment_id) {

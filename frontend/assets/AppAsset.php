@@ -46,6 +46,7 @@ class AppAsset extends AssetBundle
         'frontend/web/js/bidder-list.js',
         'frontend/web/js/edit-post.js',
         'frontend/web/js/post-section.js',
+        'frontend/web/js/post-comment.js',
         'frontend/web/js/post-comment-container.js',
         'frontend/web/js/post-list.js',
         'frontend/web/js/post.js',
