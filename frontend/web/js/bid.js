@@ -89,7 +89,7 @@ Bid.prototype.initEvents = function() {
 };
 
 Bid.prototype.getReplyValue = function() {
-    return $("#" + this.id).find('#' + this.text_area_id).val();
+    return $("#" + this.id).find('#' + this.text_area_id).html();
 }
 
 Bid.prototype.submitReply = function() {
@@ -98,5 +98,5 @@ Bid.prototype.submitReply = function() {
 }
 
 Bid.prototype.emptyReplyBox = function() {
-    $("#" + this.id).find('#' + this.text_area_id).val("");
+    $("#" + this.id).find('#' + this.text_area_id).html("");
 }

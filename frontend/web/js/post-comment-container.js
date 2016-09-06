@@ -37,6 +37,16 @@ PostCommentContainer.prototype.initEvents = function() {
     
     $(document).on(PostComment.prototype.EVENTS.POST_COMMENT_DELETE_EVENT, "#" + this.id, function(e,data) {
         if(e.target && $(e.target).hasClass(this.post_comment_class)) {
+            //TODO: remove from the array class
+        }
+    }.bind(this));
+    
+    
+    $(document).on(PostComment.prototype.EVENTS.POST_COMMENT_REPLY_EVENT, "#" + this.id, function(e,data) {
+        if(e.target && $(e.target).hasClass(this.post_comment_class)) {
+            //data is user_id
+            var user_link = "<a href='" + data['user_link'] + "'>" + data['full_name']  +"</a>";
+            this.appendValueToTextArea(user_link);
         }
     }.bind(this));
 };
@@ -77,11 +87,15 @@ PostCommentContainer.prototype.validateClient = function() {
 };
 
 PostCommentContainer.prototype.getTextAreaVal = function() {
-    return $("#" + this.id).find('#' + this.text_area_id).val();
+    return $("#" + this.id).find('#' + this.text_area_id).html();
 }
 
 PostCommentContainer.prototype.setTextAreaToNull = function() {
-    return $("#" + this.id).find('#' + this.text_area_id).val("");
+    return $("#" + this.id).find('#' + this.text_area_id).html("");
+}
+
+PostCommentContainer.prototype.appendValueToTextArea = function(value) {
+    return $("#" + this.id).find('#' + this.text_area_id).append(value);
 }
 
 PostCommentContainer.prototype.enableSubmitButton = function() {

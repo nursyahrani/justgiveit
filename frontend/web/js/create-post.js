@@ -199,7 +199,7 @@ CreatePost.prototype.getTitleVal = function() {
 
 
 CreatePost.prototype.getDescriptionVal = function() {
-    return this.$description.val();
+    return this.$description.html();
 };
 
 CreatePost.prototype.getTagsVal = function() {

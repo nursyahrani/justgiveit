@@ -120,7 +120,7 @@ EditPost.prototype.getTitleVal = function() {
 
 
 EditPost.prototype.getDescriptionVal = function() {
-    return this.$description.val();
+    return this.$description.html();
 };
 
 EditPost.prototype.getTagsVal = function() {

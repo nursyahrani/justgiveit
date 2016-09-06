@@ -7,7 +7,7 @@
  */
 ?>
 
-<textarea id="<?= $id ?>" class="<?= $widget_class ?> 
-          auto-height-text-area" rows=<?= $rows ?> placeholder="<?= $placeholder ?>" 
+<div id="<?= $id ?>" class="<?= $widget_class ?> 
+          auto-height-text-area" rows=<?= $rows ?> placeholder="<?= $placeholder ?>"  contenteditable="true"
           ><?= $value ?>
-</textarea>
+</div>
