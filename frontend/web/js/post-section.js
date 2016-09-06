@@ -12,6 +12,9 @@ var PostSection = function($root) {
     this.$bid_button = null;
     this.$request_favorite_button = null;
     this.$cancel_favorite_button = null;
+    this.$delete_button = null;
+    this.$edit_button = null;
+    
     //proposal field error
     this.$quantity_error = null;
     this.$text_area_error = null;
@@ -34,9 +37,38 @@ PostSection.prototype.init = function() {
     
     this.$request_favorite_button = this.$root.find('.post-section-request-favorite');
     this.$cancel_favorite_button = this.$root.find('.post-section-cancel-favorite');
+    this.$delete_button = this.$root.find('.post-section-owner-delete');
+    this.$edit_button = this.$root.find('.post-section-owner-edit');
+    
+    this.$view = this.$root.find('.post-section-view');
+    this.$edit = this.$root.find('.post-section-edit');
+    
+    this.$edit_post = this.$root.find('#' + this.id + '-edit-post');
+    this.edit_post  = new EditPost(this.$edit_post);
+    
 };
 
 PostSection.prototype.initEvents = function() {
+    
+    this.$edit_post.on(EditPost.prototype.EVENTS.EDIT_POST_CANCEL, function(e) {
+        this.$view.removeClass('hide');
+        this.$edit.addClass('hide');
+    }.bind(this));
+
+    this.$delete_button.click(function(e) {
+        krajeeDialog.confirm('Are you sure you want to delete this post?', function(out){
+            if(out) {
+                this.deletePost();
+            }
+        }.bind(this));
+    }.bind(this));
+    
+    this.$edit_button.click(function(e) {
+        this.$view.addClass('hide');
+        this.$edit.removeClass('hide');
+    }.bind(this));
+    
+    
     this.$bid_button.click(function(e) {
         var valid = this.validateInClient();
         if(valid) {
@@ -77,6 +109,22 @@ PostSection.prototype.initEvents = function() {
     }.bind(this));
 };
 
+PostSection.prototype.deletePost = function() {
+    $.ajax({
+        url: $("#base-url").val() + "/post/delete",
+        type: 'post',
+        data: {stuff_id: this.stuff_id},
+        success: function(data) {
+            var parsed = JSON.parse(data);
+            if(parsed['status'] === 1) {
+                window.location.reload();
+            } else {
+                
+            }
+        }
+    })
+}
+
 PostSection.prototype.sendProposal = function() {
     $.ajax({
         url: $("#base-url").val() + "/post/send-bid",
@@ -94,7 +142,7 @@ PostSection.prototype.sendProposal = function() {
 PostSection.prototype.validateInClient = function() {
     $valid = true;
     
-    if(this.getQuantityVal() === 0) {
+    if(this.getQuantityVal() === 0 || isNaN(this.getQuantityVal())) {
         $valid = false;
         this.showError(this.$quantity_error, 'Quantity should be at least 1');
     } else {

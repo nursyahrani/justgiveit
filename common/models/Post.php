@@ -22,7 +22,8 @@ class Post extends ActiveRecord
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-
+    const STATUS_CLOSED = 11;
+    
     const GIVE_STUFF = 'give';
     const ASK_STUFF = 'ask';
     const DONATION_MONEY = 'donate';

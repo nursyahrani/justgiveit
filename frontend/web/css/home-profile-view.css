@@ -16,7 +16,9 @@ and open the template in the editor.
 }
 
 .home-profile-view-image {
-    width: 30px;
+        width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 
 .home-profile-view-footer {
@@ -32,7 +34,7 @@ and open the template in the editor.
 }
 .home-profile-view-name {
     
-    margin-left: 14px;
+    margin-left: 6px;
     font-weight: bold;
     color: blue;
 }

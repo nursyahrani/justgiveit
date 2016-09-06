@@ -14,3 +14,14 @@ and open the template in the editor.
     border-radius: 50%;
     border: 1px solid lightgray;
 }
+
+.bid-reply-name {
+    color: blue;
+    font-weight: bold;
+}
+
+.bid-reply-time {
+    
+    color: gray;
+    font-size: 10px;
+}

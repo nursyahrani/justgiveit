@@ -118,6 +118,7 @@ class PostDao {
         $builder->setHasFavorited($result['has_favorited']);
         $builder->setPostId($result['stuff_id']);
         $builder->setQuantity($result['quantity']);
+        $builder->setPostStatus($result['post_status']);
         $builder->setTotalComments($result['total_comments']);
         $builder->setPostComments($this->post_comment_dao->getPostCommentList($result['stuff_id']));
         return $builder;

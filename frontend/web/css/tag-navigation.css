@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : 2 Sep, 2016, 8:10:01 PM
     Author     : user
 */
+.tag-navigation {
+    padding: 8px;
+}
 
 .tag-navigation-item {
     padding-left: 16px;

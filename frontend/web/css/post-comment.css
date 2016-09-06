@@ -13,3 +13,16 @@ and open the template in the editor.
     height: 30px;
     border-radius: 50%;
 }
+
+.post-comment-user-link {
+    color: blue;
+    font-weight: gray
+}
+
+.post-comment-time {
+    color: gray;
+}
+
+.post-comment-message {
+    margin-top: 4px;
+}

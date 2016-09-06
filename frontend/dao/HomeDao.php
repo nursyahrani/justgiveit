@@ -31,7 +31,7 @@ class HomeDao {
                                     and( \":tags\" = \"''\" or post_tag.tag_name in ( :tags ) ) 
                                     and (city.city_id LIKE :location or
                                     city.country_code LIKE :location) and (post_tag.tag_name LIKE :query  or
-                                    post.title LIKE :query) 
+                                    post.title LIKE :query) and post.post_status = 10
                                 group by (post.stuff_id)
                                 order by post.created_at desc
                                 ) stuff_info
@@ -59,7 +59,7 @@ class HomeDao {
             order by(total_bids) desc
             limit 10";
     
-    const SEARCH_CITY = "SELECT CONCAT(city_name, country.country_default_name) as  text, 
+    const SEARCH_CITY = "SELECT CONCAT(city_name, ' , ', country.country_default_name) as  text, 
             CONCAT(city_id) as id
             from country, city
             where country.country_code = city.country_code and 

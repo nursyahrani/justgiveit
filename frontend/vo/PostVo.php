@@ -27,6 +27,8 @@ class PostVo implements Vo {
     
     private $total_bids;
     
+    private $post_status;
+    
     private $has_bid;
     
     private $post_creator_photo_path;
@@ -80,6 +82,7 @@ class PostVo implements Vo {
         $this->delivery = $builder->isDeliveryPrefered();
         $this->meet_up = $builder->isMeetupPrefered();
         $this->post_comments = $builder->getPostComments();
+        $this->post_status = $builder->getPostStatus();
     }
     
     public function getDeadline() {
@@ -198,5 +201,9 @@ class PostVo implements Vo {
     
     public function getTotalComments() {
         return $this->total_comments;
+    }
+    
+    public function getPostStatus() {
+        return $this->post_status;
     }
 }

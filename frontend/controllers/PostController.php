@@ -62,6 +62,10 @@ class PostController extends Controller
             Yii::$app->end('end');
         }
         $vo = $this->post_service->getPostInfo(Yii::$app->user->getId(), $_GET['id'], new \frontend\vo\PostVoBuilder());
+        
+        if($vo->getPostStatus() === '0') {
+            return $this->render('delete');
+        }
         return $this->render('index', ['post' => $vo]);
         
         
@@ -137,7 +141,7 @@ class PostController extends Controller
     public function actionEdit() {
         $data = array();
         if(Yii::$app->user->isGuest || !isset($_POST['title']) || !isset($_POST['description'])
-               || !isset($_POST['stuff_id']) || !isset($_POST['tags'])) {
+               || !isset($_POST['stuff_id']) || !isset($_POST['tags'])  || !isset($_POST['quantity'])) {
             $data['status'] = 0;
             return json_encode($data);
         }
@@ -147,6 +151,7 @@ class PostController extends Controller
         $model->stuff_id = $_POST['stuff_id'];
         $model->tags = $_POST['tags'];
         $model->title = $_POST['title'];
+        $model->quantity = $_POST['quantity'];
         $model->description = $_POST['description'];
         if($model->validate() && $model->update()) {
             $data['status'] = 1;
@@ -170,6 +175,22 @@ class PostController extends Controller
             }
             if($model->hasErrors()) {
                 $data['error'] = $model->getErrors()[0];
+            }
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
+    public function actionDelete() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {
+            $model = new \frontend\models\DeleteStuffForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            if($model->delete()) {
+                $data['status'] = 1;
+                return json_encode($data);
             }
         }
         

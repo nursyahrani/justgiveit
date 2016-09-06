@@ -323,7 +323,8 @@ a.desc:after {
     .site-post-area {
         width :100%;
         
-        padding:0;
+        padding:0px;
+        padding-top: 12px;
     }
     
 }
@@ -385,6 +386,10 @@ a.desc:after {
 
 .site-big-banner {
     background-image: url("justgiveit/frontend/web/common-img/banner.jpg");
+}
+
+.site-red-button {
+    background: red;
 }
 
 .site-view {

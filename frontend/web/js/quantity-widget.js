@@ -1,6 +1,7 @@
 //pre-loaded widget
 var QuantityWidget = function($root) {
     this.$root = $root;
+    this.max_value = $root.data('max_value');
     this.$plus_button = null;
     this.$minus_button = null;
     this.$input = null;
@@ -26,7 +27,12 @@ QuantityWidget.prototype.initEvents = function() {
 };
 
 QuantityWidget.prototype.addOne = function() {
-    this.$input.val(parseInt(this.$input.val()) + 1);
+    var newValue = parseInt(this.$input.val()) + 1;
+    if(newValue <= this.max_value) {
+        
+        this.$input.val(parseInt(this.$input.val()) + 1);
+    }
+    
 }
 
 QuantityWidget.prototype.minusOne = function() {

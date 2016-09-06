@@ -18,7 +18,9 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/post-comment.css',
         'css/create-post.css',
+        'css/post-delete.css',
         'css/post.css',
         'css/site.css',
     ];
@@ -42,6 +44,7 @@ class AppAsset extends AssetBundle
         'frontend/web/js/login.js',
         'frontend/web/js/bid-container.js',
         'frontend/web/js/bidder-list.js',
+        'frontend/web/js/edit-post.js',
         'frontend/web/js/post-section.js',
         'frontend/web/js/post-comment-container.js',
         'frontend/web/js/post-list.js',

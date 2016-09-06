@@ -7,6 +7,8 @@ class QuantityWidget extends Widget
     
     public $id;
     
+    public $max_value;
+    
     public function init()
     {
         parent::init();
@@ -20,7 +22,7 @@ class QuantityWidget extends Widget
 
     public function run()
     {
-        return $this->render('quantity', ['id' => $this->id]);
+        return $this->render('quantity', ['id' => $this->id, 'max_value' => $this->max_value]);
     }
     
 }

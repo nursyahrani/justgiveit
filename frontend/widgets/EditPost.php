@@ -4,12 +4,11 @@ namespace frontend\widgets;
 
 use yii\base\Widget;
 
-class PostComment extends Widget
+class EditPost extends Widget
 {
     public $id;
     
-    public $post_comment;
-    
+    public $post;
     public function init()
     {
         parent::init();
@@ -18,12 +17,12 @@ class PostComment extends Widget
 
     public function registerAssets(){
         $view = $this->getView();
+        EditPostAsset::register($view);
 
-    }
+    }   
 
     public function run()
     {
-        return $this->render('post-comment',
-            ['id' => $this->id, 'post_comment' => $this->post_comment]);
+        return $this->render('edit-post',['id' => $this->id, 'post' => $this->post]);
     }
 }

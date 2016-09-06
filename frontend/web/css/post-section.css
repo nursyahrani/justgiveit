@@ -103,3 +103,8 @@
 .post-section-owner-button {
     margin-top: 8px;
 }
+
+
+.post-section-quantity-area {
+    display: flex;
+}

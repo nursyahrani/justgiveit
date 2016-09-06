@@ -25,6 +25,7 @@ class PostVoBuilder implements Builder {
     private $post_comments;
     
     private $total_comments;
+    
     private $image;
     
     private $post_creator_id;
@@ -53,6 +54,7 @@ class PostVoBuilder implements Builder {
     
     private $quantity;
     
+    private $post_status;
     
     public function build() {
         return new PostVo($this);
@@ -241,5 +243,13 @@ class PostVoBuilder implements Builder {
     
     public function setTotalComments($total_comments) {
         $this->total_comments = $total_comments;
+    }
+    
+    public function getPostStatus() {
+        return $this->post_status;
+    }
+    
+    public function setPostStatus($post_status) {
+        $this->post_status = $post_status;
     }
 }

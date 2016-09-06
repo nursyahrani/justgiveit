@@ -38,17 +38,23 @@ $item_tabs[] = [
             <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'image_path' => $post->getImage()
                     , 'active' => true]) ?>
             <?= Html::button('Change Image', ['class' => 'post-change-image hide']) ?>
-        </div>
-        <div class="post-right">
             
-            <?= PostSection::widget(['id' => 'post-section', 'post' => $post]) ?>
-        
-            <div class="post-tabs-area">
-                <?= TabsX::widget([
-                    'items' => $item_tabs,
-                    'position' => TabsX::POS_ABOVE
-                ]) ?>
-            </div>
+        </div>
+        <div class="post-owner">
+            <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-owner-photo-path']) ?>
+            <?= Html::a($post->getPostCreatorFullName(), $post->getPostCreatorUserLink(), ['class' => 'post-owner-user-link']) ?>
+        </div>
+    </div>
+    
+    <div class="post-right">
+
+        <?= PostSection::widget(['id' => 'post-section', 'post' => $post]) ?>
+
+        <div class="post-tabs-area">
+            <?= TabsX::widget([
+                'items' => $item_tabs,
+                'position' => TabsX::POS_ABOVE
+            ]) ?>
         </div>
     </div>
     

@@ -22,7 +22,11 @@ use common\widgets\AutoHeightTextArea;
         </div>
         <?php if(!$post->isOwner()) { ?>
             <div class="post-section-quantity">
-                <?= QuantityWidget::widget(['id' => $id . '-quantity-widget']) ?>
+                <div class="post-section-quantity-area">
+                
+                    <?= QuantityWidget::widget(['id' => $id . '-quantity-widget', 'max_value' => $post->getQuantity()]) ?> &nbsp; of <?= $post->getQuantity() ?> 
+                    
+                </div>
                 <div class="post-section-quantity-error site-input-error">
 
                 </div>
@@ -64,4 +68,7 @@ use common\widgets\AutoHeightTextArea;
             </div>
         <?php } ?>
     </div>
+    <div class="post-section-edit hide">
+        <?=frontend\widgets\EditPost::widget(['id' => $id . '-edit-post', 'post' => $post]) ?>
+     </div>
 </div>

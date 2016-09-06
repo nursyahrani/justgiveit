@@ -17,13 +17,6 @@ and open the template in the editor.
 }
 
 
-@media (max-width: 450px) {
-    .post-card {
-        width: 300px;
-    }
-}
-
-
 .post-card-creator-photo-path {
     max-height: 40px;
     border-radius: 50%;
@@ -108,4 +101,16 @@ and open the template in the editor.
 
 .post-card-logo {
     color: darkgray;
+}
+
+
+
+@media (max-width: 450px) {
+    .post-card {
+        width: 300px;
+    }
+    
+    .post-card-img {
+        height: auto;
+    }
 }

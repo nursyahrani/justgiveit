@@ -17,6 +17,7 @@ class EditStuffInformationForm extends Model
     public $description;
     public $user_id;
     public $tags;
+    public $quantity;
     public $stuff_id;
     /**
      * @inheritdoc
@@ -25,9 +26,10 @@ class EditStuffInformationForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['title', 'description', 'tags','user_id', 'stuff_id'], 'required'],
+            [['title', 'description', 'tags','user_id', 'stuff_id', 'quantity'], 'required'],
             [['user_id', 'stuff_id'], 'integer'],
             [['title', 'description'], 'string'],
+            ['quantity', 'integer', 'min' => 1],
             ['tags', 'each', 'rule' => ['string']],
         ];
     }
@@ -41,6 +43,7 @@ class EditStuffInformationForm extends Model
         if(($post = $this->getPost()) !== null) {
             $post->title = $this->title;
             $post->description = $this->description;
+            $post->quantity = $this->quantity;
             $post->update();
         }
         
