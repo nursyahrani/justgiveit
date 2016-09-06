@@ -40,3 +40,13 @@ and open the template in the editor.
     text-decoration: underline;
 }
 
+.post-comment-message-edit-text {
+    padding: 4px;
+}
+
+.post-comment-message-edit {
+    display: flex;
+}
+.post-comment-message-edit-button {
+    display: flex;
+}

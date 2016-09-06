@@ -1,5 +1,5 @@
 <?php 
-
+use common\widgets\AutoHeightTextArea;
 use yii\helpers\Html;
 ?>
 
@@ -14,6 +14,15 @@ use yii\helpers\Html;
     </div>
     <div class="post-comment-message">
         <?= $post_comment->getMessage() ?>
+    </div>
+    <div class="post-comment-message-edit hide">
+        <?=   AutoHeightTextArea::widget(['id' => $id . '-edit-text',
+            'widget_class' => 'post-comment-message-edit-text', 'value' => $post_comment->getMessage()]) ?>
+        
+        <div class="post-comment-message-edit-button">
+            <?= Html::button('Edit', ['class' => 'btn btn-primary post-comment-message-edit-button']) ?>
+            <?= Html::button('Cancel', ['class' => 'btn btn-danger post-comment-message-cancel-button']) ?>
+        </div>
     </div>
     <div class="post-comment-button">
         <?= Html::button('Reply', ['class' => 'post-comment-reply']) ?>

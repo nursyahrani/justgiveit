@@ -58,4 +58,24 @@ class PostCommentController extends Controller
         $data['status'] = 0;
         return json_encode($data);
     }
+    
+    public function actionEdit() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['comment_id']) && isset($_POST['message']) ) {
+            $model = new \frontend\models\EditPostCommentForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->comment_id = $_POST['comment_id'];
+            $model->message = $_POST['message'];
+            $result = $model->edit();
+            if($result !== false) {
+                $data['status'] = 1;
+                return json_encode($data);
+               
+            } 
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+    
+    }
 }

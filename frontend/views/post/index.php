@@ -9,23 +9,29 @@ use frontend\widgets\ImageViewEditor;
 $item_tabs = [];
 if($post->isOwner()) {
     $item_tabs[] = [
+        'id' => 'total-bids',
+        'options' => ['id' => 'bids'],
         'label' => "Bids ("  . $post->getTotalBids() . ')',
         'content' => \frontend\widgets\BidContainer::widget(['id' => 'bid-container', 'bid_list' => $post->getBidList(), 'post_owner' => $post->isOwner()])
     ];
 } else {
     $item_tabs[] = [
         'label' => 'Your Bids',
+        'options' => ['id' => 'bids'],
         'content' => \frontend\widgets\BidContainer::widget(['id' => 'bid-container', 'bid_list' => $post->getBidList(), 'post_owner' => $post->isOwner()])
     ];
 }
 
 $item_tabs[] = [
+    'id' => 'details',
     'label' => 'Details',
+    'options' => ['id' => 'details'],
     'content' =>  $post->getDescription() 
 ];
 
 $item_tabs[] = [
     'label' => 'Comments (' . $post->getTotalComments() . ')',
+    'options' => ['id' => 'comments'],
     'content' => \frontend\widgets\PostCommentContainer::widget(['id' => 'post-comment-container', 
         'post_id' => $post->getPostId(), 
         'post_comments' => $post->getPostComments()])
@@ -53,7 +59,12 @@ $item_tabs[] = [
         <div class="post-tabs-area">
             <?= TabsX::widget([
                 'items' => $item_tabs,
-                'position' => TabsX::POS_ABOVE
+                'enableStickyTabs' => true,
+                'position' => TabsX::POS_ABOVE,
+                'stickyTabsOptions' => [
+                    'selectorAttribute' => 'data-target',
+                    'backToTop' => true,
+                ],
             ]) ?>
         </div>
     </div>
