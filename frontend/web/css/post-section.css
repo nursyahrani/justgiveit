@@ -14,7 +14,6 @@
 .post-section-title {
     font-size: 24px;
     font-weight: bold;
-    height: 48px;
 }
 
 .post-section-edit-title {
@@ -107,4 +106,13 @@
 
 .post-section-quantity-area {
     display: flex;
+}
+
+
+@media (max-width: 450px) {
+    .post-section-view {
+           padding: 3px;
+    padding-left: 6px;
+ 
+    }
 }

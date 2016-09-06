@@ -151,7 +151,7 @@ PostSection.prototype.validateInClient = function() {
    
     if(this.getTextareaVal() === null || this.getTextareaVal() === '') {
         $valid = false;
-        this.showError(this.$text_area_error, 'Please send a word to the owner to convince them you deserve this stuff');
+        this.showError(this.$text_area_error, 'Please send a sentence to the owner to convince them you deserve this stuff');
     } else {
         this.hideError(this.$text_area_error);
     }

@@ -70,7 +70,7 @@ App.prototype.initEvents = function() {
     }
     
     this.$home_menu_button.click(function(e) {
-        window.location.href = $("#base-url").val();
+        window.location.href = $("#base-url").val() + "/";
     });
     
     

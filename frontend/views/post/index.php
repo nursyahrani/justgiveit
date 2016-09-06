@@ -20,7 +20,7 @@ if($post->isOwner()) {
 }
 
 $item_tabs[] = [
-    'label' => 'Product Description',
+    'label' => 'Details',
     'content' =>  $post->getDescription() 
 ];
 

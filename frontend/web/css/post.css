@@ -60,6 +60,7 @@
 
 .post-tabs-area {
     padding-top: 8px;
+    margin-bottom: 12px;
 }
 
 .tab-content {
@@ -93,6 +94,13 @@
     }
 }
 
+@media (max-width: 450px) {
+
+    .nav > li > a {
+        padding: 5px 8px;
+    }
+}
+
 .post-owner {
     background: white;
     margin-top: 8px;
@@ -110,3 +118,4 @@
     color: blue;
     font-weight: bold;
 }
+
