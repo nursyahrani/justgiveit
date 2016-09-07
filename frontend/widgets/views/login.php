@@ -11,9 +11,6 @@ use yii\helpers\Html;
 
 <div id="<?= $id ?>" class="login">
     <div class="login-login">
-        <div class="login-header">
-            Login
-        </div>
         <?= Html::textInput('login-login-email', null,['class' => 'login-input login-login-email', 
             'placeholder' => 'Email Address']) ?>
         <div class="login-error-msg login-login-email-error">
@@ -24,14 +21,11 @@ use yii\helpers\Html;
             
         </div>
         <div class="login-login-button-area">
-            <?= Html::button('Register with Email ?', ['class' => 'button-like-link login-login-register-email', 'align' => 'left']) ?>
+            <?= Html::button('Register with Email ?', ['class' => 'login-button-like-link login-login-register-email', 'align' => 'left']) ?>
             <?= Html::button('Login', ['class' => 'login-button login-login-button', 'align' => 'right']) ?>
         </div>
     </div>
     <div class="login-register login-hide">
-        <div class="login-header">
-            Register
-        </div>
         <?= Html::textInput('login-register-first-name', null, 
                 ['class' => 'login-input login-register-first-name', 'placeholder' => 'First name']) ?>
         <div class="login-error-msg login-register-first-name-error">
@@ -49,7 +43,7 @@ use yii\helpers\Html;
         <div class="login-error-msg login-register-password-error">
         </div>
         <div class="login-register-button-area">
-            <?= Html::button('Go to Login', ['class' => 'button-like-link login-register-login']) ?>
+            <?= Html::button('Go to Login', ['class' => 'login-button-like-link login-register-login']) ?>
             <?= Html::button('Register', ['class' => 'login-button login-register-button', 'align' => 'right']) ?>
         </div>
     </div>

@@ -83,17 +83,23 @@ Login.prototype.init = function() {
 Login.prototype.initEvents = function() {
     var self = this;
     this.$register_with_email_button.click(function(e){
+        this.triggerRegisterEvent();
         self.$register_panel.removeClass('login-hide');
         self.$login_panel.addClass('login-hide');
-    });
+    }.bind(this));
     
     this.$go_to_login_button.click(function(e){
+        this.triggerLoginEvent();
         self.$register_panel.addClass('login-hide');
         self.$login_panel.removeClass('login-hide');
-    });
+    }.bind(this));
     
-    this.$login_register_button.click({self:this}, this.submitRegisterForm_);
-    this.$login_login_button.click({self:this}, this.submitLoginForm_);
+    this.$login_register_button.click( function(e) {
+        this.submitRegisterForm();
+    }.bind(this));
+    this.$login_login_button.click(function(e) {
+        this.submitLoginForm();
+    }.bind(this));
     
     this.$login_with_facebook.click(function(e){
         $.ajax({
@@ -106,21 +112,32 @@ Login.prototype.initEvents = function() {
             }
         });
     }.bind(this));
+    
+    this.$login_panel.on('keypress', function(e) {
+        if(e.keyCode === 13) {
+            this.submitLoginForm();
+        }
+    }.bind(this));
+    
+    this.$register_panel.on('keypress', function(e) {
+        if(e.keyCode === 13) {
+            this.submitRegisterForm();
+        }
+    }.bind(this))
 };
 
-Login.prototype.submitRegisterForm_ = function(e) {
-    var self = e.data.self;
-    $valid = self.validateRegisterFormInClient();
+Login.prototype.submitRegisterForm = function() {
+    
+    $valid = this.validateRegisterFormInClient();
     if($valid) {
-        self.validateRegisterInServerSide();
+        this.validateRegisterInServerSide();
     }
 };
 
-Login.prototype.submitLoginForm_ = function(e) {
-    var self = e.data.self;
-    $valid = self.validateLoginFormInClient();
+Login.prototype.submitLoginForm = function() {
+    $valid = this.validateLoginFormInClient();
     if($valid) {
-        self.validateLoginInServerSide();
+        this.validateLoginInServerSide();
     }
 };
 
@@ -294,3 +311,15 @@ Login.prototype.hideRegisterPasswordErrorMsg = function() {
    this.$register_password_error.html('');
 };
 
+Login.prototype.EVENTS = {
+    LOGIN_LOGIN : "login-login",
+    LOGIN_REGISTER: "login-register"
+};
+
+Login.prototype.triggerLoginEvent = function() {
+    this.$root.trigger(this.EVENTS.LOGIN_LOGIN);
+};
+
+Login.prototype.triggerRegisterEvent = function() {
+    this.$root.trigger(this.EVENTS.LOGIN_REGISTER);
+};

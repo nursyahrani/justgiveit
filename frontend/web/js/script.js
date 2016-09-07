@@ -23,7 +23,7 @@ var App = function($root) {
     this.$create_post_form = null;
     this.create_post_form = null;
 
-this.init();
+    this.init();
     this.initEvents();
     
 };
@@ -77,5 +77,15 @@ App.prototype.initEvents = function() {
         window.location.href = $("#base-url").val() + "/";
     });
     
+    this.$login_form.on(Login.prototype.EVENTS.LOGIN_REGISTER, function(e) {
+        this.setLoginHeaderModalTitle("Register");
+    }.bind(this));
     
+    this.$login_form.on(Login.prototype.EVENTS.LOGIN_LOGIN, function(e) {
+        this.setLoginHeaderModalTitle("Login");
+    }.bind(this))
 };
+
+App.prototype.setLoginHeaderModalTitle = function(title) {
+    this.$root.find('.login-modal-header').html('<h4 class="login-modal-header" align="center">'+ title +'</h4>');
+}

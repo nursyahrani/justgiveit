@@ -14,7 +14,14 @@ $this->title = 'Just Give it';
     <div class='site-view'>
         <div class="site-left-side hide-right-side">
             <?= HomeProfileView::widget(['id' => 'home-profile-view', 'profile' => $home_vo->getHomeProfileView()]) ?>
+            
             <?= TagNavigation::widget(['id' => 'tag-navigation']) ?>
+            
+            <div class="site-site-information" align="center">
+                
+                <h4 align="center">JustGiveIt! </h4>
+                A Social Movement built by NTU Student 
+            </div>
         </div>
         <div class='site-post-area'>
             <?= SearchBar::widget(['id' => 'site-search-bar', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
