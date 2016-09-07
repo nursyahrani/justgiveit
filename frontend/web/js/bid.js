@@ -12,6 +12,7 @@ var Bid = function($root) {
     
     this.bid_give_class = 'bid-give';
     this.cancel_give_class = 'bid-cancel-give';
+    this.bid_delete_class = null;
     this.init();
     this.initEvents();
 };
@@ -20,7 +21,7 @@ Bid.prototype.init = function() {
     this.text_area_id = this.id  + "-reply-box";
     this.bid_reply_area_class = 'bid-reply-area';
     this.bid_reply_container_id = this.id + "-bid-reply-container";
-    
+    this.bid_delete_class = 'bid-delete';
     this.$bid_reply_container = $("#" + this.id).find("#" + this.bid_reply_container_id);
     this.bid_reply_container = new BidReplyContainer(this.$bid_reply_container);
     
@@ -63,6 +64,14 @@ Bid.prototype.initEvents = function() {
                 }
             });
         }
+        else if(event.target && $(event.target).hasClass(this.bid_delete_class)) {
+            krajeeDialog.confirm('Are you sure to remove your proposal?', function(out){
+                if(out) {
+                    this.deleteBid();
+                }
+            }.bind(this));
+
+        }
     }.bind(this)); 
     
     
@@ -99,4 +108,16 @@ Bid.prototype.submitReply = function() {
 
 Bid.prototype.emptyReplyBox = function() {
     $("#" + this.id).find('#' + this.text_area_id).html("");
+}
+
+Bid.prototype.deleteBid = function() {
+    $("#" + this.id).remove();
+    $.ajax({
+        url: $("#base-url").val() + "/bid/delete",
+        data: {bid_id: this.bid_id},
+        type: 'post',
+        success: function(data) {
+            
+        }
+    })
 }

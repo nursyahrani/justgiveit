@@ -46,6 +46,25 @@ class BidController extends Controller
     }
     
     
+    public function actionDelete() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['bid_id'])) {
+            $model = new \frontend\models\DeleteBidForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->bid_id = $_POST['bid_id'];
+            $result = $model->delete();
+            if($result !== false) {
+                $data['status'] = 1;
+                return json_encode($data);
+               
+            } 
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
+    
     public function actionGive() {
         $data = array();
         if(!Yii::$app->user->isGuest && isset($_POST['bid_id'])) {

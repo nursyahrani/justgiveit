@@ -129,7 +129,7 @@ PostSection.prototype.sendProposal = function() {
     $.ajax({
         url: $("#base-url").val() + "/post/send-bid",
         type: 'post',
-        data: {quantity: this.getQuantityVal(), message: this.getTextareaVal(), stuff_id: this.stuff_id},
+        data: {quantity: this.getQuantityVal(), message: this.getTextAreaHtml(), stuff_id: this.stuff_id},
         success: function(data) {
             var parsed = JSON.parse(data);
             if(parsed['status'] === 1) {
@@ -149,7 +149,7 @@ PostSection.prototype.validateInClient = function() {
         this.hideError(this.$quantity_error);
     }
    
-    if(this.getTextareaVal() === null || this.getTextareaVal() === '') {
+    if(this.getTextAreaText() === null || this.getTextAreaText() === '') {
         $valid = false;
         this.showError(this.$text_area_error, 'Please send a sentence to the owner to convince them you deserve this stuff');
     } else {
@@ -162,8 +162,12 @@ PostSection.prototype.getQuantityVal = function() {
     return this.quantity.getQuantity();
 };
 
-PostSection.prototype.getTextareaVal = function() {
-    return this.$text_area.val();
+PostSection.prototype.getTextAreaText = function() {
+    return this.$text_area.text();
+}
+
+PostSection.prototype.getTextAreaHtml = function() {
+    return this.$text_area.html();
 }
 
 PostSection.prototype.showError = function($element, $message) {

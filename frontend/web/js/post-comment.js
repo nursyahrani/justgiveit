@@ -47,7 +47,6 @@ PostComment.prototype.initEvents = function() {
         }
         else if(e.target && $(e.target).hasClass(this.edit_class)) {
             $("#" + this.id).find("." + this.edit_area_class).removeClass('hide');
-            
             $("#" + this.id).find("." + this.view_area_class).addClass('hide');
         }
         else if(e.target && $(e.target).hasClass(this.cancel_edit_class)) {

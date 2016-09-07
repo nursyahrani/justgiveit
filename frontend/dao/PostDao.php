@@ -40,7 +40,7 @@ class PostDao {
     const GET_BID_LIST = "SELECT bid_info.*, count(bid_reply.bid_id) as total_replies from(
                         SELECT bid.* , user.id, user.first_name, user.last_name, 			user.username, user.profile_pic
                        from bid, user
-                       where bid.stuff_id = :stuff_id and bid.proposer_id = user.id) bid_info
+                       where bid.stuff_id = :stuff_id and bid.proposer_id = user.id and bid.bid_status = 10) bid_info
                        left join bid_reply
                        on bid_info.bid_id = bid_reply.bid_id
                        group by(bid_info.bid_id)";

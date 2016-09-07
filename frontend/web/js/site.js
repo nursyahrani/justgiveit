@@ -12,7 +12,7 @@ var Site = function($root) {
 };
 
 
-Site.prototype.SCROLL_VALUE = 95;
+Site.prototype.SCROLL_VALUE = -55;
 
 Site.prototype.CSS_CLASSES = {
     HOME_POST_LIST: 'home-post-list-container'
@@ -36,10 +36,10 @@ Site.prototype.initEvents = function() {
        this.post_list.setQueryAndLocation(data.query, data.location);
     }.bind(this));
     
-    this.$root.scroll(function(e) {
+    $(document).scroll(function(e) {
         var scrollPercentage = 
-                100 * this.$root.scrollTop() / (this.post_list.getHeight() - $(document).height());
-        if(scrollPercentage > Site.prototype.SCROLL_VALUE) {
+                100 * $(document).scrollTop() / ((this.post_list.getHeight() - 40) - $(document).height());
+        if(scrollPercentage < Site.prototype.SCROLL_VALUE) {
             this.post_list.getMorePosts();
         }
     }.bind(this));

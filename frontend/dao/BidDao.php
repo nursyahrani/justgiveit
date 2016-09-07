@@ -11,7 +11,8 @@ class BidDao {
     const GET_POST_OWNER = "SELECT post.poster_id from bid inner join post on bid.stuff_id = post.stuff_id where bid.bid_id = :bid_id";
     
     const GET_CURRENT_USER_BID = "SELECT bid.* , user.id, user.first_name, user.last_name, user.username, user.profile_pic 
-            from bid, user, post where bid.stuff_id = :stuff_id and bid.proposer_id = user.id and user.id = :user_id ";
+            from bid, user, post where bid.stuff_id = :stuff_id and bid.proposer_id = user.id and user.id = :user_id
+            and bid.bid_status = 10";
     
     const GET_ONE_BID_REPLY_COMMENT =  
             "SELECT bid_reply.*, user.id, user.first_name, user.last_name, user.username,
@@ -25,7 +26,7 @@ class BidDao {
             "SELECT bid_reply.*, user.id, user.first_name, user.last_name, user.username,
             user.profile_pic
             from bid_reply, user
-            where bid_reply.bid_reply_id = :bid_reply_id and bid_reply.user_id = user.id
+            where bid_reply.bid_reply_id = :bid_reply_id and bid_reply.user_id = user.id 
             order by bid_reply.created_at desc
             limit 1";
     

@@ -48,6 +48,10 @@ and open the template in the editor.
     display: flex;
 }
 
+.bid-header-quantity {
+    margin-right: 12px;
+}
+
 .bid-give , .bid-cancel-give{
         margin-left: 12px;
     border: 0;
@@ -56,5 +60,18 @@ and open the template in the editor.
     color: blue;
 }
 .bid-give:hover , .bid-cancel-give:hover {
+    text-decoration: underline;
+}
+
+.bid-edit, .bid-delete {
+    color: blue;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin-right: 12px;
+    outline: none;
+}
+
+.bid-edit:hover, .bid-delete:hover {
     text-decoration: underline;
 }

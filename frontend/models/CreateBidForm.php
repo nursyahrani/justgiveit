@@ -76,6 +76,7 @@ class CreateBidForm extends Model
         if($bid->message !== $this->message || $bid->quantity !== $this->quantity) {
             $bid->message = $this->message;
             $bid->quantity = $this->quantity;
+            $bid->bid_status = '10';
             return $bid->update();
         }
         

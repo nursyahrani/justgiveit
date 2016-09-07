@@ -99,4 +99,8 @@ class BidVo implements Vo {
     public function getTotalReplies() {
         return $this->total_replies;
     }
+    
+    public function isOwner() {
+        return UserLibrary::isOwner($this->creator_id);
+    }
 }
