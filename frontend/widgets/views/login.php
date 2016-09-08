@@ -1,15 +1,10 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+use common\widgets\Loading;
 use yii\helpers\Html;
-
+use yii\captcha\Captcha;
 ?>
 
-<div id="<?= $id ?>" class="login">
+<div id="<?= $id ?>" class="login" data-id="<?= $id ?>">
     <div class="login-login">
         <?= Html::textInput('login-login-email', null,['class' => 'login-input login-login-email', 
             'placeholder' => 'Email Address']) ?>
@@ -21,11 +16,16 @@ use yii\helpers\Html;
             
         </div>
         <div class="login-login-button-area">
-            <?= Html::button('Register with Email ?', ['class' => 'login-button-like-link login-login-register-email', 'align' => 'left']) ?>
+            <?= Html::button('Forgot Password?', ['class' => 'login-button-like-link login-login-forgot-password']) ?>
             <?= Html::button('Login', ['class' => 'login-button login-login-button', 'align' => 'right']) ?>
         </div>
+        
+        <div class="login-auth-two">
+            <?= Html::button('Register with Email', ['class' => 'btn btn-default login-login-register-email', 'align' => 'left']) ?>
+            <?= Html::button('Continue with Facebook', ['class' => 'btn btn-primary login-continue-with-facebook']) ?>
+        </div>
     </div>
-    <div class="login-register login-hide">
+    <div class="login-register hide">
         <?= Html::textInput('login-register-first-name', null, 
                 ['class' => 'login-input login-register-first-name', 'placeholder' => 'First name']) ?>
         <div class="login-error-msg login-register-first-name-error">
@@ -42,21 +42,37 @@ use yii\helpers\Html;
             'placeholder' => 'Password']) ?>
         <div class="login-error-msg login-register-password-error">
         </div>
+        
         <div class="login-register-button-area">
             <?= Html::button('Go to Login', ['class' => 'login-button-like-link login-register-login']) ?>
             <?= Html::button('Register', ['class' => 'login-button login-register-button', 'align' => 'right']) ?>
         </div>
+        <div class="login-auth-two">
+            <?= Html::button('Continue with Facebook', ['class' => 'btn btn-primary login-continue-with-facebook']) ?>
+        </div>
+    
     </div>
-    <div class="login-auth-two">
-        <?= Html::button('Continue with Facebook', ['class' => 'btn btn-primary login-continue-with-facebook']) ?>
-<!--        <a href="<?= Yii::$app->request->baseUrl ?>/site/auth?authclient=facebook" 
-            id="login-continue-with-facebook" 
-            class="login-continue-with-facebook"
-             <span class="input-group register-data">
-                <span class="fa fa-facebook"></span>
-                 Continue With Facebook
-             </span>
-        </a>-->
+    <div class="login-forgot-password hide">
+        <?= Html::textInput('login-forgot-password-email', null,['class' => 'login-input login-forgot-password-email', 
+            'placeholder' => 'Email Address']) ?>
+        <div class="login-error-msg login-forgot-password-email-error">
+        </div>
+        <div class="login-forgot-password-captcha-area">
+            <?= Captcha::widget([
+                'id' => $id . '-forgot-password-captcha',
+                
+                'name' => 'login-forgot-password-captcha'
+            ]) ?>
+        </div>
+        <div class="site-input-error login-forgot-password-captcha-error">
             
+        </div>
+        <div class="login-forgot-password-button-area">
+            <?= Html::button('Send', ['class' => 'login-forgot-password-button btn btn-primary']) ?>
+            <?= Loading::widget(['id' => $id .'-forgot-password-loading']) ?>
+        </div>
+        <div class="login-forgot-password-validated hide">
+            We have sent you the email, Please check your spam folder if you cannot find it.
+        </div>
     </div>
 </div>

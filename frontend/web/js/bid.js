@@ -30,7 +30,6 @@ Bid.prototype.init = function() {
 Bid.prototype.initEvents = function() {
     var map = {13: false};
   
-    
     $(document).on('click', '#' + this.id, function(event) {
         if(event.target && ($(event.target).hasClass(this.bid_give_class))) {
             $("#" + this.id).find('.' + this.cancel_give_class).removeClass('hide');
@@ -79,7 +78,7 @@ Bid.prototype.initEvents = function() {
         if(event.target && ($(event.target).prop('id') === this.text_area_id)) {
             if(event.keyCode in map) {
                 map[event.keyCode ] = true;
-                if(map[13] && !event.shiftKey && this.getReplyValue().trim() !== '' ) {
+                if(map[13] && !event.shiftKey && this.getReplyText().trim() !== '' ) {
                    this.submitReply();
                    event.preventDefault();
                 }
@@ -97,15 +96,18 @@ Bid.prototype.initEvents = function() {
     }.bind(this)); 
 };
 
-Bid.prototype.getReplyValue = function() {
+Bid.prototype.getReplyHtml = function() {
     return $("#" + this.id).find('#' + this.text_area_id).html();
 }
 
-Bid.prototype.submitReply = function() {
-    this.bid_reply_container.setNewMessage(this.getReplyValue());
-    this.emptyReplyBox();
+Bid.prototype.getReplyText = function() {
+    return $("#" + this.id).find('#' + this.text_area_id).text();
 }
 
+Bid.prototype.submitReply = function() {
+    this.bid_reply_container.setNewMessage(this.getReplyHtml());
+    this.emptyReplyBox();
+}
 Bid.prototype.emptyReplyBox = function() {
     $("#" + this.id).find('#' + this.text_area_id).html("");
 }

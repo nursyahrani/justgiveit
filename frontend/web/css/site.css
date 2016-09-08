@@ -352,7 +352,7 @@ a.desc:after {
 }
 
 .site-input {
-    padding: 8px;
+    padding: 4px;
     font-size: 14px;
     width: 100%;
     border-radius: 4px;
@@ -374,8 +374,13 @@ a.desc:after {
     background: blue;
 }
 
+.site-blue-button:hover {
+    background: white;
+    color: blue;
+    border: 1px solid blue;
+}
+
 .site-button {
-    margin-top: 6px;
     padding: 2px 10px;
     color: white;
     border-radius: 4px;
@@ -393,6 +398,12 @@ a.desc:after {
 
 .site-red-button {
     background: red;
+}
+
+.site-red-button:hover {
+    background: white;
+    color: red;
+    border: 1px solid red;
 }
 
 .site-view {

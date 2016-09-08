@@ -28,6 +28,9 @@ class ProfileVo implements Vo {
     
     private $total_gives;
     
+    private $email;
+    
+    private $validated;
     
     function __construct(ProfileVoBuilder $builder) {
         $this->user_id  =$builder->getUserId();
@@ -40,7 +43,8 @@ class ProfileVo implements Vo {
         $this->total_bids = $builder->getTotalBids();
         $this->total_favorites = $builder->getTotalFavorites();
         $this->total_gives = $builder->getTotalGives();
-        
+        $this->email = $builder->getEmail();
+        $this->validated = $builder->isValidated();
     }
     
     public function getTotalBids() {
@@ -93,5 +97,12 @@ class ProfileVo implements Vo {
         return UserLibrary::buildUserLink($this->username);
     }
     
+    public function getEmail() {
+        return $this->email;
+    }
+    
+    public function isValidated() {
+        return $this->validated;
+    }
     
 }

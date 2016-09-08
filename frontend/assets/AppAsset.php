@@ -52,6 +52,7 @@ class AppAsset extends AssetBundle
         'frontend/web/js/post.js',
         'frontend/web/js/create-post.js',
         'frontend/web/js/tag-navigation.js',
+        'frontend/web/js/email-registration.js',
         'frontend/web/js/site.js',
         'frontend/web/js/script.js'  
         

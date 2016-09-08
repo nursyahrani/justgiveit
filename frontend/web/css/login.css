@@ -10,6 +10,7 @@ and open the template in the editor.
 
 .login-input{
     width: 100%;
+    padding: 8px;
     padding-left: 12px;
     border-radius: 2px;
     height: 28px;
@@ -17,7 +18,8 @@ and open the template in the editor.
 }
 
 .login-button {
-        background: white;
+    float: right;
+    background: white;
     border: 0;
     color: blue;
     border: 1px solid;
@@ -59,7 +61,6 @@ and open the template in the editor.
 .login-continue-with-facebook {
     background: #507cc0;
     color: white;
-    padding: 8px 10px;
 }
 
 .login-login-button-area, .login-register-button-area {
@@ -86,4 +87,15 @@ and open the template in the editor.
 
 .login-register-last-name {
     margin-bottom : 8px;
+}
+
+.login-forgot-password-captcha-area {
+    width: 150px;
+    margin-bottom: 12px;
+}
+
+.login-forgot-password-validated {
+    
+    margin-top: 2px;
+    color: gray;
 }

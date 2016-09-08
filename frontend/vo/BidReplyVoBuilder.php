@@ -95,7 +95,6 @@ class BidReplyVoBuilder implements Builder {
     public function applyTemplate() {
         $this->bid_id = 0;
         if(!Yii::$app->user->isGuest) {
-         
             $this->creator_first_name = Yii::$app->user->identity->first_name;
             $this->creator_last_name = Yii::$app->user->identity->last_name;
             $this->creator_username = Yii::$app->user->identity->username;

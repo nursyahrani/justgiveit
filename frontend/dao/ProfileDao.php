@@ -44,7 +44,11 @@ class ProfileDao {
     
     const GET_HOME_PROFILE_VIEW = "   SELECT with_total_favorite.*, count(with_total_favorite.id) as total_stuffs from (
                                                 SELECT with_total_bid.*, count(with_total_bid.id) as total_favorites from 
-                                            (SELECT user.*, count(user.id) as total_bids from user left join bid on user.id = bid.proposer_id 
+                                            (SELECT user.*, user_email_authentication.email, user_email_authentication.validated,
+                                                    count(user.id) as total_bids 
+                                             from user 
+                                             left join bid on user.id = bid.proposer_id 
+                                             left join user_email_authentication on user_email_authentication.user_id = user.id
                                              where user.id = :user_id
                                             group by(user.id)) with_total_bid
                                         left join favorite 
@@ -146,7 +150,8 @@ class ProfileDao {
         $builder->setTotalBids($result['total_bids']);
         $builder->setTotalGives($result['total_stuffs']);
         $builder->setTotalFavorites($result['total_favorites']);
-        
+        $builder->setEmail($result['email']);
+        $builder->setValidated($result['validated']);
         return $builder->build();
         
     }

@@ -1,11 +1,7 @@
 <?php
 namespace frontend\vo;
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 use frontend\vo\ProfileVo;
+
 class ProfileVoBuilder implements Builder {
     private $user_id;
     
@@ -15,9 +11,13 @@ class ProfileVoBuilder implements Builder {
     
     private $last_name;
     
+    private $validated;
+    
     private $profile_pic;
     
     private $bid_list;
+    
+    private $email;
     
     private $give_list;
     
@@ -112,6 +112,19 @@ class ProfileVoBuilder implements Builder {
         
     }
 
-
+    public function getEmail() {
+        return $this->email;
+    }
     
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+    
+    public function isValidated() {
+        return $this->validated;
+    }
+    
+    public function setValidated($validated) {
+        $this->validated = $validated;
+    }
 }

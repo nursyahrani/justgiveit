@@ -6,10 +6,14 @@
 
 var Login = function($root) {
     this.$root = $root;
+    this.id = $root.data('id');
     this.$register_with_email_button = null;
     this.$go_to_login_button = null;
+    
     this.$login_panel = null;
     this.$register_panel = null;
+    this.$forgot_password_panel = null;
+    
     this.$login_register_button = null;
     this.$login_login_button = null;
     
@@ -32,8 +36,24 @@ var Login = function($root) {
     this.$register_email_error = null;
     this.$register_password_error =null;
     
+    
+    //forgot password
+    this.$forgot_password_captcha_field = null;
+    this.$forgot_password_email_field = null;
+    
+    //forgot password error
+    this.$forgot_password_email_error = null;
+    this.$forgot_password_captcha_error = null;
+    
+    //forgot password submit
+    this.$forgot_password_submit = null;
+    this.$forgot_password_loading = null;
+    this.forgot_password_loading = null;
+    this.$forgot_password_validated = null;
+    
     //auth
     this.$login_with_facebook = null;
+    
     
     this.country;
     this.country_code;
@@ -45,9 +65,13 @@ var Login = function($root) {
 
 Login.prototype.init = function() {
     this.$register_with_email_button = this.$root.find('.login-login-register-email');
+    
     this.$login_panel = this.$root.find('.login-login');
     this.$register_panel = this.$root.find('.login-register');
+    this.$forgot_password_panel = this.$root.find('.login-forgot-password');
+    
     this.$go_to_login_button = this.$root.find('.login-register-login');
+    this.$go_to_forgot_password = this.$root.find('.login-login-forgot-password');
     this.$login_register_button = this.$root.find('.login-register-button');
     this.$login_login_button = this.$root.find('.login-login-button');
     //register form
@@ -60,6 +84,19 @@ Login.prototype.init = function() {
     this.$login_email_field = this.$root.find('.login-login-email');
     this.$login_password_field = this.$root.find('.login-login-password');
     
+    //forgot password
+    this.$forgot_password_captcha_field = this.$root.find('#' + this.id + '-forgot-password-captcha');
+    this.$forgot_password_email_field = this.$root.find('.login-forgot-password-email');
+    
+    //forgot password error
+    this.$forgot_password_email_error = this.$root.find('.login-forgot-password-email-error');
+    this.$forgot_password_captcha_error = this.$root.find('.login-forgot-password-captcha-error');
+    
+    //forgot password submit
+    this.$forgot_password_submit = this.$root.find('.login-forgot-password-button');
+    this.$forgot_password_loading = this.$root.find('#' + this.id + "-forgot-password-loading");
+    this.forgot_password_loading = new Loading(this.$forgot_password_loading);
+    this.$forgot_password_validated = this.$root.find('.login-forgot-password-validated');
     //login error
     this.$login_email_error = this.$root.find('.login-login-email-error');
     this.$login_password_error = this.$root.find('.login-login-password-error');
@@ -70,7 +107,9 @@ Login.prototype.init = function() {
     this.$register_password_error = this.$root.find('.login-register-password-error');
     var self = this;
     
+    
     this.$login_with_facebook = this.$root.find('.login-continue-with-facebook');
+    
     //get json
     $.getJSON('http://ip-api.com/json', function(data) {
         self.country_code = data['countryCode'];
@@ -81,22 +120,35 @@ Login.prototype.init = function() {
 };
 
 Login.prototype.initEvents = function() {
-    var self = this;
     this.$register_with_email_button.click(function(e){
         this.triggerRegisterEvent();
-        self.$register_panel.removeClass('login-hide');
-        self.$login_panel.addClass('login-hide');
+        this.$register_panel.removeClass('hide');
+        this.$forgot_password_panel.addClass('hide');
+        this.$login_panel.addClass('hide');
     }.bind(this));
     
     this.$go_to_login_button.click(function(e){
         this.triggerLoginEvent();
-        self.$register_panel.addClass('login-hide');
-        self.$login_panel.removeClass('login-hide');
+        this.$register_panel.addClass('hide');
+        this.$forgot_password_panel.addClass('hide');
+        this.$login_panel.removeClass('hide');
+    }.bind(this));
+    
+    this.$go_to_forgot_password.click(function(e) {
+        this.triggerForgotPasswordEvent();
+        this.$register_panel.addClass('hide');
+        this.$login_panel.addClass('hide');
+        this.$forgot_password_panel.removeClass('hide');
+    }.bind(this));
+    
+    this.$forgot_password_submit.click(function(e) {
+        this.submitForgotPasswordForm();
     }.bind(this));
     
     this.$login_register_button.click( function(e) {
         this.submitRegisterForm();
     }.bind(this));
+    
     this.$login_login_button.click(function(e) {
         this.submitLoginForm();
     }.bind(this));
@@ -108,7 +160,6 @@ Login.prototype.initEvents = function() {
             context: this,
             data: {country_code: this.country_code, country: this.country, city: this.city},
             success: function(data) {
-                
             }
         });
     }.bind(this));
@@ -126,8 +177,14 @@ Login.prototype.initEvents = function() {
     }.bind(this))
 };
 
+Login.prototype.submitForgotPasswordForm = function() {
+    $valid = this.validateForgotPasswordFormInClient();
+    if($valid) {
+        this.validateForgotPasswordFormInServer();
+    }
+};
+
 Login.prototype.submitRegisterForm = function() {
-    
     $valid = this.validateRegisterFormInClient();
     if($valid) {
         this.validateRegisterInServerSide();
@@ -141,27 +198,82 @@ Login.prototype.submitLoginForm = function() {
     }
 };
 
+Login.prototype.validateForgotPasswordFormInClient = function() {
+    var valid = true;
+    
+    var email = this.getForgotPasswordEmailField();
+    var captcha = this.getForgotPasswordCaptchaField();
+    
+    if(email === null || email === '') {
+        valid = false;
+        CommonLibrary.showError(this.$forgot_password_email_error, "Email address must not be empty");
+    } else {
+        CommonLibrary.hideError(this.$forgot_password_email_error);
+    }
+    
+    if(captcha === null ||captcha === '') {
+        valid = false
+        CommonLibrary.showError(this.$forgot_password_captcha_error, "Captcha should not be empty");
+    } else {
+        CommonLibrary.hideError(this.$forgot_password_captcha_error);
+    }
+    
+    return valid;
+    
+};
+
+Login.prototype.validateForgotPasswordFormInServer = function() {
+    this.forgot_password_loading.show();
+    $.ajax({
+        url: $("#base-url").val() + "/site/request-password-reset",
+        type: 'post',
+        context: this,
+        data: {email: this.getForgotPasswordEmailField(), captcha: this.getForgotPasswordCaptchaField()},
+        success: function(data) {
+            var parsed = JSON.parse(data);
+            if(parsed['status'] === 1) {
+                CommonLibrary.hideError(this.$forgot_password_email_error);
+                CommonLibrary.hideError(this.$forgot_password_captcha_error);
+                this.$forgot_password_submit.addClass('hide');
+                this.$forgot_password_validated.removeClass('hide');
+            } else {
+                var error = parsed['error'];
+                if(error['email'] !== undefined) {
+                    CommonLibrary.showError(this.$forgot_password_email_error, error['email'][0]);
+                }
+                
+                if(error['captcha'] !== undefined) {
+                    CommonLibrary.showError(this.$forgot_password_captcha_error, error['captcha'][0]);
+                }
+            }
+            this.forgot_password_loading.hide();
+        }, 
+        error: function(data) {
+            this.forgot_password_loading.hide();
+        }
+    });
+};
 
 Login.prototype.validateLoginFormInClient = function() {
-    $valid = true;
+    var valid = true;
     
     var email = this.getLoginEmailField();
     var password = this.getLoginPasswordField();
     
     if(email === null || email === '') {
-        $valid = false;
+        valid = false;
         this.showLoginEmailErrorMsg("Email address must not be empty");
     } else {
         this.hideLoginEmailErrorMsg();
     }
     
     if(password === null || password === '') {
-        $valid = false;
+        valid = false;
         this.showLoginPasswordErrorMsg("Password field must not be empty");
     } else {
         this.hideLoginPasswordErrorMsg();
     }
-    return $valid;
+    return valid;
     
 };
 
@@ -267,6 +379,15 @@ Login.prototype.getLoginPasswordField = function() {
     return this.$login_password_field.val();
 };
 
+Login.prototype.getForgotPasswordEmailField = function(){
+    return this.$forgot_password_email_field.val();
+};
+
+Login.prototype.getForgotPasswordCaptchaField = function() {
+    return this.$forgot_password_captcha_field.val();
+}
+
+
 Login.prototype.showRegisterFirstNameErrorMsg = function(message) {
    this.$register_first_name_error.html(message);
 };
@@ -313,6 +434,7 @@ Login.prototype.hideRegisterPasswordErrorMsg = function() {
 
 Login.prototype.EVENTS = {
     LOGIN_LOGIN : "login-login",
+    LOGIN_FORGOT_PASSWORD : "login-forgot-password",
     LOGIN_REGISTER: "login-register"
 };
 
@@ -323,3 +445,7 @@ Login.prototype.triggerLoginEvent = function() {
 Login.prototype.triggerRegisterEvent = function() {
     this.$root.trigger(this.EVENTS.LOGIN_REGISTER);
 };
+
+Login.prototype.triggerForgotPasswordEvent = function() {
+    this.$root.trigger(this.EVENTS.LOGIN_FORGOT_PASSWORD);
+}

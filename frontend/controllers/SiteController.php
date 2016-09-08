@@ -274,6 +274,12 @@ class SiteController extends Controller
             $model->country = $_POST['country'];
             if ($model->validate() && $user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
+                    
+                    $create_validation = new \frontend\models\CreateValidationCode;
+                    $create_validation->email = $_POST['email'];
+                    $create_validation->user_id = \Yii::$app->user->getId();
+                    $valid = $create_validation->create();
+
                     return $this->goHome();
                 }
             }   
@@ -292,20 +298,28 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
+        $data = array();
+        if(isset($_POST['email']) && isset($_POST['captcha'])) {
+            $model = new PasswordResetRequestForm();
+            $model->email = $_POST['email'];
+            $model->captcha = $_POST['captcha'];
+            $valid = $model->sendEmail();
+            if(!$valid) {
+                if($model->hasErrors()) {
+                    $data['error'] = $model->getErrors();
+                }
+                $data['status'] = 0;
+                
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                $data['status'] = 1;
             }
+            
+            return json_encode($data);
         }
+        
+        $data['status'] = 0;
+        return json_encode($data);
 
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -326,13 +340,53 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'New password was saved.'
             );
-
             return $this->goHome();
         }
 
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionRegisterLoginUserEmail() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['email']) && isset($_POST['password'])) {
+            $model = new \frontend\models\RegisterLoginUserEmailForm();
+            $model->user_id = Yii::$app->user->getId();
+            $model->email = $_POST['email'];
+            $model->password = $_POST['password'];
+            if($model->create()) {
+                $create_validation = new \frontend\models\CreateValidationCode;
+                $create_validation->email = $_POST['email'];
+                $create_validation->user_id = \Yii::$app->user->getId();
+                $create_validation->create();
+                $data['status']  = 1;
+                return json_encode($data);
+            }
+            if($model->hasErrors()) {
+                $data['error'] = $model->getErrors();
+            }
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
+    /**
+     * Validate Email.
+     *
+     * @param string $token
+     * @return mixed
+     * @throws BadRequestHttpException
+     */
+    public function actionValidateEmail($token)
+    {
+        try {
+            $model = new \frontend\models\ValidateValidationEmailForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+        return $this->goHome();
     }
 
     public function actionInterested(){
@@ -461,4 +515,26 @@ class SiteController extends Controller
         $ll->longitude = $_POST['longitude'];
         $ll->save();
     }
+    
+    public function actionResendValidationEmail() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['email']) && isset($_POST['captcha'])) {
+            $model = new \frontend\models\ResendValidationEmailForm();
+            $model->user_id = Yii::$app->user->getId();
+            $model->email = $_POST['email'];
+            $model->captcha = $_POST['captcha'];
+            if($model->resend()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            } 
+            if($model->hasErrors()) {
+                $data['error'] = $model->getErrors();
+            }
+            
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+    }
+    
 }

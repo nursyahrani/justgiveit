@@ -1,0 +1,48 @@
+.email-registration-registration {
+    text-align: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid lightgray;
+}
+
+.email-registration-registration-header {
+    font-weight: bold;
+    color: gray;
+}
+
+.email-registration-validation {
+    padding-left: 8px;
+    font-size: 10px;
+    color: gray;
+}
+
+.email-registration-validation-resend-view {
+    
+    background: none;
+    padding: 0;
+    text-decoration: underline;
+    border: 0;
+}
+
+.email-registration-resend {
+    
+    font-size: 10px;
+    color: gray;
+    padding-left: 8px;
+}
+
+.email-registration-resend-captcha-area {
+    width: 120px;
+}
+
+.email-registration-resend-captcha {
+    padding: 0;
+    height: 25px;
+}
+
+.email-registration-validated {
+    
+    padding-left: 8px;
+    color: gray;
+    font-weight: bold;
+}

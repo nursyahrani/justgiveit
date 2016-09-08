@@ -14,7 +14,7 @@ $this->title = 'Just Give it';
     <div class='site-view'>
         <div class="site-left-side hide-right-side">
             <?= HomeProfileView::widget(['id' => 'home-profile-view', 'profile' => $home_vo->getHomeProfileView()]) ?>
-            
+            <?= \frontend\widgets\EmailRegistration::widget(['id' => 'email-registration', 'profile' => $home_vo->getHomeProfileView()]) ?>
             <?= TagNavigation::widget(['id' => 'tag-navigation']) ?>
             
             <div class="site-site-information" align="center">

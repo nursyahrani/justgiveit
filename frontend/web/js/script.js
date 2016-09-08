@@ -60,6 +60,28 @@ App.prototype.init = function() {
     this.create_post_form = new CreatePost(this.$create_post_form);
 };
 
+function cache(func) {
+   this.args = [];
+   return function(new_args) {
+      var cache = true;
+      if(arguments.length != this.args.length){
+         cache = false; 
+      } else {
+        for(var i = 0; i < arguments.length; i++){
+                if((this.args[i] !== new_args[i])){
+                       cache = false;
+                }
+        }
+      }
+      if(cache === false) {
+        this.args = arguments;
+    }     
+      return func.apply(this, this.args);
+   }.bind(this);
+
+}
+
+
 App.prototype.initEvents = function() {
     this.$create_post_button.click(function(event) {
         window.location.href = $("#base-url").val() + "/post/create";
