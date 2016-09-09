@@ -9,15 +9,18 @@ namespace frontend\service;
 use frontend\dao\HomeDao;
 use frontend\vo\HomeVoBuilder;
 use frontend\dao\ProfileDao;
+use frontend\dao\NotificationDao;
 class HomeService {
     
     public $home_dao;
     
     private $profile_dao;
-    
+
+    private $notification_dao;
     function __construct() {
         $this->home_dao = new HomeDao();
         $this->profile_dao  = new ProfileDao();
+        $this->notification_dao = new NotificationDao();
     }
     
     
@@ -27,6 +30,7 @@ class HomeService {
         $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id'], ''));
         $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
+//        $builder->setCountNewNotification($this->notification_dao->getCountNotification($current_user_id));
         return $builder->build();
     }
     

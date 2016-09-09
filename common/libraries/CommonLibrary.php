@@ -103,4 +103,12 @@ class CommonLibrary {
     public static function cutText($text, $length = 50) {
         return substr($text, 0, $length);
     }
+    
+    public static function replaceTemplate($template, $args) {
+        foreach($args  as $index => $arg) {
+            $template = str_replace("%" .($index + 1) . "$%", $arg, $template);
+        }
+        
+        return $template;
+    }
 }

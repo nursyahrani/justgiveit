@@ -4,9 +4,11 @@ namespace frontend\widgets;
 
 use yii\base\Widget;
 
-class NotificationList extends Widget
+class NotificationItem extends Widget
 {
     public $id;
+    
+    public $notification;
     
     public function init()
     {
@@ -17,13 +19,13 @@ class NotificationList extends Widget
 
     public function registerAssets(){
         $view = $this->getView();
-        NotificationListAsset::register($view);
+        NotificationItemAsset::register($view);
 
     }
 
     public function run()
     {
-        return $this->render('notification-list',
-            ['id' => $this->id]);
+        return $this->render('notification-item',
+            ['id' => $this->id, 'notification' => $this->notification]);
     }
 }

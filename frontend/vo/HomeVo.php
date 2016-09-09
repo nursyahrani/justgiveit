@@ -17,6 +17,8 @@ class HomeVo implements Vo {
     
     private $home_profile_view;
     
+    private $count_new_notification;
+    
     private $current_location;
     
     function __construct(HomeVoBuilder $builder) {
@@ -24,6 +26,7 @@ class HomeVo implements Vo {
         $this->most_popular_post = $builder->getMostPopularPost();
         $this->home_profile_view = $builder->getHomeProfileView();
         $this->current_location = $builder->getCurrentUserLocation();
+        $this->count_new_notification = $builder->getCountNewNotification();
     }
     
     public function getPostList() {
@@ -36,6 +39,10 @@ class HomeVo implements Vo {
     
     public static   function createBuilder() {
         return new PostVoBuilder();
+    }
+    
+    public function getCountNewNotification() {
+        return $this->count_new_notification;
     }
 
     public function getSideNavItems() {

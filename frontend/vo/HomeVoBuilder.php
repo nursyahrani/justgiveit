@@ -8,6 +8,9 @@ namespace frontend\vo;
 
 class HomeVoBuilder implements Builder {
     
+    
+    private $count_new_notification;
+    
     private $post_list;
     
     private $most_popular_post;
@@ -22,6 +25,16 @@ class HomeVoBuilder implements Builder {
     
     public function getHomeProfileView() {
         return $this->home_profile_view;
+    
+        
+    }
+    
+    public function getCountNewNotification() {
+        return $this->count_new_notification;
+    }
+    
+    public function setCountNewNotification($count_new_notification) {
+        $this->count_new_notification = $count_new_notification;
     }
     
     public function setHomeProfileView($home_profile_view) {

@@ -6,3 +6,7 @@
 .post-comment {
     margin-bottom: 8px;
 }
+
+.post-comment-container-text-box {
+    min-height: 56px;
+}

@@ -22,7 +22,8 @@ var App = function($root) {
     this.$create_post_button  =null;
     this.$create_post_form = null;
     this.create_post_form = null;
-
+    this.$notification_list = null;
+    this.notification_list = null;
     this.init();
     this.initEvents();
     
@@ -58,6 +59,8 @@ App.prototype.init = function() {
     this.profile_link_dropdown = new LinkDropdown(this.$profile_link_dropdown);
     this.$create_post_form =this.$root.find('#create-post');
     this.create_post_form = new CreatePost(this.$create_post_form);
+    this.$notification_list = this.$root.find('#notification-list');
+    this.notification_list = new NotificationList(this.$notification_list);
 };
 
 

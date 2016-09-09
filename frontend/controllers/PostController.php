@@ -100,7 +100,7 @@ class PostController extends Controller
         $notification_model = new NotificationPostThanksForm();
         $notification_model->post_id = $post_id;
         $notification_model->new_actor_id = Yii::$app->user->getId();
-        $notification_model->delete(NotificationPostForm::POST_THANKS);
+        $notification_model->delete(NotificationPostThanksForm::POST_THANKS);
     }
     
     public function actionCancelFavorite() {

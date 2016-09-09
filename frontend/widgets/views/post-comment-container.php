@@ -6,7 +6,8 @@ use frontend\widgets\PostComment;
 
 <div id="<?= $id ?>" class="post-comment-container" data-id="<?= $id ?>" data-post_id="<?= $post_id ?>">
     <div class="post-comment-container-text-box">
-        <?=        \common\widgets\AutoHeightTextArea::widget(['id' => $id . '-text-area','rows' => 3, 'placeholder' => 'Write a comment...']) ?>
+        <?=        \common\widgets\AutoHeightTextArea::widget(['id' => $id . '-text-area','rows' => 3, 'placeholder' => 'Write a comment...',
+            'widget_class' => 'post-comment-container-text-box']) ?>
         <div class="post-comment-container-text-box-error site-input-error">
             
         </div>

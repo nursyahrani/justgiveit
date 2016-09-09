@@ -9,13 +9,13 @@ namespace frontend\widgets;
 
 use yii\web\AssetBundle;
 
-class NotificationListAsset extends AssetBundle
+class NotificationItemAsset extends AssetBundle
 {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
     public $css = [
-        'frontend/web/css/notification-list.css'
+        'frontend/web/css/notification-item.css'
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -13,7 +13,7 @@ $(document).ready(function() {
     $('.auto-height-text-area').each(function () {
         
     }).on('input', function () {
-      resizeTextarea(this);
+          resizeTextarea(this);
     });
  
 });

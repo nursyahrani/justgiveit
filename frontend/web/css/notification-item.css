@@ -1,0 +1,20 @@
+.notification-item {
+    cursor: pointer;
+    display: flex;
+    padding-bottom:  8px;
+    padding-left: 8px;
+    padding-top: 8px;
+}
+
+.notification-item:hover {
+    background: lightcyan;
+}
+.notification-item-photo {
+    width:55px;
+    height: 45px;
+}
+
+.notification-item-view {
+    margin-left: 12px;
+    text-align: left;
+}

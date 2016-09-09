@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/notification-item.css',
         'css/post-comment.css',
         'css/create-post.css',
         'css/post-delete.css',
@@ -54,6 +55,7 @@ class AppAsset extends AssetBundle
         'frontend/web/js/tag-navigation.js',
         'frontend/web/js/email-registration.js',
         'frontend/web/js/site.js',
+        'frontend/web/js/notification-list.js',
         'frontend/web/js/script.js'  
         
     ];

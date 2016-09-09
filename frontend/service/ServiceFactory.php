@@ -18,6 +18,8 @@ class ServiceFactory {
     
     const BID_SERVICE = "bid_service";
     
+    const NOTIFICATION_SERVICE = "notification_service";
+    
     public function getService($serviceType ){
 
         if($serviceType === self::HOME_SERVICE){
@@ -30,6 +32,8 @@ class ServiceFactory {
             return new BidService();
         } else if($serviceType === self::POST_COMMENT_SERVICE) {
             return new PostCommentService();
+        } else if($serviceType === self::NOTIFICATION_SERVICE) {
+            return new NotificationService();
         }
         return null;
     }
