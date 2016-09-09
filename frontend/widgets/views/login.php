@@ -1,7 +1,9 @@
 <?php
 use common\widgets\Loading;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\captcha\Captcha;
+use kartik\select2\Select2;
 ?>
 
 <div id="<?= $id ?>" class="login" data-id="<?= $id ?>">
@@ -42,7 +44,6 @@ use yii\captcha\Captcha;
             'placeholder' => 'Password']) ?>
         <div class="login-error-msg login-register-password-error">
         </div>
-        
         <div class="login-register-button-area">
             <?= Html::button('Go to Login', ['class' => 'login-button-like-link login-register-login']) ?>
             <?= Html::button('Register', ['class' => 'login-button login-register-button', 'align' => 'right']) ?>
@@ -74,5 +75,6 @@ use yii\captcha\Captcha;
         <div class="login-forgot-password-validated hide">
             We have sent you the email, Please check your spam folder if you cannot find it.
         </div>
+        <?= Html::button('Go Back to Login', ['class' => 'login-button-like-link login-register-login']) ?>
     </div>
 </div>

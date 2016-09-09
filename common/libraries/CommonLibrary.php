@@ -99,4 +99,8 @@ class CommonLibrary {
     public static function loadingResourceUrl() {
         return Yii::$app->request->baseUrl . '/frontend/web/common-img/loading.gif';
     }
+    
+    public static function cutText($text, $length = 50) {
+        return substr($text, 0, $length);
+    }
 }

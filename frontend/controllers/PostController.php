@@ -2,7 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\models\CreateStuffForm;
-
+use frontend\models\NotificationPostThanksForm;
 use frontend\models\FavoriteForm;
 use Yii;
 use yii\web\Controller;
@@ -71,34 +71,6 @@ class PostController extends Controller
         
     }
     
-    public function actionSendBid() {
-        $response = array();
-        if(Yii::$app->user->isGuest || !isset($_POST['stuff_id']) || !isset($_POST['message']) || !isset($_POST['quantity'])) {
-            $response['status'] = 0;
-            $response['error'] = 'Requirements Failure';
-            return json_encode($response);
-        }
-        
-        $create_bid_form = new \frontend\models\CreateBidForm();
-        $create_bid_form->proposer_id = Yii::$app->user->getId();
-        $create_bid_form->stuff_id = $_POST['stuff_id'];
-        $create_bid_form->message = $_POST['message'];
-        $create_bid_form->quantity = $_POST['quantity'];
-        if(!$create_bid_form->bid()) {
-            $response['status'] = 0;
-            $error = '';
-            if($create_bid_form->hasErrors()) {
-                $error = $create_bid_form->getErrors()[0];
-            }
-            $response['error'] = 'Fail to update server: ' . $error;
-        } else {
-            $response['status'] = 1;
-
-        }
-        return json_encode($response);
-
-    }
-    
     public function actionRequestFavorite() {
         $data = array();
         if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {
@@ -107,7 +79,7 @@ class PostController extends Controller
             $model->stuff_id = $_POST['stuff_id'];
             
             if($model->validate() && $model->requestFavorite()) {
-                
+                $this->createNotificationPostThanks($_POST['stuff_id']);
                 $data['status'] = 1;
                 return json_encode($data);
             }
@@ -117,6 +89,19 @@ class PostController extends Controller
         return json_encode($data);
     }
     
+    private function createNotificationPostThanks($post_id) {
+        $notification_model = new NotificationPostThanksForm();
+        $notification_model->post_id = $post_id;
+        $notification_model->new_actor_id = Yii::$app->user->getId();
+        $notification_model->create(NotificationPostForm::POST_THANKS);
+    }
+    
+    private function deleteNotificationPostThanks($post_id) {
+        $notification_model = new NotificationPostThanksForm();
+        $notification_model->post_id = $post_id;
+        $notification_model->new_actor_id = Yii::$app->user->getId();
+        $notification_model->delete(NotificationPostForm::POST_THANKS);
+    }
     
     public function actionCancelFavorite() {
         $data = array();
@@ -126,6 +111,7 @@ class PostController extends Controller
             $model->user_id = Yii::$app->user->getId();
             $model->stuff_id = $_POST['stuff_id'];
             if($model->validate() && $model->cancelFavorite()) {
+                $this->deleteNotificationPostThanks($model->stuff_id);
                 $data['status'] = 1;
                 return json_encode($data);
             }

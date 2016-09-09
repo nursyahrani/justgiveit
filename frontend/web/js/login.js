@@ -110,12 +110,6 @@ Login.prototype.init = function() {
     
     this.$login_with_facebook = this.$root.find('.login-continue-with-facebook');
     
-    //get json
-    $.getJSON('http://ip-api.com/json', function(data) {
-        self.country_code = data['countryCode'];
-        self.city  = data['city'];
-        self.country = data['country'];
-    });
     
 };
 
@@ -306,8 +300,7 @@ Login.prototype.validateRegisterInServerSide = function() {
         type: 'post',
         context: this,
         data: {first_name: this.getRegisterFirstNameField(), last_name: this.getRegisterLastNameField(),
-                email: this.getRegisterEmailField(), password: this.getRegisterPasswordField(),
-            country: this.country, country_code: this.country_code, city: this.city},
+                email: this.getRegisterEmailField(), password: this.getRegisterPasswordField()},
         success: function(data){
             var parsedData = JSON.parse(data);
             if(parsedData['status'] === 0) {

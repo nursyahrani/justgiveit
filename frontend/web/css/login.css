@@ -63,9 +63,6 @@ and open the template in the editor.
     color: white;
 }
 
-.login-login-button-area, .login-register-button-area {
-    text-align: right;
-}
 
 .login-login-register-email, .login-register-login {
     margin-right: 12px;
@@ -98,4 +95,9 @@ and open the template in the editor.
     
     margin-top: 2px;
     color: gray;
+}
+
+.login-register-location {
+    display: flex;
+    margin-bottom: 6px;
 }

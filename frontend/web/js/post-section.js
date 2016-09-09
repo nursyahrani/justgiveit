@@ -127,7 +127,7 @@ PostSection.prototype.deletePost = function() {
 
 PostSection.prototype.sendProposal = function() {
     $.ajax({
-        url: $("#base-url").val() + "/post/send-bid",
+        url: $("#base-url").val() + "/bid/send-bid",
         type: 'post',
         data: {quantity: this.getQuantityVal(), message: this.getTextAreaHtml(), stuff_id: this.stuff_id},
         success: function(data) {

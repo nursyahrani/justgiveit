@@ -262,16 +262,12 @@ class SiteController extends Controller
         $data = array();
         
         if(isset($_POST['first_name']) && isset($_POST['last_name'])
-                && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['country_code'])
-                && isset($_POST['city']) && isset($_POST['country'])) {
+                && isset($_POST['email']) && isset($_POST['password'])) {
             $model = new SignupForm();
             $model->email = $_POST['email'];
             $model->first_name = $_POST['first_name'];
             $model->last_name = $_POST['last_name'];
             $model->password = $_POST['password'];
-            $model->city = $_POST['city'];
-            $model->country_code = $_POST['country_code'];
-            $model->country = $_POST['country'];
             if ($model->validate() && $user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     
@@ -287,7 +283,6 @@ class SiteController extends Controller
         }
         
         $data['status'] = 0;
-        
         return json_encode($data);
     }
 
