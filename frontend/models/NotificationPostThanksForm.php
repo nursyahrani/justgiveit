@@ -90,6 +90,7 @@ class NotificationPostThanksForm extends Model
                 return false;
             }
          } else {
+             $notification_actor->updated_at = time();
              $notification_actor->update();
          }
          

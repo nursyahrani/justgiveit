@@ -55,6 +55,7 @@ class AppAsset extends AssetBundle
         'frontend/web/js/tag-navigation.js',
         'frontend/web/js/email-registration.js',
         'frontend/web/js/site.js',
+        'frontend/web/js/notification-item.js',
         'frontend/web/js/notification-list.js',
         'frontend/web/js/script.js'  
         

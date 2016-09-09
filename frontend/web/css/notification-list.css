@@ -1,14 +1,17 @@
 .notification-list {
     display:inline-block;
+    
 }
 
+
 .notification-list-area {
+    border: 1px solid lightgray;
     right: 0;
     text-align: center;
     margin-top: 7px;
     position: absolute;
     background: white;
-    min-width: 400px;
+    width: 400px;
 }
 
 .notification-list-count {
@@ -19,6 +22,9 @@
 
 .notification-list-area-header {
     
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid lightgray;
     font-size: 16px;
     font-weight: bold;
     color: gray;
@@ -30,4 +36,17 @@
     color:red;
     border:1px solid red;
     
+}
+
+.notification-list-see-all-button {
+    background: none;
+    padding: 0;
+    border: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    
+}
+
+.notification-list-see-all-button:hover {
+    text-decoration: underline;
 }

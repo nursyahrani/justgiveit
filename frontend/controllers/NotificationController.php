@@ -22,6 +22,17 @@ class NotificationController extends Controller
         $this->notification_service = $this->service_factory->getService(ServiceFactory::NOTIFICATION_SERVICE);
     }
     
+    public function actionIndex() {
+        if(Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $notifications = $this->notification_service->getNotification(Yii::$app->user->getId());
+        
+        return $this->render('index', ['notifications' => $notifications]);
+        
+    }
+    
     public function actionCountNewNotification() {
         $data = array();
         if(Yii::$app->user->isGuest) {
@@ -41,7 +52,14 @@ class NotificationController extends Controller
             $data['status'] = 0;
             return json_encode($data);
         }
-        
+        $model = new \frontend\models\UpdateUserLastSeenForm;
+        $model->user_id = Yii::$app->user->getId();
+        if($model->update()) {
+            $data['status']  =1;
+        } else {
+            $data['status'] = 0;
+         }
+        return json_encode($data);
         
     }
     
@@ -60,6 +78,25 @@ class NotificationController extends Controller
         
         $data['status'] = 1;
         $data['views'] = $views;
+        return json_encode($data);
+    }
+    
+    public function actionSetUnread() {
+        $data = array();
+        if(Yii::$app->user->isGuest || !isset($_POST['notification_id'])) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new \frontend\models\SetUnreadNotificationForm();
+        $model->user_id = Yii::$app->user->getId();
+        $model->notification_id = $_POST['notification_id'];
+        if($model->setUnread()) {
+            $data['status'] = 1;
+            return json_encode($data);
+        }
+        
+        $data['status'] = 0;
         return json_encode($data);
     }
 }

@@ -82,6 +82,7 @@ class NotificationCommentCommentForm extends Model
                 return false;
             }
          } else {
+             $notification_actor->updated_at = time();
              $notification_actor->update();
          }
          
@@ -107,7 +108,6 @@ class NotificationCommentCommentForm extends Model
             if(!$notification_receiver->save()) {
                 return false;
             }
-            
         } 
         $actor_id = $this->new_actor_id;
         NotificationReceiver::updateAll(['is_read' => 0],"notification_id = $notification->notification_id and receiver_id <> $actor_id");

@@ -1,5 +1,4 @@
 //dynamic loading
-
 var PostCommentContainer = function($root) {
     this.$root = $root;
     this.id = $root.data('id');

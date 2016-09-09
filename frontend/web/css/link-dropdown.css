@@ -28,10 +28,12 @@ and open the template in the editor.
 }
 
 .link-dropdown-area {
+
     background: white;
-    display:none;
+    display: none;
+    right: 0;
     position: absolute;
     width: 100px;
-    text-align:center;
-    
+    text-align: center;
+    margin-top: 4px;    
 }

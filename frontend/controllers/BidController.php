@@ -22,7 +22,10 @@ class BidController extends Controller
         $this->service_factory = new ServiceFactory();
         $this->bid_service = $this->service_factory->getService(ServiceFactory::BID_SERVICE);
     }
-
+    
+    public function actionIndex() {
+        
+    }
     public function actionReply() {
         $data = array();
         if(Yii::$app->user->isGuest || !isset($_POST['bid_id']) || !isset($_POST['message'])) {
