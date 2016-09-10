@@ -11,11 +11,14 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
             <div class="tag-navigation-label">
                 <span class="glyphicon glyphicon-star-empty"></span> Starred
             </div>
-            <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-collapse tag-navigation-starred-collapse', 'align' => 'right']) ?>
+            <?= Html::button('<span class="glyphicon glyphicon-plus"></span>', 
+                    ['class' => 'hide tag-navigation-header-button tag-navigation-starred-expand', 
+                'align' => 'right']) ?>
+            <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-header-button tag-navigation-starred-collapse', 'align' => 'right']) ?>
         </div>
         <div class="tag-navigation-starred-area">
             <?php foreach($starred_tags as $tag) { ?>
-                <?= TagNavigationItem::widget(['id' => 'most-popular-tags-' . $tag->getTagId(), 'tag' => $tag]) ?>
+                <?= TagNavigationItem::widget(['id' => 'starred-tags-' . $tag->getTagId(), 'tag' => $tag]) ?>
             <?php  } ?>
         </div>
     </div>
@@ -25,7 +28,10 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
                 <span class="glyphicon glyphicon-list"></span> All
 
             </div>
-            <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-collapse tag-navigation-all-collapse', 'align' => 'right']) ?>
+            <?= Html::button('<span class="glyphicon glyphicon-plus"></span>', 
+                    ['class' => 'hide tag-navigation-header-button tag-navigation-all-expand', 'align' => 'right']) ?>
+            <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-header-button tag-navigation-all-collapse', 'align' => 'right']) ?>
+        
         </div>
         <div class="tag-navigation-all-area">
             <?php foreach($most_popular_tags as $tag) { ?>

@@ -10,6 +10,8 @@ var TagNavigationItem = function($root){
     
     this.tick_event_ = null;
     this.untick_event_ = null;
+    this.favorite_event_ = null;
+    this.unfavorite_event_ = null;
     this.init();
     this.initEvent();
     this.initWidgetEvents();
@@ -31,8 +33,21 @@ TagNavigationItem.prototype.init = function() {
 
 TagNavigationItem.prototype.initEvent = function() {
     $(document).on('click', '#' + this.id , function(e) {
-        if(e.target && !$(e.target).hasClass(this.not_favorite_class) && !$(e.target).hasClass(this.favorite_class)) {
+        if(e.target && ($(e.target).closest("." + this.not_favorite_class).length === 0) && ($(e.target).closest("." + this.favorite_class).length === 0)) {
             this.toggleTick();
+        } 
+        if(e.target && $(e.target).closest("." + this.not_favorite_class).length !== 0) {
+            if(CommonLibrary.isGuest()) {
+                return false;
+            }
+            this.triggerFavoriteEvent(this.label);
+        } 
+        
+        if(e.target && $(e.target).closest("." + this.favorite_class).length !== 0) {
+            if(CommonLibrary.isGuest()) {
+                return false;
+            }
+            this.triggerUnfavoriteEvent(this.label);
         } 
         e.stopPropagation();
     }.bind(this));
@@ -41,6 +56,8 @@ TagNavigationItem.prototype.initEvent = function() {
 TagNavigationItem.prototype.initWidgetEvents = function() {
     this.tick_event_ = new CustomEvent(this.EVENTS.TAG_NAVIGATION_ITEM_TICK);
     this.untick_event_ = new CustomEvent(this.EVENTS.TAG_NAVIGATION_ITEM_UNTICK);
+    this.favorite_event_ = new CustomEvent(this.EVENTS.TAG_NAVIGATION_ITEM_FAVORITE);
+    this.unfavorite_event_ = new CustomEvent(this.EVENTS.TAG_NAVIGATION_ITEM_UNFAVORITE);
 };
 
 TagNavigationItem.prototype.toggleTick = function() {
@@ -52,6 +69,19 @@ TagNavigationItem.prototype.toggleTick = function() {
     }
 };
 
+TagNavigationItem.prototype.setUnfavorite = function() {
+    var $element = $("#" + this.id);
+    $element.find("." + this.favorite_class).addClass('hide');
+    $element.find("." + this.not_favorite_class).removeClass('hide');
+};
+
+
+TagNavigationItem.prototype.setFavorite = function() {
+    var $element = $("#" + this.id);
+    $element.find("." + this.favorite_class).removeClass('hide');
+    $element.find("." + this.not_favorite_class).addClass('hide');
+}
+
 TagNavigationItem.prototype.triggerTickEvent = function(label) {
     $("#" + this.id).trigger(this.EVENTS.TAG_NAVIGATION_ITEM_TICK, [label]);
 };
@@ -59,6 +89,16 @@ TagNavigationItem.prototype.triggerTickEvent = function(label) {
 
 TagNavigationItem.prototype.triggerUntickEvent = function(label) {
      $("#" + this.id).trigger(this.EVENTS.TAG_NAVIGATION_ITEM_UNTICK, [label]);
+};
+
+
+TagNavigationItem.prototype.triggerFavoriteEvent = function(label) {
+    $("#" + this.id).trigger(this.EVENTS.TAG_NAVIGATION_ITEM_FAVORITE, [label]);
+};
+
+
+TagNavigationItem.prototype.triggerUnfavoriteEvent = function(label) {
+     $("#" + this.id).trigger(this.EVENTS.TAG_NAVIGATION_ITEM_UNFAVORITE, [label]);
 };
 
 TagNavigationItem.prototype.getLabel = function() {

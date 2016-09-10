@@ -5,8 +5,8 @@ use common\widgets\Loading;
 ?>
 
 <div id="<?= $id ?>" class="notification-list" data-id="<?= $id ?>">
-    <?= Html::button('<span class="glyphicon glyphicon-bell"></span>', ['class' => 'btn menu-btn notification-list-retrieve-button']) ?>
-    <div class="menu-btn notification-list-count hide"></div>
+    <?= Html::button('<span class="glyphicon glyphicon-bell"></span>', ['class' => 'btn notification-list-button notification-list-retrieve-button']) ?>
+    <div class="notification-list-button notification-list-count hide"></div>
     <div class="notification-list-area hide">
         <div class="notification-list-area-header">
             Notification

@@ -11,8 +11,10 @@
     background: lightcyan;
 }
 .notification-item-photo {
-    width:55px;
-    height: 45px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 45px;
+    max-height: 45px;
 }
 
 .notification-item-view {

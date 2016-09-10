@@ -50,3 +50,27 @@
 .notification-list-see-all-button:hover {
     text-decoration: underline;
 }
+
+.notification-list-button {
+    font-weight: bold;
+    color: gray;
+    background: white;
+    padding: 2px 16px;
+    margin-top: 4px;
+}
+
+.notification-list-button:hover {
+    background: red;
+    color: white;
+}
+
+
+@media (max-width: 450px) {
+    .notification-list {
+        width: 20%;
+    }
+    
+    .notification-list-button {
+        width: 100%;
+    }
+}

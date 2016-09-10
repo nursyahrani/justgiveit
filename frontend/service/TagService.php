@@ -16,7 +16,7 @@ class TagService {
         return $this->tag_dao->searchTag($query, $user_id);
     }
     
-    public function getTag($tag, $user_id) {
-        return $this->tag_dao->getTag($tag, $user_id);
+    public function getTag($tag, $user_id, $starred = null) {
+        return $this->tag_dao->getTag($tag, $user_id, $starred);
     }
 }

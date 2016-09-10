@@ -16,25 +16,4 @@ use yii\web\JsExpression;
         <?=  Html::textInput('search-bar', null, ['class' =>'search-bar-input search-bar-input-search',
             'placeholder' => 'Search Stuff']) ?>
     </div>
-    <div class="search-bar-city">
-        <?= Select2::widget([
-                'id' => $id . '-city',
-                'class' => 'post-list-city',
-                'name' => 'city',
-                'value' => $initial_location['id'],
-                'initValueText' => $initial_location['text'],
-                'options' => ['placeholder' => 'Search City ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,   
-                    'ajax' => [
-                        'url' => \yii\helpers\Url::to(['site/search-city']),
-                        'dataType' => 'json',
-                           'data' => new JsExpression('function(params) { return {query:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(topic_name) { return topic_name.text; }'),
-                    'templateSelection' => new JsExpression('function (topic_name) { return topic_name.text; }'),
-                ],
-            ]) ?>
-    </div>
 </div>

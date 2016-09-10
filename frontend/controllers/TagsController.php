@@ -45,12 +45,60 @@ class TagsController extends Controller
             return json_encode($data);
         }
         $tag_name = $_POST['label'];
-        $tick = isset($_POST['tick']) ? $_POST['tick'] : false;
+        $tick = filter_var($_POST['tick'], FILTER_VALIDATE_BOOLEAN);
+        $prepend_id = isset($_POST['prepend_id']) ? $_POST['prepend_id'] : 'tag';
         $user_id = Yii::$app->user->getId();
-        
-        $tag_item = $this->tag_service->getTag($tag_name, $user_id);
+        $starred = isset($_POST['starred']) ? $_POST['starred'] : null;
+        $tag_item = $this->tag_service->getTag($tag_name, $user_id, $starred);
         $data['status'] = 1;
-        $data['views'] = TagNavigationItem::widget(['id' => 'tag-' . $tag_item->getTagId(), 'tag' => $tag_item, 'tick' => $tick]);
+        $data['views'] = TagNavigationItem::widget(['id' => $prepend_id . '-' . $tag_item->getTagId(), 'tag' => $tag_item, 'tick' => $tick]);
         return json_encode($data);
     }
+    
+    public function actionRequestStarred() {
+        $data = array();
+        if(Yii::$app->user->isGuest || !isset($_POST['tag_name'])) {
+            $data['status'] = 0 ;
+            return json_encode($data);
+        }
+        
+        $model = new \frontend\models\RequestStarredTagForm;
+        $model->user_id = Yii::$app->user->getId();
+        $model->tag_name = $_POST['tag_name'];
+        if($model->create()) {
+            $data['status'] = 1;
+        } else {
+            
+            if($model->hasErrors()) {
+                $data['errors'] = $model->getErrors();
+            } else {
+                $data['errors'] = 'Confused :(';
+            }
+            $data['status'] = 0;
+        }
+        return json_encode($data);
+
+    }
+    
+    
+    public function actionCancelStarred() {
+        $data = array();
+        if(Yii::$app->user->isGuest || !isset($_POST['tag_name'])) {
+            $data['status'] = 0 ;
+            return json_encode($data);
+        }
+        
+        $model = new \frontend\models\CancelStarredTagForm();
+        $model->user_id = Yii::$app->user->getId();
+        $model->tag_name = $_POST['tag_name'];
+        if($model->delete()) {
+            $data['status'] = 1;
+        } else {
+            $data['status'] = 0;
+        }
+        return json_encode($data);
+
+    }
+        
+    
 }

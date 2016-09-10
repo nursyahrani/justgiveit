@@ -26,7 +26,7 @@ class TagDao {
                                     
                                     group by (post_tag.tag_name)
                                     order by (total_posts) desc
-                                    limit 3) most_popular_tag
+                                    limit 10) most_popular_tag
                                     left join starred_tag
                                     on most_popular_tag.tag_id = starred_tag.tag_id";
     
@@ -87,7 +87,7 @@ class TagDao {
         return $tag_list;
     }
     
-    public function getTag($tag, $user_id) {
+    public function getTag($tag, $user_id, $starred = null) {
         $result =  \Yii::$app->db
             ->createCommand(self::GET_TAG)
             ->bindParam(':user_id', $user_id)
@@ -97,6 +97,12 @@ class TagDao {
         $builder->setStarred($result['starred']);
         $builder->setTagId($result['tag_id']);
         $builder->setTagName($result['tag_name']);
+        
+        
+        //bad practice
+        if($starred !== null) {
+            $builder->setStarred($starred);
+        }
         return $builder->build();
     }
 }
