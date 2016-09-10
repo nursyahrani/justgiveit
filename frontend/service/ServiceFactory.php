@@ -20,6 +20,8 @@ class ServiceFactory {
     
     const NOTIFICATION_SERVICE = "notification_service";
     
+    const TAG_SERVICE = "tag_service";
+    
     public function getService($serviceType ){
 
         if($serviceType === self::HOME_SERVICE){
@@ -34,6 +36,8 @@ class ServiceFactory {
             return new PostCommentService();
         } else if($serviceType === self::NOTIFICATION_SERVICE) {
             return new NotificationService();
+        } else if($serviceType === self::TAG_SERVICE) {
+            return new TagService();
         }
         return null;
     }

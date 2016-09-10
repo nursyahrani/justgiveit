@@ -1,0 +1,44 @@
+.tag-navigation-item {
+    display: flex;
+    padding-top: 4px;
+    background: #dee;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.tag-navigation-item:hover {
+    opacity: 0.65;
+}
+
+.tag-navigation-item-label {
+        width: 100%;
+    font-weight: bold;
+    padding-left: 8px;
+    font-size: 16px;
+}
+
+.tag-navigation-item-unfavorite , .tag-navigation-item-favorite, .tag-navigation-item-tick {
+        background: none;
+    padding: 0;
+    border: 0;
+    font-size: 18px;
+    padding-left: 4px;
+    padding-right: 4px;
+    
+}
+
+.tag-navigation-item-unfavorite , .tag-navigation-item-favorite {
+    
+    color: orange;
+}
+
+.tag-navigation-item-tick {
+    
+    color: green;
+}
+
+.tag-navigation-item-button {
+    margin-top: 2px;
+    display: flex;
+}

@@ -82,12 +82,12 @@ PostList.prototype.setQueryAndLocation = function(query, location) {
 PostList.prototype.stringifyArray = function(items) {
     var stringify = '';
     var first = true;
-    for(var index in items) {
+    for(var i = 0; i < items.length; items++) {
         if(first) {
-            stringify += items[index];
+            stringify += items[i];
             first  = false;
         } else {
-            stringify += "," + items[index];
+            stringify += "," + items[i];
         }
     }
     

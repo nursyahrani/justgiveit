@@ -41,7 +41,16 @@ class NotificationVo implements Vo {
     private $extra_value;
     
     function getUrl() {
-        return CommonLibrary::replaceTemplate($this->url_template, [$this->url_key_value, $this->extra_value]);
+        $args= explode("%,%", $this->url_key_value);
+        //this is for bid reply
+        $new_args = array();
+        $new_args[] = $args[0];
+        $new_args[] = $this->extra_value;
+        
+        if(count($args) > 1) {
+            $new_args[] = $args[1];
+        }
+        return CommonLibrary::replaceTemplate($this->url_template, $new_args);
     }
     
     function getText() {

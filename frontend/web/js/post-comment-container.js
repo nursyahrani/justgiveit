@@ -30,7 +30,18 @@ PostCommentContainer.prototype.init = function() {
 PostCommentContainer.prototype.initEvents = function() {
     $(document).on('click', "#" + this.id, function(e) {
         if(e.target && $(e.target).hasClass(this.submit_comment_class)) {
+            if(CommonLibrary.isGuest()){
+                return false;
+            }
             this.submitComment();
+        }
+    }.bind(this));
+    
+    $(document).on('focus', '#' + this.id, function(e) {
+        if(e.target && $(e.target).attr("id") === this.text_area_id) {
+            if(CommonLibrary.isGuest()) {
+                return false;
+            }
         }
     }.bind(this));
     

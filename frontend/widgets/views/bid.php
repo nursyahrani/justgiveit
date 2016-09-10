@@ -4,7 +4,8 @@ use common\widgets\AutoHeightTextArea;
 use frontend\widgets\BidReplyContainer;
 ?>
 
-<div id="<?= $id ?>" class="bid" data-id="<?= $id ?>" data-bid_id="<?= $bid->getBidId() ?>">
+<div id="<?= $id ?>" class="bid" data-id="<?= $id ?>" data-bid_id="<?= $bid->getBidId() ?>" >
+    
     <div class="bid-header">
         <div class="bid-header-information">
             <?=  Html::img($bid->getCreatorPhotoPath(), ['class' => 'bid-creator-photo-path']) ?>

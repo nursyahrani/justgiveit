@@ -57,7 +57,7 @@ class NotificationBidReplyForm extends Model
             $notification = new Notification();
             $notification->notification_type_name = self::NOTIFICATION_TYPE_NAME;
             $notification->notification_verb_name = self::NOTIFICATION_VERB_NAME;
-            $notification->url_key_value = $this->post['stuff_id'];
+            $notification->url_key_value = $this->post['stuff_id'] . "%,%". $this->bid['bid_id'];
             if(!$notification->save()) {
                 return false;
             }
@@ -67,7 +67,7 @@ class NotificationBidReplyForm extends Model
         if(!$notification_extra_value) {
             $notification_extra_value = new NotificationExtraValue;
             $notification_extra_value->notification_type_name = self::NOTIFICATION_TYPE_NAME;
-            $notification_extra_value->url_key_value = $this->post['stuff_id'];
+            $notification_extra_value->url_key_value = $this->post['stuff_id'] . "%,%". $this->bid['bid_id'];
             $notification_extra_value->extra_value = CommonLibrary::cutText($this->post['title']);
             if(!$notification_extra_value->save()) {
                 return false;
@@ -114,7 +114,7 @@ class NotificationBidReplyForm extends Model
     
     private function getNotification() {
        return Notification::find()->where(['notification_type_name' => self::NOTIFICATION_TYPE_NAME, 'notification_verb_name' => self::NOTIFICATION_VERB_NAME,
-                                    'url_key_value' => $this->post['stuff_id']])->one();
+                                    'url_key_value' => $this->post['stuff_id']. '%,%'  . $this->bid['bid_id']])->one();
     }
     
     private function getNotificationReceiver($notification_id, $receiver_id) {
@@ -130,6 +130,7 @@ class NotificationBidReplyForm extends Model
     }
     
     private function getNotificationExtraValue() {
-        return NotificationExtraValue::find()->where(['notification_type_name' => self::NOTIFICATION_TYPE_NAME, 'url_key_value' => $this->post['stuff_id']])->one();
+        return NotificationExtraValue::find()->where(['notification_type_name' => self::NOTIFICATION_TYPE_NAME,
+            'url_key_value' => $this->post['stuff_id'] . '%,%' . $this->bid['bid_id']])->one();
     }
 }

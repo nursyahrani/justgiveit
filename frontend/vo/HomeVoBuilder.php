@@ -17,6 +17,10 @@ class HomeVoBuilder implements Builder {
     
     private $home_profile_view;
     
+    private $most_popular_tag;
+    
+    private $starred_tag_list;
+    
     private $current_user_location;
     
     public function build() {
@@ -27,6 +31,24 @@ class HomeVoBuilder implements Builder {
         return $this->home_profile_view;
     
         
+    }
+    
+    
+    
+    public function getStarredTagList() {
+        return $this->starred_tag_list;
+    }
+    
+    public function getMostPopularTag() {
+        return $this->most_popular_tag;
+    }
+    
+    public function  setStarredTagList($starred_tag_list) {
+        $this->starred_tag_list = $starred_tag_list;
+    }
+    
+    public function setMostPopularTag($most_popular_tag) {
+        $this->most_popular_tag = $most_popular_tag;
     }
     
     public function getCountNewNotification() {

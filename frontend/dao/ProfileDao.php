@@ -9,7 +9,22 @@ use frontend\vo\BidVoBuilder;
  */
 class ProfileDao {
     
-    const GET_PROFILE_INFO = "SELECT user.* from user where user.username = :username";
+    const GET_PROFILE_INFO = "SELECT with_total_favorite.*, count(post.poster_id) as total_stuffs from (
+                                                SELECT with_total_bid.*, count(*    ) as total_favorites from 
+                                            (SELECT user.*, user_email_authentication.email, 	                                                                         user_email_authentication.validated,
+                                                    count(bid.proposer_id) as total_bids 
+                                             from user 
+                                             left join bid on user.id = bid.proposer_id 
+                                             left join user_email_authentication on                                                                                        user_email_authentication.user_id = user.id
+                                             where user.username = :username
+                                            group by(bid.proposer_id)) with_total_bid
+                                        left join favorite 
+                                        on favorite.user_id = with_total_bid.id
+                                        group by(favorite.user_id)
+                                        ) with_total_favorite
+                                    left join post
+                                    on with_total_favorite.id = post.poster_id
+                                    group by(post.poster_id)";
     
     const GET_STUFF_LIST = "SELECT stuff_with_bid_info.*,
                                 count(for_total_favorites.user_id) as total_favorites,
@@ -42,22 +57,23 @@ class ProfileDao {
     const GET_BID_LIST = "SELECT bid.* , user.id, user.first_name, user.last_name, user.username, user.profile_pic 
             from bid, user where user.username = :username";
     
-    const GET_HOME_PROFILE_VIEW = "   SELECT with_total_favorite.*, count(with_total_favorite.id) as total_stuffs from (
-                                                SELECT with_total_bid.*, count(with_total_bid.id) as total_favorites from 
-                                            (SELECT user.*, user_email_authentication.email, user_email_authentication.validated,
-                                                    count(user.id) as total_bids 
+    const GET_HOME_PROFILE_VIEW = "   SELECT with_total_favorite.*, count(post.poster_id) as total_stuffs from (
+                                                SELECT with_total_bid.*, count(*    ) as total_favorites from 
+                                            (SELECT user.*, user_email_authentication.email, 	                                                                         user_email_authentication.validated,
+                                                    count(bid.proposer_id) as total_bids 
                                              from user 
                                              left join bid on user.id = bid.proposer_id 
-                                             left join user_email_authentication on user_email_authentication.user_id = user.id
+                                             left join user_email_authentication on                                                                                        user_email_authentication.user_id = user.id
                                              where user.id = :user_id
-                                            group by(user.id)) with_total_bid
+                                            group by(bid.proposer_id)) with_total_bid
                                         left join favorite 
                                         on favorite.user_id = with_total_bid.id
-                                        group by(with_total_bid.id)
+                                        group by(favorite.user_id)
                                         ) with_total_favorite
                                     left join post
                                     on with_total_favorite.id = post.poster_id
-                                    group by(with_total_favorite.id)";
+                                    group by(post.poster_id)";
+    
     private $post_dao;
     
     public function __construct() {
@@ -74,6 +90,9 @@ class ProfileDao {
         $builder->setFirstName($result['first_name']);
         $builder->setProfilePic($result['profile_pic']);
         $builder->setUserId( $result['id']);
+        $builder->setTotalBids($result['total_bids']);
+        $builder->setTotalFavorites($result['total_favorites']);
+        $builder->setTotalGives($result['total_stuffs']);
         $builder->setUsername($result['username']);
         return $builder;
     }

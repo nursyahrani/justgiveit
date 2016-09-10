@@ -1,0 +1,36 @@
+
+.profile-index {
+    background : white;
+    min-height: 400px;
+    margin-top: 42px;
+}
+
+.profile-header {
+    display: flex;
+    padding: 8px;
+    overflow: hidden;
+    border-bottom: 1px solid lightgray;
+}
+
+.profile-data {
+    overflow: hidden;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: #efefef;
+}
+
+.profile-header-profile-pic {
+    width: 80px;
+    height: 80px;
+}
+
+.profile-header-information {
+    margin-left: 24px;
+    color: gray;
+}
+
+.profile-header-information-full-name {
+    
+    font-size: 18px;
+}
+

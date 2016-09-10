@@ -21,14 +21,29 @@ class HomeVo implements Vo {
     
     private $current_location;
     
+    private $starred_tag_list;
+    
+    private $most_popular_tags;
+    
     function __construct(HomeVoBuilder $builder) {
         $this->post_list = $builder->getPostList();
         $this->most_popular_post = $builder->getMostPopularPost();
         $this->home_profile_view = $builder->getHomeProfileView();
         $this->current_location = $builder->getCurrentUserLocation();
         $this->count_new_notification = $builder->getCountNewNotification();
+        $this->starred_tag_list = $builder->getStarredTagList();
+        $this->most_popular_tag = $builder->getMostPopularTag();
     }
     
+    public function getStarredTagList() {
+        return $this->starred_tag_list;
+    }
+    
+    public function getMostPopularTags() {
+        return $this->most_popular_tag;
+    }
+
+
     public function getPostList() {
         return $this->post_list;
     }

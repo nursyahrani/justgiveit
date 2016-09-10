@@ -7,15 +7,54 @@ and open the template in the editor.
     Created on : 2 Sep, 2016, 8:10:01 PM
     Author     : user
 */
+
 .tag-navigation {
-    padding: 8px;
+    padding-top: 20px;
+    margin-bottom: 10px;
 }
 
-.tag-navigation-item {
-    padding-left: 16px;
+.tag-navigation-starred {
+    margin-top: 8px;
 }
 
 .tag-navigation-label {
     font-size: 16px;
     color: gray;
+
+}
+
+.tag-navigation-search {
+    margin-bottom: 10px;
+    width: 100%;
+    color: gray;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-radius: 4px;
+    border: 2px solid lightblue;
+}
+
+.tag-navigation-header {
+    display:  flex;
+}
+
+.tag-navigation-label {
+    width: 100%;
+}
+
+.tag-navigation-collapse {
+        background: none;
+    border: 0;
+    padding: 0;
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 18px;
+    color: gray;
+        
+}
+
+.tag-navigation-collapse:hover {
+    background: lightgray;
+    color: black;
 }

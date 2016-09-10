@@ -70,13 +70,19 @@ PostSection.prototype.initEvents = function() {
     
     
     this.$bid_button.click(function(e) {
-        var valid = this.validateInClient();
+        if(CommonLibrary.isGuest()) {
+            return false;
+        }
+        var valid = this.   validateInClient();
         if(valid) {
             this.sendProposal();
         }
     }.bind(this));
     
     this.$request_favorite_button.click(function(e) {
+        if(CommonLibrary.isGuest()) {
+            return false;
+        }
         $.ajax({
           url : $("#base-url").val() + '/post/request-favorite',
           type: 'post',
@@ -106,6 +112,12 @@ PostSection.prototype.initEvents = function() {
           }
 
         });   
+    }.bind(this));
+    
+    this.$text_area.on('focus',function(e) {
+        if(CommonLibrary.isGuest()) {
+            return false;
+        }
     }.bind(this));
 };
 

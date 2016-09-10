@@ -10,6 +10,7 @@ use frontend\dao\HomeDao;
 use frontend\vo\HomeVoBuilder;
 use frontend\dao\ProfileDao;
 use frontend\dao\NotificationDao;
+use frontend\dao\TagDao;
 class HomeService {
     
     public $home_dao;
@@ -17,20 +18,22 @@ class HomeService {
     private $profile_dao;
 
     private $notification_dao;
-    function __construct() {
+    
+    private $tag_dao;
+    
+    public function __construct() {
         $this->home_dao = new HomeDao();
         $this->profile_dao  = new ProfileDao();
         $this->notification_dao = new NotificationDao();
+        $this->tag_dao = new TagDao;
     }
     
     
     public function getHomeInfo($current_user_id, HomeVoBuilder $builder ) {
-        $builder->setCurrentUserLocation(
-                $this->home_dao->getCurrentUserLocationTextForSearch($current_user_id));
         $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id'], ''));
-        $builder->setMostPopularPost($this->home_dao->getMostPopularStuff());
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
-//        $builder->setCountNewNotification($this->notification_dao->getCountNotification($current_user_id));
+        $builder->setMostPopularTag($this->tag_dao->getMostPopularTag($current_user_id));
+        $builder->setStarredTagList($this->tag_dao->getStarredTag($current_user_id));
         return $builder->build();
     }
     

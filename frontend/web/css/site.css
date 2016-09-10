@@ -263,25 +263,6 @@ a.desc:after {
     color: white;
 }
 
-.profile-index {
-    background : white;
-    min-height: 400px;
-    margin-top: 75px;
-}
-
-.profile-header {
-    display: block;
-    padding: 8px;
-    overflow: hidden;
-    border-bottom: 1px solid lightgray;
-}
-
-.profile-data {
-    overflow: hidden;
-    padding-top: 8px;
-    padding-bottom: 8px;
-}
-
 .menu-btn {
     font-weight: bold;
     color: gray;
@@ -455,12 +436,15 @@ a.desc:after {
 }
 
 .site-left-side {
+
     max-width: 250px;
     min-width: 250px;
-    padding:8px;
+    padding-left: 8px;
+    padding-right: 8px;
     height: 100%;
     background: white;
     position: fixed;
+    border-radius: 8px;    
 }
 
 .menu-bar {

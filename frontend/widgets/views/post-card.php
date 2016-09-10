@@ -34,19 +34,11 @@
         <?= Html::a($post_title, $post_link, ['class' => 'post-card-name'])     ?>
        
         <div class="post-card-button">
-            <div class="post-card-total-bid">
-                <?= $post_vo->getTotalBids() ?>
-            </div>
-            <span class="glyphicon glyphicon-envelope post-card-logo <?= ($post_vo->hasBid()) ? 'post-card-button-red' : '' ?>" >
-                
+            <span class="glyphicon glyphicon-heart post-card-logo <?= ($post_vo->hasFavorited()) ? 'post-card-button-red' : '' ?>" >
             </span>
             <div class="post-card-total-favorite">
                 <?= $post_vo->getTotalFavorites() ?>
             </div>
-            
-            <span class="glyphicon glyphicon-heart post-card-logo <?= ($post_vo->hasFavorited()) ? 'post-card-button-red' : '' ?>" >
-                
-            </span>
             
             <div class="post-card-right">
                 <?= $post_vo->getPostTags()[0] ?>

@@ -130,19 +130,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $check_ip = new \common\models\CheckIp();
-        $check_ip->ip = $ip  = !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-        if($check_ip->save()) {
-            
-        }
         if(isset($_GET['tag'])) {
             $tag = $_GET['tag'];
             $home_vo = $this->home_service->getHomeInfoWithTag(Yii::$app->user->getId(), $tag, new HomeVoBuilder());
-             
         } else {
             $home_vo = $this->home_service->getHomeInfo(Yii::$app->user->getId(), new HomeVoBuilder());
         }
-
         return $this->render('index', ['home_vo' => $home_vo]);
     }
     

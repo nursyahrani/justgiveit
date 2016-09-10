@@ -53,9 +53,6 @@ use yii\captcha\Captcha;
         </div>
     </div>
     <?php } else { ?>
-    <div class="email-registration-validated">
-        Email Validated: <?= $profile->getEmail() ?>
-    </div>
     <?php } ?>
     
 </div>

@@ -1,21 +1,46 @@
 <?php
-
+use frontend\widgets\TagNavigationItem;
 use yii\helpers\Html;
 $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
 ?>
 
 <div id="<?= $id ?>" class="tag-navigation" data-id="<?= $id ?>">
-    <div class="tag-navigation-label">
-        Navigation
+    <?= Html::textInput('search-tag', null, ['class' => 'tag-navigation-search', 'placeholder' => 'Search Product Type..']) ?>
+    <div class="tag-navigation-starred">
+        <div class="tag-navigation-header">
+            <div class="tag-navigation-label">
+                <span class="glyphicon glyphicon-star-empty"></span> Starred
+            </div>
+            <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-collapse tag-navigation-starred-collapse', 'align' => 'right']) ?>
+        </div>
+        <div class="tag-navigation-starred-area">
+            <?php foreach($starred_tags as $tag) { ?>
+                <?= TagNavigationItem::widget(['id' => 'most-popular-tags-' . $tag->getTagId(), 'tag' => $tag]) ?>
+            <?php  } ?>
+        </div>
     </div>
     <div class="tag-navigation-all">
-        <?=  Html::checkbox('All', false, ['class' => 'tag-navigation-all-checkbox', 'data-item'   => 'All' ]) ?>
-        <span class="tag-navigation-all-label"> All</span>
-    </div>
-    <?php foreach($items as $item) { ?>
-        <div class="tag-navigation-item">
-            <?=  Html::checkbox($item, false, ['class' => 'tag-navigation-item-checkbox', 'data-item'   => $item ]) ?>
-            <span class="tag-navigation-item-label"> <?= $item ?></span>
+        <div class="tag-navigation-header">
+            <div class="tag-navigation-label">
+                <span class="glyphicon glyphicon-list"></span> All
+
+            </div>
+            <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-collapse tag-navigation-all-collapse', 'align' => 'right']) ?>
         </div>
-    <?php } ?>
+        <div class="tag-navigation-all-area">
+            <?php foreach($most_popular_tags as $tag) { ?>
+                <?= TagNavigationItem::widget(['id' => 'most-popular-tags-' . $tag->getTagId(), 'tag' => $tag]) ?>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="tag-navigation-searched hide">
+        <div class="tag-navigation-header">
+            <div class="tag-navigation-label">
+                <span class="glyphicon glyphicon-search"></span> Search
+            </div>
+        </div>
+        <div class="tag-navigation-searched-area">
+            
+        </div>
+    </div>
 </div>

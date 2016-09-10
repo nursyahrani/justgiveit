@@ -22,6 +22,7 @@ class AppAsset extends AssetBundle
         'css/post-comment.css',
         'css/create-post.css',
         'css/post-delete.css',
+        'css/profile.css',
         'css/post.css',
         'css/site.css',
     ];
@@ -52,6 +53,7 @@ class AppAsset extends AssetBundle
         'frontend/web/js/post-list.js',
         'frontend/web/js/post.js',
         'frontend/web/js/create-post.js',
+        'frontend/web/js/tag-navigation-item.js',
         'frontend/web/js/tag-navigation.js',
         'frontend/web/js/email-registration.js',
         'frontend/web/js/site.js',

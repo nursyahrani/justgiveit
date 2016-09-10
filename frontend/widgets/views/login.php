@@ -21,7 +21,6 @@ use kartik\select2\Select2;
             <?= Html::button('Forgot Password?', ['class' => 'login-button-like-link login-login-forgot-password']) ?>
             <?= Html::button('Login', ['class' => 'login-button login-login-button', 'align' => 'right']) ?>
         </div>
-        
         <div class="login-auth-two">
             <?= Html::button('Register with Email', ['class' => 'btn btn-default login-login-register-email', 'align' => 'left']) ?>
             <?= Html::button('Continue with Facebook', ['class' => 'btn btn-primary login-continue-with-facebook']) ?>
