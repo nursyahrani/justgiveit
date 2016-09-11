@@ -11,7 +11,7 @@ var PostCard = function($root) {
     this.total_favorite_class = null;
     this.proposal_box_modal_class = null;
     this.proposal_box_class = null;
-    
+    this.post_view_class = null;
     this.$image_view_editor = null;
     this.image_view_editor = null;
     this.proposal_box = null;
@@ -28,7 +28,7 @@ PostCard.prototype.init = function () {
     this.total_favorite_class = 'post-card-total-favorite';
     this.proposal_box_class = 'home-proposal-box-container';
     this.image_view_editor_id = this.id + "-image-view"; 
-    
+    this.post_view_class = "post-card-view";
     this.$image_view_editor = this.$root.find("#" + this.image_view_editor_id);
     this.image_view_editor = new ImageViewEditor(this.$image_view_editor);
     this.$proposal_box = this.$root.find("." + this.proposal_box_class);
@@ -51,6 +51,10 @@ PostCard.prototype.initEvents = function() {
         } else if(e.target && $(e.target).hasClass(this.favorite_button_class)) {
             this.clickFavoriteButton_();
         } 
+        
+        if(e.target && $(e.target).closest("." + this.post_view_class).length !== 0) {
+            window.location.href = this.post_link;
+        }
     }.bind(this));
     
     

@@ -51,11 +51,17 @@ class UserEmailAuthentication extends ActiveRecord
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
+        $user_email = self::findOne(['password_reset_token' => $token]);
+        if(!$user_email) {
+            return false;
+        }
+        $user = User::find()->where(['id' => $user_email['user_id']])->one();
+        if($user['status'] !== self::STATUS_ACTIVE) {
+            return false;
+        }
+        else {
+            return $user_email;
+        }
     }
 
     /**
