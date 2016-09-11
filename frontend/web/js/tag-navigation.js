@@ -103,9 +103,13 @@ TagNavigation.prototype.initEvents = function() {
     
     $(document).on('click',  function(e) {
         if(e.target && ($(e.target).closest("#" + this.id).length === 0)) {
-            this.$searched.addClass('site-hide');
-            this.$all.removeClass('site-hide');
-            this.$starred.removeClass('site-hide');
+            if(window.innerWidth < 890) {
+                
+            } else {
+                this.$searched.addClass('site-hide');
+                this.$all.removeClass('site-hide');
+                this.$starred.removeClass('site-hide');   
+            }
         }
     }.bind(this));
     

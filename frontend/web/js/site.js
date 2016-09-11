@@ -13,6 +13,7 @@ var Site = function($root) {
     
     this.$site_left_side_remove = null;
     this.$site_left_side = null;
+    this.$site_left_side_wrapper = null;
     this.$open_left_side_button = null;
     this.init();
     this.initEvents();
@@ -36,12 +37,11 @@ Site.prototype.init = function() {
     this.$email_registration = this.$root.find('#email-registration');
     this.email_registration = new EmailRegistration(this.$email_registration);
 
+    this.$site_left_side_wrapper = this.$root.find('.site-left-side-wrapper');
     this.$site_left_side = this.$root.find('.site-left-side');
     this.$site_left_side_remove = this.$root.find('.site-left-side-remove');
     this.$open_left_side_button = this.$root.find('.site-post-area-open-left-side');
-    if(!(this.$site_left_side.css('display') === 'none')) {
-        this.$open_left_side_button.addClass('site-hide');
-    } 
+    
     
 };
 
@@ -67,18 +67,30 @@ Site.prototype.initEvents = function() {
         this.$open_left_side_button.removeClass('site-hide')
         this.$open_left_side_button.addClass('inline');
         this.$site_left_side.addClass('site-hide');
-        this.$open_left_side_button.removeClass('site-post-area-open-left-side-dynamic');
+        this.$site_left_side_wrapper.addClass('site-hide');
         this.$site_post_area.removeClass('site-post-area-padding');
     }.bind(this));
     
     this.$open_left_side_button.click(function(e) {
-        this.$open_left_side_button.addClass('site-hide');
-        this.$site_left_side.removeClass('site-hide');
-        this.$open_left_side_button.addClass('site-post-area-open-left-side-dynamic');
+        this.$site_left_side.hide(100);
+        this.$site_left_side.show(100);
         this.$site_left_side.removeClass('hide-right-side');
+        this.$site_left_side_wrapper.removeClass('site-hide');
+        
         this.$site_post_area.addClass('site-post-area-padding');
     }.bind(this));
-}
+    
+    
+    $(document).on('click',   function(e) {
+        if(e.target && ($(e.target).closest("#tag-navigation").length === 0)) {
+            if(window.innerWidth < 890 && $(e.target).closest(".site-post-area-open-left-side" ).length === 0) {
+                this.$site_left_side_wrapper.addClass('site-hide');
+
+                this.$site_post_area.removeClass('site-post-area-padding');
+            } 
+        }
+    }.bind(this));
+};
     
 
 

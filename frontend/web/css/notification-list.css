@@ -53,8 +53,8 @@
 
 .notification-list-button {
     font-weight: bold;
-    color: gray;
-    background: white;
+    color: white;
+    background: none;
     padding: 2px 16px;
     margin-top: 4px;
 }

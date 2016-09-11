@@ -12,23 +12,27 @@ $post_list_provider = $home_vo->getPostList();
 $this->title = 'Just Give it';
 ?>
 <div class="site-index">
-    <div class='site-view'>
-        <div class="site-left-side hide-right-side">
-            <div class="site-left-side-header">
-                <?= Html::button('<span class="glyphicon glyphicon-remove"></span>', ['class' => 'site-left-side-remove']) ?>
-            </div>
-            <?= \frontend\widgets\EmailRegistration::widget(['id' => 'email-registration', 'profile' => $home_vo->getHomeProfileView()]) ?>
-            <?= TagNavigation::widget(['id' => 'tag-navigation', 
-                'most_popular_tags' => $home_vo->getMostPopularTags(), 
-                'starred_tags' => $home_vo->getStarredTagList()]) ?>
-            
-        </div>
-        <div class='site-post-area site-post-area-padding'>
-            <div class="site-post-area-header">
+               <div class="site-post-area-header">
                 <?= Html::button('<span class="glyphicon glyphicon-open"></span>', 
                         ['class' => 'btn btn-default site-post-area-open-left-side-dynamic site-post-area-open-left-side']) ?>
                 <?= SearchBar::widget(['id' => 'site-search-bar', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
             </div>
+ 
+    <div class='site-view'>
+ 
+        <div class="site-left-side-wrapper">
+            <div class="site-left-side hide-right-side">
+                <div class="site-left-side-header">
+                    <?= Html::button('<span class="glyphicon glyphicon-remove"></span>', ['class' => 'site-left-side-remove']) ?>
+                </div>
+                <?= \frontend\widgets\EmailRegistration::widget(['id' => 'email-registration', 'profile' => $home_vo->getHomeProfileView()]) ?>
+                <?= TagNavigation::widget(['id' => 'tag-navigation', 
+                    'most_popular_tags' => $home_vo->getMostPopularTags(), 
+                    'starred_tags' => $home_vo->getStarredTagList()]) ?>
+
+            </div>
+        </div>
+        <div class='site-post-area site-post-area-padding'>
             <?=  PostList::widget(['id' => 'post-container', 
                                     'posts' => $home_vo->getPostList(), 
                                     'current_location' => $home_vo->getCurrentUserLocation()['id']]) ?>
