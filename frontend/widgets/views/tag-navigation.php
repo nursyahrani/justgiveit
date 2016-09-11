@@ -12,7 +12,7 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
                 <span class="glyphicon glyphicon-star-empty"></span> Starred
             </div>
             <?= Html::button('<span class="glyphicon glyphicon-plus"></span>', 
-                    ['class' => 'hide tag-navigation-header-button tag-navigation-starred-expand', 
+                    ['class' => 'site-hide tag-navigation-header-button tag-navigation-starred-expand', 
                 'align' => 'right']) ?>
             <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-header-button tag-navigation-starred-collapse', 'align' => 'right']) ?>
         </div>
@@ -29,7 +29,7 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
 
             </div>
             <?= Html::button('<span class="glyphicon glyphicon-plus"></span>', 
-                    ['class' => 'hide tag-navigation-header-button tag-navigation-all-expand', 'align' => 'right']) ?>
+                    ['class' => 'site-hide tag-navigation-header-button tag-navigation-all-expand', 'align' => 'right']) ?>
             <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-header-button tag-navigation-all-collapse', 'align' => 'right']) ?>
         
         </div>
@@ -39,7 +39,7 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
             <?php } ?>
         </div>
     </div>
-    <div class="tag-navigation-searched hide">
+    <div class="tag-navigation-searched site-hide">
         <div class="tag-navigation-header">
             <div class="tag-navigation-label">
                 <span class="glyphicon glyphicon-search"></span> Search

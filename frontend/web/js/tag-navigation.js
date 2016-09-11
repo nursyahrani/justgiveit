@@ -45,7 +45,7 @@ TagNavigation.prototype.init = function() {
     this.$tag_navigation_search = this.$root.find('.tag-navigation-search');
     this.$starred_item_area = this.$root.find('.tag-navigation-starred-area');
     this.$all_item_area = this.$root.find('.tag-navigation-all-area');
-    this.$searched_item_area = this.$root.find('.tag-navigation-searched');
+    this.$searched_item_area = this.$root.find('.tag-navigation-searched-area');
     
     this.$starred = this.$root.find('.tag-navigation-starred');
     this.$all = this.$root.find('.tag-navigation-all');
@@ -64,40 +64,48 @@ TagNavigation.prototype.init = function() {
 
 TagNavigation.prototype.initEvents = function() {
     this.$starred_collapse.click(function(e) {
-        this.$starred_item_area.addClass('hide');
-        this.$starred_expand.removeClass('hide');
-        this.$starred_collapse.addClass('hide');
+        this.$starred_item_area.addClass('site-hide');
+        this.$starred_expand.removeClass('site-hide');
+        this.$starred_collapse.addClass('site-hide');
     }.bind(this));
     
     this.$starred_expand.click(function(e) {
-        this.$starred_item_area.removeClass('hide');
-        this.$starred_collapse.removeClass('hide');
-        this.$starred_expand.addClass('hide');
+        this.$starred_item_area.removeClass('site-hide');
+        this.$starred_collapse.removeClass('site-hide');
+        this.$starred_expand.addClass('site-hide');
     }.bind(this));
     
     this.$all_collapse.click(function(e) {
-        this.$all_item_area.addClass('hide');
-        this.$all_expand.removeClass('hide');
-        this.$all_collapse.addClass('hide');
+        this.$all_item_area.addClass('site-hide');
+        this.$all_expand.removeClass('site-hide');
+        this.$all_collapse.addClass('site-hide');
     }.bind(this));
     
     this.$all_expand.click(function(e) {
-        this.$all_item_area.removeClass('hide');
-        this.$all_collapse.removeClass('hide');
-        this.$all_expand.addClass('hide');
+        this.$all_item_area.removeClass('site-hide');
+        this.$all_collapse.removeClass('site-hide');
+        this.$all_expand.addClass('site-hide');
     }.bind(this));
     
     this.$tag_navigation_search.on('input', function(e) {
         var searched_value = this.searchBarValue();
         if(searched_value === '' || searched_value === null) {
-            this.$searched.addClass('hide');
-            this.$all.removeClass('hide');
-            this.$starred.removeClass('hide');
+            this.$searched.addClass('site-hide');
+            this.$all.removeClass('site-hide');
+            this.$starred.removeClass('site-hide');
         } else {
-            this.$searched.removeClass('hide');
-            this.$all.addClass('hide');
-            this.$starred.addClass('hide');
+            this.$searched.removeClass('site-hide');
+            this.$all.addClass('site-hide');
+            this.$starred.addClass('site-hide');
             this.searchTag(searched_value);
+        }
+    }.bind(this));
+    
+    $(document).on('click',  function(e) {
+        if(e.target && ($(e.target).closest("#" + this.id).length === 0)) {
+            this.$searched.addClass('site-hide');
+            this.$all.removeClass('site-hide');
+            this.$starred.removeClass('site-hide');
         }
     }.bind(this));
     

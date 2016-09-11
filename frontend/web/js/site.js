@@ -40,7 +40,7 @@ Site.prototype.init = function() {
     this.$site_left_side_remove = this.$root.find('.site-left-side-remove');
     this.$open_left_side_button = this.$root.find('.site-post-area-open-left-side');
     if(!(this.$site_left_side.css('display') === 'none')) {
-        this.$open_left_side_button.addClass('hide');
+        this.$open_left_side_button.addClass('site-hide');
     } 
     
 };
@@ -64,15 +64,17 @@ Site.prototype.initEvents = function() {
     
     //bad practice, 250 should be stored somewhere
     this.$site_left_side_remove.click(function(e) {
-        this.$open_left_side_button.removeClass('hide')
+        this.$open_left_side_button.removeClass('site-hide')
         this.$open_left_side_button.addClass('inline');
-        this.$site_left_side.addClass('hide');
+        this.$site_left_side.addClass('site-hide');
+        this.$open_left_side_button.removeClass('site-post-area-open-left-side-dynamic');
         this.$site_post_area.removeClass('site-post-area-padding');
     }.bind(this));
     
     this.$open_left_side_button.click(function(e) {
-        this.$open_left_side_button.addClass('hide');
-        this.$site_left_side.removeClass('hide');
+        this.$open_left_side_button.addClass('site-hide');
+        this.$site_left_side.removeClass('site-hide');
+        this.$open_left_side_button.addClass('site-post-area-open-left-side-dynamic');
         this.$site_left_side.removeClass('hide-right-side');
         this.$site_post_area.addClass('site-post-area-padding');
     }.bind(this));

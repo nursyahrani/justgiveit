@@ -25,7 +25,8 @@ $this->title = 'Just Give it';
         </div>
         <div class='site-post-area site-post-area-padding'>
             <div class="site-post-area-header">
-                <?= Html::button('<span class="glyphicon glyphicon-open"></span>', ['class' => 'btn btn-default site-post-area-open-left-side']) ?>
+                <?= Html::button('<span class="glyphicon glyphicon-open"></span>', 
+                        ['class' => 'btn btn-default site-post-area-open-left-side-dynamic site-post-area-open-left-side']) ?>
                 <?= SearchBar::widget(['id' => 'site-search-bar', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
             </div>
             <?=  PostList::widget(['id' => 'post-container', 

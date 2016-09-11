@@ -78,6 +78,10 @@ body {
     background-color: transparent;
 }
 
+.site-hide {
+    display: none;
+}
+
 .jumbotron .btn {
     font-size: 21px;
     padding: 14px 24px;
@@ -204,7 +208,27 @@ a.desc:after {
         
     }
 
+ 
+
+@media (max-width: 890px ) {
+    .hide-right-side {
+        display: none;
+        
+    }
     
+    .site-post-area {
+        width :100%;
+        
+        padding:0px;
+        padding-top: 12px;
+    }
+    
+    .site-post-area-open-left-side-dynamic {
+        display: inline;
+    }
+    
+}
+   
 @media (max-width: 768px) {
     .give-stuff-modal-button-section {
         display:block;
@@ -311,20 +335,7 @@ a.desc:after {
 
 
 
-@media (max-width: 890px ) {
-    .hide-right-side {
-        display: none;
-        
-    }
-    
-    .site-post-area {
-        width :100%;
-        
-        padding:0px;
-        padding-top: 12px;
-    }
-    
-}
+
 
 @media (max-width: 545px) {
     .home-post-list {
@@ -380,10 +391,6 @@ a.desc:after {
     border-radius: 4px;
     font-weight: bold;
     border: 0;
-}
-
-.hide {
-    display: none;
 }
 
 .site-big-banner {

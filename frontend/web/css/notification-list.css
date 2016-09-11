@@ -76,4 +76,8 @@
     .notification-list-button {
         width: 100%;
     }
+    
+    .notification-list-area {
+        width: 100%;
+    }
 }
