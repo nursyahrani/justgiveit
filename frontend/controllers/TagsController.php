@@ -94,6 +94,7 @@ class TagsController extends Controller
         if($model->delete()) {
             $data['status'] = 1;
         } else {
+            
             $data['status'] = 0;
         }
         return json_encode($data);

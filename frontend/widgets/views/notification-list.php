@@ -16,5 +16,8 @@ use common\widgets\Loading;
         </div>
         <div class='notification-item-button'>
         </div>
+        <div class="notification-list-no-more-notification hide">
+            <span class="glyphicon glyphicon-bell"></span> &nbsp; No more notifications to show
+        </div>
     </div>
 </div>

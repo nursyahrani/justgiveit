@@ -64,6 +64,9 @@
     color: white;
 }
 
+.notification-list-no-more-notification {
+    padding: 8px;
+}
 
 @media (max-width: 450px) {
     .notification-list {

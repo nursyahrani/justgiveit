@@ -10,7 +10,7 @@ var NotificationList = function($root) {
     this.$notif_count = null;
     this.has_retrieved = false;
     this.$see_all_button = null;
-
+    this.$no_more=  null;
     this.notification_items = [];
     this.init();
     this.initEvents();
@@ -22,6 +22,7 @@ NotificationList.prototype.init = function() {
     this.$retrieve_button = this.$root.find('.notification-list-retrieve-button');
     this.$notif_list_area = this.$root.find('.notification-list-area');
     this.$notif_list_items_area = this.$root.find('.notification-list-items-area');
+    this.$no_more = this.$root.find('.notification-list-no-more-notification'); 
     this.$notif_count = this.$root.find('.notification-list-count');
     this.$see_all_button = this.$root.find('.notification-list-see-all-button');
     this.countNewNotif();
@@ -68,10 +69,14 @@ NotificationList.prototype.retrieveNotification = function() {
         success: function(data) {
             var parsed = JSON.parse(data);
             if(parsed['status'] === 1) {
-                this.$notif_list_items_area.html(parsed['views']);
-                $(parsed['views']).filter('.notification-item').each(function(index, value){
-                    this.notification_items.push(new NotificationItem($(value)));
-                }.bind(this));
+                if(parsed['views'] === '' || parsed['views'] === null) {
+                    this.$no_more.removeClass('hide');
+                } else {
+                    this.$notif_list_items_area.html(parsed['views']);
+                    $(parsed['views']).filter('.notification-item').each(function(index, value){
+                        this.notification_items.push(new NotificationItem($(value)));
+                    }.bind(this));
+                }
             }
             this.retrieve_loading.hide();
         },

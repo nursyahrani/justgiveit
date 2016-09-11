@@ -28,7 +28,7 @@ class TagDao {
                                     order by (total_posts) desc
                                     limit 10) most_popular_tag
                                     left join starred_tag
-                                    on most_popular_tag.tag_id = starred_tag.tag_id";
+                                    on most_popular_tag.tag_id = starred_tag.tag_id and starred_tag.user_id = :user_id";
     
     const GET_STARRED_TAG = "SELECT tag.tag_id, tag.tag_name
                             from starred_tag, tag

@@ -10,7 +10,7 @@ and open the template in the editor.
 
 .search-bar {
     text-align: center;
-    margin-bottom: 10px;
+    display: inline;
 }   
 
 

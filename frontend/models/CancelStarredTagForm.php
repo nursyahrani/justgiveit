@@ -29,9 +29,9 @@ class CancelStarredTagForm extends Model
      *
      * @return boolean if password was reset.
      */
-    public function create()
+    public function delete()
     {
-        if($this->validate()) {
+        if(!$this->validate()) {
             return false;
         }
         $tag_id = \common\models\Tag::find()->where(['tag_name' => $this->tag_name])->one()['tag_id'];
