@@ -56,7 +56,7 @@ PostSection.prototype.initEvents = function() {
     }.bind(this));
 
     this.$delete_button.click(function(e) {
-        krajeeDialog.confirm('Are you sure you want to delete this post?', function(out){
+        ConfirmationModal.show('Are you sure you want to delete this post?', function(out){
             if(out) {
                 this.deletePost();
             }

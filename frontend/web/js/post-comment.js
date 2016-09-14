@@ -36,7 +36,7 @@ PostComment.prototype.init = function() {
 PostComment.prototype.initEvents = function() {
     $(document).on('click', "#" + this.id, function(e) {
         if(e.target && $(e.target).hasClass(this.delete_class)) {
-            krajeeDialog.confirm('Are you sure you want to delete this comment?', function(out){
+            ConfirmationModal.show('Are you sure you want to delete this comment?', function(out){
                 if(out) {
                     this.deleteComment();
                 }

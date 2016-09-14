@@ -14,11 +14,4 @@ class ShippingPreferenceAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-    public $css = [
-        'frontend/web/css/shipping-preference-checkbox.css'
-    ];
-    public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-    ];
 }

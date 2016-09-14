@@ -13,6 +13,8 @@ class Loading extends Widget
     
     public $id;
     
+    public $align = '';
+    
     public function init()
     {
         parent::init();
@@ -26,7 +28,7 @@ class Loading extends Widget
 
     public function run()
     {
-        return $this->render('loading', ['id' => $this->id]);
+        return $this->render('loading', ['id' => $this->id, 'align' => $this->align]);
     }
     
 }

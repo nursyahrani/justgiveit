@@ -20,11 +20,6 @@
         "yiisoft/yii2-swiftmailer": "*",
         "ezyang/htmlpurifier": "*",
         "kartik-v/yii2-widget-select2": "@dev",
-        "bupy7/yii2-widget-cropbox": "*",
-        "yiidoc/yii2-redactor": "*",
-        "kop/yii2-scroll-pager": "dev-master",
-        "kartik-v/yii2-widget-fileinput": "@dev",
-        "kartik-v/yii2-dialog": "*",
         "kartik-v/yii2-social": "@dev",
         "yiisoft/yii2-authclient": "*",
         "kartik-v/yii2-tabs-x": "*"

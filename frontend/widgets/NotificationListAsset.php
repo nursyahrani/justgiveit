@@ -14,9 +14,6 @@ class NotificationListAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-    public $css = [
-        'frontend/web/css/notification-list.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

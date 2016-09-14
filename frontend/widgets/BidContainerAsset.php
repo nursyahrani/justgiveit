@@ -14,11 +14,6 @@ class BidContainerAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-
-
-    public $css = [
-        'frontend/web/css/bid-container.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

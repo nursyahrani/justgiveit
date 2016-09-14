@@ -19,9 +19,6 @@ class AutoHeightTextAreaAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
 
-    public $css = [
-        'frontend/web/css/auto-height-text-area.css',
-    ];
     
     public $depends = [
         'yii\web\YiiAsset',

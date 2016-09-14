@@ -74,7 +74,7 @@ Site.prototype.initEvents = function() {
     this.$open_left_side_button.click(function(e) {
         this.$site_left_side.hide(100);
         this.$site_left_side.show(100);
-        this.$site_left_side.removeClass('hide-right-side');
+        this.$site_left_side_wrapper.removeClass('hide-right-side');
         this.$site_left_side_wrapper.removeClass('site-hide');
         
         this.$site_post_area.addClass('site-post-area-padding');

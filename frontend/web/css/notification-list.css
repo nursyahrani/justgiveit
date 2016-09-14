@@ -68,6 +68,11 @@
     padding: 8px;
 }
 
+.notification-list-items-area {
+    height: 320px;
+    overflow-y: scroll;
+}
+
 @media (max-width: 450px) {
     .notification-list {
         width: 20%;

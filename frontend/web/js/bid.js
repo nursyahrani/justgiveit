@@ -64,7 +64,7 @@ Bid.prototype.initEvents = function() {
             });
         }
         else if(event.target && $(event.target).hasClass(this.bid_delete_class)) {
-            krajeeDialog.confirm('Are you sure to remove your proposal?', function(out){
+            ConfirmationModal.show('Are you sure to remove your proposal?', function(out){
                 if(out) {
                     this.deleteBid();
                 }

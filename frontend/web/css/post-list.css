@@ -16,5 +16,7 @@ and open the template in the editor.
 }
 
 .post-list-header {
-    display: inline-block;
+    text-align: center;
+    margin-top: 18px;
+    font-size: 24px;
 }

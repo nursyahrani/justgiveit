@@ -3,6 +3,7 @@ use common\widgets\SimpleSideNav;
 use frontend\widgets\BannerWithSearch;
 use frontend\widgets\TagNavigation;
 use yii\helpers\Html;
+use frontend\widgets\Banner;
 use frontend\widgets\HomeProfileView;
 use frontend\widgets\SearchBar;
 use frontend\widgets\PostList;
@@ -20,8 +21,8 @@ $this->title = 'Just Give it';
  
     <div class='site-view'>
  
-        <div class="site-left-side-wrapper">
-            <div class="site-left-side hide-right-side">
+        <div class="site-left-side-wrapper hide-right-side ">
+            <div class="site-left-side ">
                 <div class="site-left-side-header">
                     <?= Html::button('<span class="glyphicon glyphicon-remove"></span>', ['class' => 'site-left-side-remove']) ?>
                 </div>
@@ -33,6 +34,7 @@ $this->title = 'Just Give it';
             </div>
         </div>
         <div class='site-post-area site-post-area-padding'>
+            <?=  Banner::widget(['id' => 'banner']) ?>
             <?=  PostList::widget(['id' => 'post-container', 
                                     'posts' => $home_vo->getPostList(), 
                                     'current_location' => $home_vo->getCurrentUserLocation()['id']]) ?>

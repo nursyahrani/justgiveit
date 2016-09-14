@@ -49,10 +49,6 @@ input:focus {
         display: none;
     }
     
-    .search-bar-input {
-        width: 270px;
-    }
-    
     .search-bar-holder {
         width: 100%;
     }

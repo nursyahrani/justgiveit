@@ -16,9 +16,6 @@ class BidReplyAsset extends AssetBundle
     public $baseUrl = '@web' ;
 
 
-    public $css = [
-        'frontend/web/css/bid-reply.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

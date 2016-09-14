@@ -13,4 +13,9 @@ class CommonImageLibrary {
     public static function getNoPhotoPic() {
            return Yii::$app->request->baseUrl . '/frontend/web/common-img/' . 'no-photo.png';
     }
+
+    
+    public static function getBanner() {
+        return Yii::$app->request->baseUrl . '/frontend/web/common-img/banner1.jpg';
+    }
 }

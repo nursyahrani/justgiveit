@@ -14,9 +14,6 @@ class SearchBarAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-    public $css = [
-        'frontend/web/css/search-bar.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

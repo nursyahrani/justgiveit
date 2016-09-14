@@ -18,7 +18,8 @@ use kartik\select2\Select2;
             
         </div>
         <div class="login-login-button-area">
-            <?= Html::button('Forgot Password?', ['class' => 'login-button-like-link login-login-forgot-password']) ?>
+            <?= Html::button('Forgot Password?', ['class' => 'login-button-like-link login-login-forgot-password']) ?>  
+            <?= Loading::widget(['id' => $id . '-login-loading', 'align' =>'right']) ?>
             <?= Html::button('Login', ['class' => 'login-button login-login-button', 'align' => 'right']) ?>
         </div>
         <div class="login-auth-two">

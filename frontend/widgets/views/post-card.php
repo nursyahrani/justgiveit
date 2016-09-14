@@ -21,9 +21,6 @@
     $post_created_at = $post_vo->getCreatedAt();
 ?>
 
-<?= Dialog::widget() ?>
-
-
 <div id="<?= $id ?>" class="post-card" data-stuff_id="<?= $post_id ?>" 
      data-is_owner ="<?= $post_vo->isOwner() ?>" data-id="<?= $id ?>" data-post_link="<?= $post_link ?>">
     <div class="post-card-img">

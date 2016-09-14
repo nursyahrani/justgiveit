@@ -14,10 +14,6 @@ class PostCommentAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-
-    public $css = [
-        'frontend/web/css/post-comment.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

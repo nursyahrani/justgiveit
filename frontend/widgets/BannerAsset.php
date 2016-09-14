@@ -9,16 +9,12 @@ namespace frontend\widgets;
 
 use yii\web\AssetBundle;
 
-class BannerWithSearchAsset extends AssetBundle
+class BannerAsset extends AssetBundle
 {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
 
-
-    public $css = [
-        'frontend/web/css/banner-with-search.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

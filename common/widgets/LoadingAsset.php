@@ -18,13 +18,4 @@ class LoadingAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-
-    public $css = [
-        'frontend/web/css/loading.css',
-    ];
-    
-    public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-    ];
 }

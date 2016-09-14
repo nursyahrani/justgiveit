@@ -14,9 +14,6 @@ class TagNavigationItemAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-    public $css = [
-        'frontend/web/css/tag-navigation-item.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

@@ -11,7 +11,9 @@ use common\widgets\Loading;
 
 <div id="<?= $id ?>" class="post-list" data-id="<?= $id ?>"
      data-location="<?= $current_location ?>">
-    
+    <div class="post-list-header">
+        Take All These Stuffs for Free!
+    </div>
     <?= Loading::widget(['id' => $id .'-new-loading']) ?>
     <div class="post-list-area">
         <?php foreach($posts as $post) { ?>

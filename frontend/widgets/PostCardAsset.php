@@ -14,13 +14,6 @@ class PostCardAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-
-    public $js = [
-        'frontend/web/js/post-card.js'
-    ];
-    public $css = [
-        'frontend/web/css/post-card.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

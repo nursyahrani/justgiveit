@@ -14,9 +14,6 @@ class EditPostAsset extends AssetBundle
 
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
-    public $css = [
-        'frontend/web/css/edit-post.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

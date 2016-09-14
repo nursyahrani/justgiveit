@@ -15,10 +15,6 @@ class ChangeImageAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web' ;
 
-
-    public $css = [
-        'frontend/web/css/change-image.css'
-    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
