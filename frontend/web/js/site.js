@@ -47,6 +47,7 @@ Site.prototype.init = function() {
 
 Site.prototype.initEvents = function() {
     this.$tag_navigation.on(TagNavigation.prototype.EVENTS.TAG_NAVIGATION_CHANGE, function(e,data){
+    
        this.post_list.setNewTags(data);
     }.bind(this));
     

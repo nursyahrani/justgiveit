@@ -29,4 +29,12 @@ CommonLibrary.showError = function($element, message) {
 
 CommonLibrary.hideError = function($element) {
     $element.html('');
-}
+};
+
+CommonLibrary.showCommonLoading = function() {
+    $("#common-loading").show();
+};
+
+CommonLibrary.hideCommonLoading = function() {
+    $("#common-loading").hide();  
+};

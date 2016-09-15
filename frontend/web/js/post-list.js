@@ -49,6 +49,7 @@ PostList.prototype.init = function() {
     this.get_more_loading = new Loading(this.$get_more_loading);
     this.$post_list_area = this.$root.find('.post-list-area');
     this.$reached_the_end = this.$root.find('.post-list-no-more');
+    this.$post_list_header = this.$root.find('.post-list-header');
 };
 
 PostList.prototype.initEvents = function() {
@@ -96,6 +97,9 @@ PostList.prototype.stringifyArray = function(items) {
 
 PostList.prototype.searchNewData  = function() {
     this.new_loading.show();
+    $('html, body').animate({
+        'scrollTop' : this.$post_list_header.position().top - 100
+    });
     $.ajax({
         url: $("#base-url").val() + "/site/search-new-data",
         type: 'post',

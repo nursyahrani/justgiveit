@@ -8,4 +8,4 @@
 use yii\helpers\Html;
 ?>
 <?= Html::img(common\libraries\CommonLibrary::loadingResourceUrl(), 
-        ['id' => $id, 'class' => 'loading-img', 'align' => $align]) ?>
+        ['id' => $id, 'class' => 'loading-img ' . $widget_class, 'align' => $align]) ?>

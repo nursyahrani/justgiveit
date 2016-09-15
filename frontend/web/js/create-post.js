@@ -120,6 +120,7 @@ CreatePost.prototype.uploadImage = function() {
 CreatePost.prototype.postData = function(image_id) {
     this.loading.setMessage("Creating Post");
     this.loading.show();
+    CommonLibrary.showCommonLoading();
     
     $.ajax({
         url: $("#base-url").val() + "/post/process-create",
@@ -133,6 +134,8 @@ CreatePost.prototype.postData = function(image_id) {
                 window.location.href = $("#base-url").val() + "/post/" + 
                         parsed['stuff_id'] + "/" + this.getTitleVal();
             }
+            
+            CommonLibrary.hideCommonLoading();
         }
     });
 }

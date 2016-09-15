@@ -13,6 +13,8 @@ class Loading extends Widget
     
     public $id;
     
+    public $widget_class = '';
+    
     public $align = '';
     
     public function init()
@@ -28,7 +30,7 @@ class Loading extends Widget
 
     public function run()
     {
-        return $this->render('loading', ['id' => $this->id, 'align' => $this->align]);
+        return $this->render('loading', ['id' => $this->id, 'align' => $this->align, 'widget_class' => $this->widget_class]);
     }
     
 }

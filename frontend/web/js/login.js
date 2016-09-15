@@ -273,6 +273,7 @@ Login.prototype.validateLoginFormInClient = function() {
 
 
 Login.prototype.validateLoginInServerSide = function() {
+    CommonLibrary.showCommonLoading();
     $.ajax({
         url :$("#base-url").val() + "/site/login",
         type: 'post',
@@ -290,11 +291,14 @@ Login.prototype.validateLoginInServerSide = function() {
                 this.hideLoginEmailErrorMsg();
                 this.hideLoginPasswordErrorMsg();
             }
+            CommonLibrary.hideCommonLoading();
         }
     });
 };
 
 Login.prototype.validateRegisterInServerSide = function() {
+    CommonLibrary.showCommonLoading();
+
     $.ajax({
         url :$("#base-url").val() + "/site/signup",
         type: 'post',
@@ -310,6 +314,8 @@ Login.prototype.validateRegisterInServerSide = function() {
             } else {
                 this.hideRegisterEmailErrorMsg();
             }
+            CommonLibrary.hideCommonLoading();
+
         }
     });
 };
