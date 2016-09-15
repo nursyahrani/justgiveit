@@ -39,7 +39,7 @@ $item_tabs[] = [
 <div class="col-xs-12 col-md-12 post-index" data-stuff_id="<?= $post->getPostId() ?>">
     <div class="post-information">
         <div class='post-image'>
-            <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'image_path' => $post->getImage()
+            <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'image_path' => $post->getImage(320,420)
                     , 'active' => true]) ?>
             <?= Html::button('Change Image', ['class' => 'post-change-image hide']) ?>
         </div>
@@ -61,7 +61,7 @@ $item_tabs[] = [
         'id' => 'change-image-modal'
     ]) ?>
         <?= \frontend\widgets\ChangeImage::widget(['id' => 'change-image',
-            'initial_image' => $post->getImage()]) ?>
+            'initial_image' => $post->getImage(190,190)]) ?>
     <?php Modal::end() ?>
 </div>
 

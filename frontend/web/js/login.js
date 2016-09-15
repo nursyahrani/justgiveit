@@ -277,7 +277,7 @@ Login.prototype.validateLoginInServerSide = function() {
         url :$("#base-url").val() + "/site/login",
         type: 'post',
         context: this,
-        data: { email: this.getLoginEmailField(), password: this.getLoginPasswordField()},
+        data: { email: this.getLoginEmailField(), password: this.getLoginPasswordField(), redirect: window.location.href},
         success: function(data){
             var parsedData = JSON.parse(data);
             if(parsedData['status'] === 0) {

@@ -3,11 +3,11 @@
 namespace common\libraries;
 use Yii;
 class CommonLibrary {
-    public static function buildImageLibrary($image_path) {
+    public static function buildImageLibrary($image_path, $width = 500, $height = 500) {
         if($image_path === null) {
             $image_path = 'default.png';
         }
-        return Yii::$app->request->baseUrl  . '/frontend/web/'  . $image_path;   
+        return Yii::getAlias('@web')  . '/image?path='  . "$image_path&width=" . $width . '&height=' . $height;   
     }
     
     public static function buildTagLibrary($tag) {

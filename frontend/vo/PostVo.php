@@ -110,8 +110,8 @@ class PostVo implements Vo {
         return $this->title;
     }
     
-    public function getImage() {
-        return CommonLibrary::buildImageLibrary($this->image);
+    public function getImage($width, $height) {
+        return CommonLibrary::buildImageLibrary($this->image, $width, $height);
     }
     
     public function getDescription() {

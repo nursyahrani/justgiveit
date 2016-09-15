@@ -184,15 +184,16 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        
         $data = array();
-        
         if(isset($_POST['email']) && isset($_POST['password'])) {
             $model = new LoginForm();
             $model->email = $_POST['email'];
             $model->password = $_POST['password'];
             if ($model->validate() && $model->login()) {
-                return $this->goBack();
+                if(!isset($_POST['redirect'])) {
+                    return $this->goBack();
+                }
+                return $this->redirect($_POST['redirect']);
             }   
             $data['message'] = $model->getErrors();
         }
@@ -208,7 +209,10 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
+        
+        if(isset($_GET['redirect'])) {
+            return $this->redirect($_GET['redirect']);
+        }
         return $this->goHome();
     }
 

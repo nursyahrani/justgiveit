@@ -16,6 +16,11 @@ class CommonImageLibrary {
 
     
     public static function getBanner() {
-        return Yii::$app->request->baseUrl . '/frontend/web/common-img/banner1.jpg';
+        $image_path  = 
+                'common-img/banner1.jpg';
+        $width = 1000;
+        $height = 400;
+            return Yii::getAlias('@web')  . '/image?path='  . "$image_path&width=" . $width . '&height=' . $height;   
+
     }
 }

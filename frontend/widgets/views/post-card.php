@@ -7,7 +7,6 @@
     use common\libraries\CommonLibrary;
     use frontend\widgets\ImageViewEditor;
     /** @var $post_vo PostVo */
-    $image_photo_path = $post_vo->getImage();
     $post_title = $post_vo->getTitle();
     $post_description = $post_vo->getDescription();
     $creator_full_name = $post_vo->getPostCreatorFullName();
@@ -25,7 +24,7 @@
      data-is_owner ="<?= $post_vo->isOwner() ?>" data-id="<?= $id ?>" data-post_link="<?= $post_link ?>">
     <div class="post-card-img">
         <?= ImageViewEditor::widget(['id' => $id . '-image-view' , 
-        'image_path' => $post_vo->getImage() , 'active' => false, 'modal_title' => $post_vo->getTitle()]) ?>
+        'image_path' => $post_vo->getImage(290,290) , 'active' => false, 'modal_title' => $post_vo->getTitle()]) ?>
     </div>
     <div class="post-card-view">
         <?= Html::a($post_title, $post_link, ['class' => 'post-card-name'])     ?>
@@ -43,15 +42,4 @@
         </div>
     </div>
     
-    <?php
-    Modal::begin([
-        'id' => $id . '-proposal-modal',
-        'options' => [
-            'class' => 'post-card-proposal-box-modal'
-        ],
-        'size' => Modal::SIZE_LARGE
-    ]);
-        echo HomeProposalBox::widget(['id' => $id . '-proposal-box', 'post_vo' => $post_vo]);
-    Modal::end();
-    ?>
 </div>

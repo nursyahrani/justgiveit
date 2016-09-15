@@ -11,13 +11,6 @@ class Banner extends Widget
     public function init()
     {
         parent::init();
-        $this->registerAssets();
-    }
-
-    public function registerAssets(){
-        $view = $this->getView();
-        BannerAsset::register($view);
-
     }
 
     public function run()
