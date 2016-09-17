@@ -1,6 +1,6 @@
 .notification-list {
     display:inline-block;
-    
+    height: 100%;
 }
 
 
@@ -51,21 +51,20 @@
     text-decoration: underline;
 }
 
+.notification-list-no-more-notification {
+    padding: 8px;
+}
+
 .notification-list-button {
+        height: 100%;
     font-weight: bold;
-    color: white;
     background: none;
-    padding: 2px 16px;
-    margin-top: 4px;
+    color: white;
 }
 
 .notification-list-button:hover {
-    background: red;
-    color: white;
-}
-
-.notification-list-no-more-notification {
-    padding: 8px;
+    background: lightgray;
+    
 }
 
 .notification-list-items-area {

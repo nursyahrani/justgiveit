@@ -22,10 +22,7 @@
 
 <div id="<?= $id ?>" class="post-card" data-stuff_id="<?= $post_id ?>" 
      data-is_owner ="<?= $post_vo->isOwner() ?>" data-id="<?= $id ?>" data-post_link="<?= $post_link ?>">
-    <div class="post-card-img">
-        <?= ImageViewEditor::widget(['id' => $id . '-image-view' , 
-        'image_path' => $post_vo->getImage(290,290) , 'active' => false, 'modal_title' => $post_vo->getTitle()]) ?>
-    </div>
+    <?= Html::img($post_vo->getImage(290,290), ['class' => 'post-card-img']) ?>
     <div class="post-card-view">
         <?= Html::a($post_title, $post_link, ['class' => 'post-card-name'])     ?>
        

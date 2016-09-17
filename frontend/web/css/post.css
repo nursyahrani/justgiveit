@@ -6,8 +6,9 @@
 .post-index {
     display: flex;
     padding-top: 75px;
-    height: 100%;
-    background: #efefef;
+    min-height: 100%;
+    overflow-y: auto;
+    background: #efefef;    
 }
 
 .post-bids-header {

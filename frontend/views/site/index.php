@@ -13,12 +13,12 @@ $post_list_provider = $home_vo->getPostList();
 $this->title = 'Just Give it';
 ?>
 <div class="site-index">
-               <div class="site-post-area-header">
-                <?= Html::button('<span class="glyphicon glyphicon-open"></span>', 
-                        ['class' => 'btn btn-default site-post-area-open-left-side-dynamic site-post-area-open-left-side']) ?>
-                <?= SearchBar::widget(['id' => 'site-search-bar', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
-            </div>
- 
+    <div class="site-post-area-header">
+        <?= Html::button('<span class="glyphicon glyphicon-open"></span>', 
+                ['class' => 'btn btn-default site-post-area-open-left-side-dynamic site-post-area-open-left-side']) ?>
+        <?= SearchBar::widget(['id' => 'site-search-bar', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
+    </div>
+
     <div class='site-view'>
  
         <div class="site-left-side-wrapper hide-right-side ">

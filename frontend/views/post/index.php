@@ -36,7 +36,7 @@ $item_tabs[] = [
         'post_comments' => $post->getPostComments()])
 ]
 ?>
-<div class="col-xs-12 col-md-12 post-index" data-stuff_id="<?= $post->getPostId() ?>">
+<div class="post-index" data-stuff_id="<?= $post->getPostId() ?>">
     <div class="post-information">
         <div class='post-image'>
             <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'image_path' => $post->getImage(320,420)

@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 .post-card {
-    
+    cursor: pointer;
     width: 190px;
     background: white;
     display: inline-block;
@@ -103,7 +103,7 @@ and open the template in the editor.
 }
 
 .post-card-right {
-    
+    max-height: 16px;
     width: 100%;
     color: gray;
     font-weight: bold;
@@ -121,18 +121,15 @@ and open the template in the editor.
 
 @media (max-width: 450px) {
     .post-card {
-        width: 300px;
+        width: 140px;
     }
     
     .post-card-img {
-        height: auto;
+        height: 140px;
     }
 }
 
-.post-card-view {
-    cursor: pointer;
-}
 
-.post-card-view:hover {
+.post-card:hover {
     opacity: 0.65;
 }

@@ -7,10 +7,8 @@ var Site = function($root) {
     this.tag_navigation = null;
     this.$tag_navigation = null;
     this.$site_post_area = null;
-    
     this.$email_registration = null;
     this.email_registration = null;
-    
     this.$site_left_side_remove = null;
     this.$site_left_side = null;
     this.$site_left_side_wrapper = null;
@@ -20,7 +18,7 @@ var Site = function($root) {
 };
 
 
-Site.prototype.SCROLL_VALUE = -55;
+Site.prototype.SCROLL_VALUE = 90;
 
 Site.prototype.CSS_CLASSES = {
     HOME_POST_LIST: 'home-post-list-container'
@@ -55,10 +53,11 @@ Site.prototype.initEvents = function() {
        this.post_list.setQueryAndLocation(data.query, data.location);
     }.bind(this));
     
-    $(document).scroll(function(e) {
+    $(".main-view").scroll(function(e) {
         var scrollPercentage = 
-                100 * $(document).scrollTop() / ((this.post_list.getHeight() - 40) - $(document).height());
-        if(scrollPercentage < Site.prototype.SCROLL_VALUE) {
+                100 * $(".main-view").scrollTop() / ((this.post_list.getHeight() - 40) - $(".main-view").height());
+        console.log($(".main-view").scrollTop() + " " + this.post_list.getHeight() + " " + $(".main-view").height() + " "  +scrollPercentage);
+        if(scrollPercentage > Site.prototype.SCROLL_VALUE) {
             this.post_list.getMorePosts();
         }
     }.bind(this));
@@ -73,12 +72,17 @@ Site.prototype.initEvents = function() {
     }.bind(this));
     
     this.$open_left_side_button.click(function(e) {
-        this.$site_left_side.hide(100);
-        this.$site_left_side.show(100);
-        this.$site_left_side_wrapper.removeClass('hide-right-side');
-        this.$site_left_side_wrapper.removeClass('site-hide');
         
-        this.$site_post_area.addClass('site-post-area-padding');
+        if( !this.$site_left_side_wrapper.is(':visible')) {
+            this.$site_left_side_wrapper.removeClass('hide-right-side');
+            this.$site_left_side_wrapper.removeClass('site-hide');   
+                  
+            this.$site_post_area.addClass('site-post-area-padding');   
+        } else {
+            this.$site_left_side_wrapper.addClass('hide-right-side');
+            this.$site_left_side_wrapper.addClass('site-hide');        
+            this.$site_post_area.removeClass('site-post-area-padding');   
+        }
     }.bind(this));
     
     

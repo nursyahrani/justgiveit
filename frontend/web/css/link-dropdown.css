@@ -10,6 +10,7 @@ and open the template in the editor.
 
 .link-dropdown {
     display: inline-block;
+    height: 100%;
 }
 .link-dropdown-item {
     padding-bottom: 4px;

@@ -38,32 +38,12 @@ PostCard.prototype.init = function () {
 PostCard.prototype.initEvents = function() {
     var self =this;
     $(document).on("click", "#" + this.id,function(e) {
-        if(e.target && $(e.target).hasClass(this.propose_button_class) ){
-            if(this.is_owner ) {
-                return false;
-            }   
-            if(CommonLibrary.isGuest()) {
-                return false;
-            }
-            $("#" + this.id).find("." + this.proposal_box_modal_class).modal("show")
-                    .load($(this).attr("value"));
-            
-        } else if(e.target && $(e.target).hasClass(this.favorite_button_class)) {
-            this.clickFavoriteButton_();
-        } 
-        
-        if(e.target && $(e.target).closest("." + this.post_view_class).length !== 0) {
-            window.location.href = this.post_link;
-        }
+       
+        window.location.href = this.post_link;
+
     }.bind(this));
     
     
-    $(document).on(HomeProposalBox.prototype.EVENT.HOME_PROPOSAL_BOX_PROPOSAL_SENT,
-        "#" + this.id,  function(e,data) {
-                            if(e.target && $(e.target).hasClass(this.proposal_box_class)) {
-                                window.location.href = data;
-                            }
-                        }.bind(this));
 };
 
 PostCard.prototype.clickFavoriteButton_ = function() {
