@@ -33,6 +33,6 @@ class ImageViewEditor extends Widget
             ['id' => $this->id, 
             'image_path' => $this->image_path, 
             'active' => $this->active,
-                'modal_title' => $this->modal_title]);
+            'modal_title' => $this->modal_title]);
     }
 }

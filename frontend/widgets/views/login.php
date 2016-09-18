@@ -20,7 +20,7 @@ use kartik\select2\Select2;
         <div class="login-login-button-area">
             <?= Html::button('Forgot Password?', ['class' => 'login-button-like-link login-login-forgot-password']) ?>  
             <?= Loading::widget(['id' => $id . '-login-loading', 'align' =>'right']) ?>
-            <?= Html::button('Login', ['class' => 'login-button login-login-button', 'align' => 'right']) ?>
+            <?= Html::button('Login', ['class' => 'site-button site-blue-button login-button login-login-button', 'align' => 'right']) ?>
         </div>
         <div class="login-auth-two">
             <?= Html::button('Register with Email', ['class' => 'btn btn-default login-login-register-email', 'align' => 'left']) ?>
@@ -46,7 +46,7 @@ use kartik\select2\Select2;
         </div>
         <div class="login-register-button-area">
             <?= Html::button('Go to Login', ['class' => 'login-button-like-link login-register-login']) ?>
-            <?= Html::button('Register', ['class' => 'login-button login-register-button', 'align' => 'right']) ?>
+            <?= Html::button('Register', ['class' => 'site-button site-blue-button login-button login-register-button', 'align' => 'right']) ?>
         </div>
         <div class="login-auth-two">
             <?= Html::button('Continue with Facebook', ['class' => 'btn btn-primary login-continue-with-facebook']) ?>

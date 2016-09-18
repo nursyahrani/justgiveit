@@ -30,6 +30,8 @@ class ProfileVo implements Vo {
     
     private $email;
     
+    private $columns;
+    
     private $validated;
     
     function __construct(ProfileVoBuilder $builder) {
@@ -45,6 +47,11 @@ class ProfileVo implements Vo {
         $this->total_gives = $builder->getTotalGives();
         $this->email = $builder->getEmail();
         $this->validated = $builder->isValidated();
+        $this->columns = $builder->getColumns();
+    }
+    
+    public function getColumns() {
+        return $this->columns;
     }
     
     public function getTotalBids() {
@@ -78,7 +85,7 @@ class ProfileVo implements Vo {
     public function getProfilePic() {
         return UserLibrary::buildPhotoPath($this->profile_pic);
     }
-
+    
     public function getBidList() {
         return $this->bid_list;
     }
@@ -103,6 +110,10 @@ class ProfileVo implements Vo {
     
     public function isValidated() {
         return $this->validated;
+    }
+    
+    public function isOwner() {
+        return UserLibrary::isOwner($this->user_id);
     }
     
 }

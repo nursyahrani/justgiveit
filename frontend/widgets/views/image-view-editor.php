@@ -10,7 +10,6 @@ use yii\bootstrap\Modal;
 ?>
 <div id='<?= $id ?>' class='image-view-editor' data-id="<?= $id ?>">
     <?= Html::img($image_path, ['class' => 'image-view-editor-image']) ?>
-
     <?php
         Modal::begin([
             'id' => $id . '-modal',
@@ -20,7 +19,6 @@ use yii\bootstrap\Modal;
             ]
         ]);
             echo Html::img($image_path, ['class' => 'image-view-editor-image-modal']);
-
         Modal::end();
     ?>    
     

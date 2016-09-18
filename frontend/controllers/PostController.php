@@ -9,16 +9,16 @@ use yii\web\Controller;
 use yii\web\UploadedFile;
 use frontend\service\ServiceFactory;
 /**
- * Site controller
+ * Post controller
  */
-class PostController extends Controller
+class PostController extends Controller     
 {
-    
+        
     private $service_factory;
     
     private $post_service;
     
-    public function init() {
+    public function init() {    
         $this->service_factory = new ServiceFactory();
         $this->post_service = $this->service_factory->getService(ServiceFactory::POST_SERVICE);
     }
@@ -56,10 +56,10 @@ class PostController extends Controller
     }
     
    
-    
+    //page load request
     public function actionIndex() {
         if(!isset($_GET['id'])) {
-            Yii::$app->end('end');
+            return $this->render('error');
         }
         $vo = $this->post_service->getPostInfo(Yii::$app->user->getId(), $_GET['id'], new \frontend\vo\PostVoBuilder());
         
@@ -71,6 +71,7 @@ class PostController extends Controller
         
     }
     
+    //ajax request
     public function actionRequestFavorite() {
         $data = array();
         if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {

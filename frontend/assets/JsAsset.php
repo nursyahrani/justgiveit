@@ -50,6 +50,7 @@ class JsAsset extends AssetBundle
         'frontend/web/js/site.js',
         'frontend/web/js/notification-item.js',
         'frontend/web/js/notification-list.js',
+        'frontend/web/js/profile.js',
         'frontend/web/js/script.js'  
         
     ];

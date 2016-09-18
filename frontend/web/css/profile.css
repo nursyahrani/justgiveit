@@ -1,36 +1,27 @@
 
 .profile-index {
-    background : white;
-    min-height: 400px;
-    margin-top: 42px;
-}
-
-.profile-header {
-    display: flex;
+        background: white;
+    min-height: 100%;
+    margin-left: 100px;
     padding: 8px;
-    overflow: hidden;
-    border-bottom: 1px solid lightgray;
+    margin-top: 80px;
+    margin-right: 100px;
+    border: 1px solid lightgray;
 }
 
-.profile-data {
-    overflow: hidden;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    background: #efefef;
+.profile-label {
+        font-size: 18px;
+    margin-top: 16px;
+    font-weight: bold;
+    line-height: 20px;
 }
 
-.profile-header-profile-pic {
-    width: 80px;
-    height: 80px;
-}
 
-.profile-header-information {
-    margin-left: 24px;
-    color: gray;
-}
 
-.profile-header-information-full-name {
-    
-    font-size: 18px;
-}
+@media (max-width: 750px) { 
+    .profile-index {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
+}

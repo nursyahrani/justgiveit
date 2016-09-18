@@ -15,19 +15,17 @@ class ProfileService {
         $this->profile_dao = $profile_dao;
     }
     
-    function getProfileAndStuffList($current_user_id,$username) {
+    function getProfileAndStuffList($current_user_id,$username, $limit) {
         $builder = new \frontend\vo\ProfileVoBuilder();
         $builder = $this->profile_dao->getProfileInfo( $username, $builder);
-        $builder = $this->profile_dao->getStuffList($current_user_id,$username, $builder);
-        
+        $builder->setGiveList($this->profile_dao->getStuffList($current_user_id,$username, $limit));
         return $builder->build();
     }
     
-    function getProfileAndBidList($current_user_id, $username) {
+    function getProfileAndBidList($current_user_id, $username, $limit) {
         $builder = new \frontend\vo\ProfileVoBuilder();
         $builder = $this->profile_dao->getProfileInfo($username, $builder);
-        $builder = $this->profile_dao->getBidList($username, $builder);
-        
+        $builder->setBidList($this->profile_dao->getBidList($username), $limit);
         return $builder->build();
         
     }

@@ -50,6 +50,9 @@ class DevAsset extends AssetBundle
         'frontend/web/css/post-comment-container.css',
         'frontend/web/css/post-list.css',
         'frontend/web/css/post.css',
+        'frontend/web/css/profile-bio.css',
+        'frontend/web/css/profile-section.css',
+        'frontend/web/css/profile-post-list.css',
         'frontend/web/css/create-post.css',
         'frontend/web/css/tag-navigation-item.css',
         'frontend/web/css/tag-navigation.css',
@@ -92,6 +95,10 @@ class DevAsset extends AssetBundle
         'frontend/web/js/site.js',
         'frontend/web/js/notification-item.js',
         'frontend/web/js/notification-list.js',
+        'frontend/web/js/profile-post-list.js',
+        'frontend/web/js/profile-section.js',
+        'frontend/web/js/profile-bio.js',
+        'frontend/web/js/profile.js',
         'frontend/web/js/script.js'  
         
     ] ;

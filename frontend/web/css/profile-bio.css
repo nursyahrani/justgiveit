@@ -1,0 +1,16 @@
+.profile-bio {
+    
+}
+
+.profile-bio-header {
+        font-size: 18px;
+    margin-top: 16px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.profile-bio-information {
+    margin-top: 8px;
+    font-size: 16px;
+    color: gray;
+}

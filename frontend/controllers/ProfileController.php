@@ -12,6 +12,8 @@ use yii\filters\AccessControl;
 class ProfileController extends Controller
 {
     
+    const LIMIT = 1000;
+    
     private $service_factory;
     
     private $profile_service;
@@ -94,12 +96,16 @@ class ProfileController extends Controller
         
     }
     
+    public function actionGetMorePosts() {
+        
+    }
+    
     private function getProfileAndStuffListInfo($username) {
-        return $this->profile_service->getProfileAndStuffList(\Yii::$app->user->getId(), $username);
+        return $this->profile_service->getProfileAndStuffList(\Yii::$app->user->getId(), $username, self::LIMIT);
     }
     
     private function getProfileAndBidListInfo($username) {
-        return $this->profile_service->getProfileAndBidList($username);
+        return $this->profile_service->getProfileAndBidList($username, self::LIMIT);
     }
     
 }

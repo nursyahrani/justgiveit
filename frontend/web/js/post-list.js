@@ -15,13 +15,11 @@ var PostList = function($root) {
     this.post_cards = [];
     this.$post_list_area = null;
     this.permit_retrieve_post = true;
-
     //loading
     this.$new_loading = null;
     this.new_loading = null;
     this.$get_more_loading = null;
     this.get_more_loading = null;
-    
     this.$reached_the_end = null;
     //retrieving
     this.is_retrieving = false;
@@ -97,9 +95,7 @@ PostList.prototype.stringifyArray = function(items) {
 
 PostList.prototype.searchNewData  = function() {
     this.new_loading.show();
-    $('html, body').animate({
-        'scrollTop' : this.$post_list_header.position().top - 100
-    });
+    
     $.ajax({
         url: $("#base-url").val() + "/site/search-new-data",
         type: 'post',

@@ -20,7 +20,8 @@ var App = function($root) {
     this.$root = $root;
     this.$site = null;
     this.site = null;
-    this.$post = null;
+    this.post = null;
+    this.profile = null;
     this.$login_button = null;
     this.$login_modal =null;
     this.$login_form = null;
@@ -49,10 +50,12 @@ App.prototype.init = function() {
         this.site = new Site(this.$site);
     } 
     else if (this.$root.find('.post-index').length !== 0) {
-        this.$post = new Post(this.$root.find('.post-index'));
+        this.post = new Post(this.$root.find('.post-index'));
     } else if(this.$root.find('.create-post-index').length !== 0) {
         this.$create_post_form = this.$root.find('.create-post-index');
         this.create_post_form = new CreatePost(this.$create_post_form);
+    } else if(this.$root.find('.profile-index').length !== 0) {
+        this.profile = new Profile(this.$root.find('.profile-index'));
     }
 
     if(this.$root.find('#login-menu').length !== 0) {

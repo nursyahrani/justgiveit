@@ -13,6 +13,7 @@ var Site = function($root) {
     this.$site_left_side = null;
     this.$site_left_side_wrapper = null;
     this.$open_left_side_button = null;
+    this.$banner = null;
     this.init();
     this.initEvents();
 };
@@ -31,7 +32,7 @@ Site.prototype.init = function() {
     this.$tag_navigation = this.$root.find('#tag-navigation');
     this.tag_navigation = new TagNavigation(this.$tag_navigation);
     this.$site_post_area = this.$root.find('.site-post-area');
-    
+    this.$banner = this.$root.find('#banner');
     this.$email_registration = this.$root.find('#email-registration');
     this.email_registration = new EmailRegistration(this.$email_registration);
 
@@ -43,20 +44,32 @@ Site.prototype.init = function() {
     
 };
 
+Site.prototype.backToTop = function() {
+    if(this.$banner !== undefined) {
+        var banner_height =this.$banner.height();
+    } else {
+        var banner_height = 0;
+    }
+    $('.main-view').animate({
+        'scrollTop' : banner_height
+    });
+
+}
+
 Site.prototype.initEvents = function() {
     this.$tag_navigation.on(TagNavigation.prototype.EVENTS.TAG_NAVIGATION_CHANGE, function(e,data){
-    
+       this.backToTop();
        this.post_list.setNewTags(data);
     }.bind(this));
     
     this.$search_bar.on(SearchBar.prototype.EVENT.SEARCH_BAR_SEARCH, function(e,data){
-       this.post_list.setQueryAndLocation(data.query, data.location);
+        this.backToTop();
+        this.post_list.setQueryAndLocation(data.query, data.location);
     }.bind(this));
     
     $(".main-view").scroll(function(e) {
         var scrollPercentage = 
                 100 * $(".main-view").scrollTop() / ((this.post_list.getHeight() - 40) - $(".main-view").height());
-        console.log($(".main-view").scrollTop() + " " + this.post_list.getHeight() + " " + $(".main-view").height() + " "  +scrollPercentage);
         if(scrollPercentage > Site.prototype.SCROLL_VALUE) {
             this.post_list.getMorePosts();
         }

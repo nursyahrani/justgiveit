@@ -41,20 +41,20 @@ use common\widgets\AutoHeightTextArea;
             </div>
             <div class="post-section-button-section">
                 <?php if(!$post->hasBid()) { ?>
-                <?= Html::button('<span class="glyphicon glyphicon-send"></span> Send Proposal', ['class' => 'btn btn-primary'
+                <?= Html::button('<span class="glyphicon glyphicon-send"></span> Send Proposal', ['class' => 'site-button site-blue-button'
                     . ' post-section-bid']) ?>
                 <?php } else {?>
                 
-                <?= Html::button('<span class="glyphicon glyphicon-send"></span> Send New Proposal', ['class' => 'btn btn-primary'
+                <?= Html::button('<span class="glyphicon glyphicon-send"></span> Send New Proposal', ['class' => 'site-button site-blue-button'
                     . ' post-section-bid']) ?>
                 <?php } ?>
                 
                 <?= Html::button('<span class="glyphicon glyphicon-heart"></span> Send Thanks', 
-                                ['class' => (!$post->hasFavorited() ? '' : ' hide') . ' btn btn-danger post-section-request-favorite ']
+                                ['class' => (!$post->hasFavorited() ? '' : ' hide') . ' site-button site-red-button post-section-request-favorite ']
                         ) ?>
 
                 <?= Html::button('<span class="glyphicon glyphicon-heart"></span> Thanks Sent', 
-                        ['class' => (!$post->hasFavorited() ? 'hide' : ' cancel') . ' btn btn-danger post-section-cancel-favorite ']) ?>
+                        ['class' => (!$post->hasFavorited() ? 'hide' : ' cancel') . ' site-button site-red-button post-section-cancel-favorite ']) ?>
             </div>
         
         <?php } else { ?>
@@ -62,9 +62,9 @@ use common\widgets\AutoHeightTextArea;
                 You are the owner
             </div>
             <div class="post-section-owner-button">
-                <?= Html::button('<span class="glyphicon glyphicon-pencil"></span> Edit', ['class' => 'btn btn-primary post-section-owner-edit']) ?>
+                <?= Html::button('<span class="glyphicon glyphicon-pencil"></span> Edit', ['class' => 'site-button site-blue-button post-section-owner-edit']) ?>
                 
-                <?= Html::button('<span class="glyphicon glyphicon-remove"></span> Delete', ['class' => 'btn btn-danger post-section-owner-delete']) ?>
+                <?= Html::button('<span class="glyphicon glyphicon-remove"></span> Delete', ['class' => 'site-button site-red-button post-section-owner-delete']) ?>
             </div>
         <?php } ?>
     </div>

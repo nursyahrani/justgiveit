@@ -26,6 +26,7 @@ a {
 }
 
 .logo {
+    margin-top: 4px;
     width: 120px;
     font-size: 16px;
     font-weight: bold;
@@ -388,36 +389,40 @@ a.desc:after {
 }
 
 .site-blue-button {
-    background: blue;
+background: white;
+    color: blue;
+    border-color: blue;
 }
 
 .site-blue-button:hover {
-    background: white;
-    color: blue;
-    border: 1px solid blue;
+    background: blue;
+    color: white;
+}
+
+.site-red-button {
+ background: white;
+    color: red;
+    border-color: red;
+}
+
+
+.site-red-button:hover {
+    background: red;
+    color: white;
 }
 
 .site-button {
-    padding: 2px 10px;
-    color: white;
+    padding: 4px 10px;
     border-radius: 4px;
     font-weight: bold;
-    border: 0;
+    margin-right: 2px;
+    border: 2px solid;
 }
 
 .site-big-banner {
     background-image: url("justgiveit/frontend/web/common-img/banner.jpg");
-}
+}   
 
-.site-red-button {
-    background: red;
-}
-
-.site-red-button:hover {
-    background: white;
-    color: red;
-    border: 1px solid red;
-}
 
 .site-view {
 

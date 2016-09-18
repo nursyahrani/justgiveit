@@ -40,8 +40,8 @@ class ProfileDao {
                                 from post,user, image
                                 where post.poster_id = user.id and user.username = :username and
                                     image.image_id = post.image_id
-                                ) stuff_info
-                                
+                                LIMIT :limit OFFSET :offset
+                            ) stuff_info
                             LEFT JOIN bid bid1
                             on stuff_info.stuff_id = bid1.stuff_id
                             LEFT JOIN bid bid2
@@ -55,7 +55,7 @@ class ProfileDao {
                         group by (stuff_with_bid_info.stuff_id)  ";
     
     const GET_BID_LIST = "SELECT bid.* , user.id, user.first_name, user.last_name, user.username, user.profile_pic 
-            from bid, user where user.username = :username";
+            from bid, user where user.username = :username LIMIT :limit OFFSET :offset";
     
     const GET_HOME_PROFILE_VIEW = "   SELECT with_total_favorite.*, count(post.poster_id) as total_stuffs from (
                                                 SELECT with_total_bid.*, count(*    ) as total_favorites from 
@@ -97,11 +97,14 @@ class ProfileDao {
         return $builder;
     }
     
-    public function getStuffList($current_user_id, $username, ProfileVoBuilder $builder ) {
+    public function getStuffList($current_user_id, $username, $limit) {
+        $offset = 0;
         $results =  \Yii::$app->db
             ->createCommand(self::GET_STUFF_LIST)
-                ->bindParam(':user_id', $current_user_id)
+            ->bindParam(':user_id', $current_user_id)
             ->bindParam(':username', $username)
+            ->bindParam(':limit', $limit)
+            ->bindParam(':offset', $offset)
             ->queryAll();
         $stuff_list = array();
         foreach($results as $result) {
@@ -116,7 +119,7 @@ class ProfileDao {
             $post_builder->setPostCreatorLastName($result['last_name']);
             $post_builder->setPostCreatorUsername($result['username']);
             $post_builder->setPostCreatorPhotoPath($result['profile_pic']);
-               $post_builder->setTotalBids($result['total_bids']);
+            $post_builder->setTotalBids($result['total_bids']);
             $post_builder->setHasBid($result['has_bid']);
             $post_builder->setTotalFavorites($result['total_favorites']);
             $post_builder->setHasFavorited($result['has_favorited']);
@@ -126,16 +129,17 @@ class ProfileDao {
             $stuff_list[] = $post_builder->build();
         }
         
-        $builder->setGiveList($stuff_list);
-        return $builder;
+        return $stuff_list;
     }
     
-    public function getBidList($username, \frontend\vo\ProfileVoBuilder $builder) {
+    public function getBidList($username, $limit) {
+        $offset = 0;        
         $results = \Yii::$app->db
             ->createCommand(self::GET_BID_LIST)
             ->bindParam(':username', $username)
-            ->queryAll();
-        
+            ->bindParam(':limit', $limit)
+            ->bindParam(':offset', $offset)
+            ->queryAll();        
         $bid_list = array();
         foreach($results as $result) {
             $bid = new BidVoBuilder();
@@ -148,11 +152,8 @@ class ProfileDao {
             $bid->setCreatedAt($result['created_at']);
             $bid->setCreatorPhotoPath($result['profile_pic']);
             $bid_list[] = $bid->build();
-        }
-        $builder->setBidList($bid_list);
-        
-        return $builder;
-    
+        }        
+        return $bid_list;    
     }
     
     public function getHomeProfileView($user_id) {

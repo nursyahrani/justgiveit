@@ -19,6 +19,8 @@ class ProfileVoBuilder implements Builder {
     
     private $email;
     
+    private $columns;
+    
     private $give_list;
     
     private $total_bids;
@@ -126,5 +128,13 @@ class ProfileVoBuilder implements Builder {
     
     public function setValidated($validated) {
         $this->validated = $validated;
+    }
+    
+    public function getColumns() {
+        return $this->columns;
+    }
+    
+    public function setColumns($columns) {
+        $this->columns = $columns;
     }
 }

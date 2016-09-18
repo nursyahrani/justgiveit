@@ -1,0 +1,28 @@
+.profile-post-list-area {
+    text-align: center;
+}
+.profile-post-list-chevron {
+    background: none;
+    font-size: 60px;
+    border: 1px solid red;
+    color: red;
+    outline: none;
+}
+
+.profile-post-list-chevron:active {
+    color: white;
+    border: 1px solid red;
+}
+
+.profile-post-list-chevron-left {
+    float:left;
+}
+
+.profile-post-list-chevron-right {
+    float:right;
+}
+
+.profile-post-list {
+    position: relative;
+}
+

@@ -1,0 +1,30 @@
+.profile-section-image {
+        min-width: 80px;
+    height: 80px;
+    max-width: 80px;
+    
+}
+
+.profile-section {
+    display: flex;
+}
+        
+.profile-section-information {
+    margin-left: 20px;
+    width: 100%;
+}
+
+.profile-section-information-name {
+    font-size:  25px;
+    font-weight: bold;
+}
+
+.profile-section-information-edit {
+        background: lightgray;
+    border: 0;
+    width: 200px;
+    padding: 0;
+    height: 25px;
+    color: white;
+    font-weight: bold;
+}
