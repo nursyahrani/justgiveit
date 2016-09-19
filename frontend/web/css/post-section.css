@@ -108,6 +108,20 @@
     display: flex;
 }
 
+.post-section-status {
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    padding:2px 10px;
+    border-radius: 4px;
+}
+.post-section-status-open {
+    background: lightgreen;
+}
+
+.post-section-status-closed {
+    background: red;
+}
 
 @media (max-width: 450px) {
     .post-section-view {

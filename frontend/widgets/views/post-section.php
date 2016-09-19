@@ -8,7 +8,22 @@
 use common\libraries\CommonLibrary;
 use yii\helpers\Html;
 use common\widgets\QuantityWidget;
+use common\models\Post;
 use common\widgets\AutoHeightTextArea;
+
+$status_open_sup_class = 'post-section-status post-section-status-open';
+$status_closed_sup_class = 'post-section-status post-section-status-closed';
+$status_open_button_class = 'post-section-owner-close';
+$status_closed_button_class = 'post-section-owner-reopen';
+
+if($post->getPostStatus() === Post::STATUS_ACTIVE) {
+    $status_closed_sup_class .= ' hide';
+    $status_closed_button_class .= ' hide';
+    
+} else if( $post->getPostStatus() === Post::STATUS_CLOSED) {
+    $status_open_sup_class .= ' hide';
+    $status_open_button_class .= ' hide';
+}
 ?>
 <div id="<?= $id ?>" data-id="<?= $id ?>" data-stuff_id ="<?= $post->getPostId() ?>" class="post-section">
     <div class="post-section-view">
@@ -18,14 +33,15 @@ use common\widgets\AutoHeightTextArea;
             <?php } ?>
         </div>
         <div class="post-section-title">
-            <?= $post->getTitle() ?>            
+            <?= $post->getTitle() ?>    
+            <sup class="<?= $status_open_sup_class ?>">OPEN</sup>    
+            <sup class="<?= $status_closed_sup_class ?>">CLOSED</sup>        
+
         </div>
         <?php if(!$post->isOwner()) { ?>
             <div class="post-section-quantity">
                 <div class="post-section-quantity-area">
-                
                     <?= QuantityWidget::widget(['id' => $id . '-quantity-widget', 'max_value' => $post->getQuantity()]) ?> &nbsp; of <?= $post->getQuantity() ?> 
-                    
                 </div>
                 <div class="post-section-quantity-error site-input-error">
 
@@ -63,6 +79,8 @@ use common\widgets\AutoHeightTextArea;
             </div>
             <div class="post-section-owner-button">
                 <?= Html::button('<span class="glyphicon glyphicon-pencil"></span> Edit', ['class' => 'site-button site-blue-button post-section-owner-edit']) ?>
+                <?= Html::button('Close', ['class' => 'site-button site-maroon-button ' . $status_open_button_class]) ?>
+                <?= Html::button('Reopen', ['class' => 'site-button site-green-button ' . $status_closed_button_class]) ?>
                 
                 <?= Html::button('<span class="glyphicon glyphicon-remove"></span> Delete', ['class' => 'site-button site-red-button post-section-owner-delete']) ?>
             </div>

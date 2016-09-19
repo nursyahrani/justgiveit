@@ -16,7 +16,7 @@ class ProfileBio extends Widget
     public function run()
     {
         if($this->intro === null || $this->intro === '') {
-            $this->intro = 'Empty';
+            $this->intro = '';
         }
         return $this->render('profile-bio',
             ['id' => $this->id, 'intro' => $this->intro]);

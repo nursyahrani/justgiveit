@@ -19,6 +19,8 @@ and open the template in the editor.
     height: auto;
     color: black;
     font-size: 14px;
+    cursor: text;
+    line-height: 24px;
 }
 
 .auto-height-text-area:empty:before{

@@ -387,6 +387,16 @@ a.desc:after {
 
 
 }
+.site-maroon-button {
+    background: white;
+    color: maroon;
+    border-color: maroon;
+}
+
+.site-maroon-button:hover {
+    background: maroon;
+    color: white;
+}
 
 .site-blue-button {
 background: white;
@@ -408,6 +418,19 @@ background: white;
 
 .site-red-button:hover {
     background: red;
+    color: white;
+}
+
+
+.site-green-button {
+ background: white;
+    color: green;
+    border-color: green;
+}
+
+
+.site-green-button:hover {
+    background: green;
     color: white;
 }
 

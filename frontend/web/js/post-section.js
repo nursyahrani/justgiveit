@@ -19,12 +19,22 @@ var PostSection = function($root) {
     this.$quantity_error = null;
     this.$text_area_error = null;
     
+    //status
+    this.$sup_open = null;
+    this.$sup_closed = null;
+    this.$reopen = null;
+    this.$close = null;
     this.init();
     this.initEvents();
 };
 
 
 PostSection.prototype.init = function() {
+    //status
+    this.$sup_open = this.$root.find('.post-section-status-open');
+    this.$sup_closed = this.$root.find('.post-section-status-closed');
+    this.$close = this.$root.find('.post-section-owner-close');
+    this.$reopen = this.$root.find('.post-section-owner-reopen');
     
     this.$quantity = this.$root.find('#' + this.id + '-quantity-widget');
     this.quantity = new QuantityWidget(this.$quantity);
@@ -49,6 +59,21 @@ PostSection.prototype.init = function() {
 };
 
 PostSection.prototype.initEvents = function() {
+    this.$close.on('click', function(e) {
+        ConfirmationModal.show('Are you sure you want to close this post?', function(out){
+            if(out) {
+                this.closePost();
+            }
+        }.bind(this));    
+    }.bind(this));
+
+    this.$reopen.on('click', function(e) {
+        ConfirmationModal.show('Are you sure you want to reopen this post?', function(out){
+            if(out) {
+                this.reopenPost();
+            }
+        }.bind(this));    
+    }.bind(this));
     
     this.$edit_post.on(EditPost.prototype.EVENTS.EDIT_POST_CANCEL, function(e) {
         this.$view.removeClass('hide');
@@ -121,6 +146,7 @@ PostSection.prototype.initEvents = function() {
     }.bind(this));
 };
 
+
 PostSection.prototype.deletePost = function() {
     $.ajax({
         url: $("#base-url").val() + "/post/delete",
@@ -134,7 +160,37 @@ PostSection.prototype.deletePost = function() {
                 
             }
         }
-    })
+    });
+};
+
+PostSection.prototype.closePost = function() {
+    this.$reopen.removeClass('hide');
+    this.$close.addClass('hide');
+    this.$sup_closed.removeClass('hide');
+    this.$sup_open.addClass('hide');
+    $.ajax({
+        url: $("#base-url").val() + "/post/close",
+        type: 'post',
+        data: {stuff_id: this.stuff_id},
+        success: function(data) {
+           
+        }
+    });
+};
+
+PostSection.prototype.reopenPost = function() {
+    this.$reopen.addClass('hide');
+    this.$close.removeClass('hide');
+    this.$sup_closed.addClass('hide');
+    this.$sup_open.removeClass('hide');
+    $.ajax({
+        url: $("#base-url").val() + "/post/reopen",
+        type: 'post',
+        data: {stuff_id: this.stuff_id},
+        success: function(data) {
+         
+        }
+    });
 }
 
 PostSection.prototype.sendProposal = function() {

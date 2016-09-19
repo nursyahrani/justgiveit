@@ -5,6 +5,7 @@ use frontend\models\CreateStuffForm;
 use frontend\models\NotificationPostThanksForm;
 use frontend\models\FavoriteForm;
 use Yii;
+use frontend\models\ChangePostStatusForm;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use frontend\service\ServiceFactory;
@@ -63,7 +64,7 @@ class PostController extends Controller
         }
         $vo = $this->post_service->getPostInfo(Yii::$app->user->getId(), $_GET['id'], new \frontend\vo\PostVoBuilder());
         
-        if($vo->getPostStatus() === '0') {
+        if($vo->getPostStatus() === 0) {
             return $this->render('delete');
         }
         return $this->render('index', ['post' => $vo]);
@@ -183,5 +184,39 @@ class PostController extends Controller
         
         $data['status'] = 0;
         return json_encode($data);
+    }
+    
+    public function actionClose() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {
+            $model = new ChangePostStatusForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            if($model->close()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+        
+    }
+    
+    
+    public function actionReopen() {
+        $data = array();
+        if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {
+            $model = new ChangePostStatusForm;
+            $model->user_id = Yii::$app->user->getId();
+            $model->stuff_id = $_POST['stuff_id'];
+            if($model->reopen()) {
+                $data['status'] = 1;
+                return json_encode($data);
+            }
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);        
     }
 }

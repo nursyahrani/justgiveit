@@ -49,6 +49,7 @@ class DevAsset extends AssetBundle
         'frontend/web/css/post-delete.css',
         'frontend/web/css/post-comment-container.css',
         'frontend/web/css/post-list.css',
+        'frontend/web/css/post-status.css',
         'frontend/web/css/post.css',
         'frontend/web/css/profile-bio.css',
         'frontend/web/css/profile-section.css',

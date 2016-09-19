@@ -9,5 +9,6 @@
 
 <div id="<?= $id ?>" class="<?= $widget_class ?> 
           auto-height-text-area" rows=<?= $rows ?> placeholder="<?= $placeholder ?>"  contenteditable="true"
+          style="min-height: <?= $rows * 24 ?>px"
           ><?= $value ?>
 </div>

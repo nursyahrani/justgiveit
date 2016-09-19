@@ -1,5 +1,5 @@
 .profile-bio {
-    
+    margin-bottom: 16px;
 }
 
 .profile-bio-header {
@@ -13,4 +13,11 @@
     margin-top: 8px;
     font-size: 16px;
     color: gray;
+}
+
+.profile-bio-edit {
+        background: none;
+    border: 0;
+    color: blue;
+    font-size: 14px;
 }

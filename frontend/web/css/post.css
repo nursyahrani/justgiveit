@@ -6,6 +6,8 @@
 .post-index {
     display: flex;
     padding-top: 75px;
+    padding-left: 8px;
+    padding-right: 8px;
     min-height: 100%;
     overflow-y: auto;
     background: #efefef;    

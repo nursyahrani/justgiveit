@@ -5,6 +5,7 @@ namespace frontend\vo;
 use common\libraries\UserLibrary;
 use common\libraries\CommonLibrary; 
 use common\libraries\PostLibrary;   
+use common\models\Post;
 use Yii;
 
 class PostVo implements Vo {
@@ -82,7 +83,7 @@ class PostVo implements Vo {
         $this->delivery = $builder->isDeliveryPrefered();
         $this->meet_up = $builder->isMeetupPrefered();
         $this->post_comments = $builder->getPostComments();
-        $this->post_status = $builder->getPostStatus();
+        $this->post_status = intval($builder->getPostStatus());
     }
     
     public function getDeadline() {
@@ -205,5 +206,13 @@ class PostVo implements Vo {
     
     public function getPostStatus() {
         return $this->post_status;
+    }
+    
+    public function getPostStatusText() {
+        if($this->post_status === \common\models\Post::STATUS_ACTIVE) {
+            return 'OPEN';
+        } else if ($this->post_status === Post::STATUS_CLOSED ) {
+            return 'CLOSED';
+        }
     }
 }
