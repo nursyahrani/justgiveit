@@ -1,6 +1,9 @@
 <?php
 namespace frontend\controllers;
-
+use Yii;
+use frontend\models\UpdateUserNameForm;
+use frontend\models\UpdateUserIntroForm;
+use frontend\models\UpdateUserCityForm;
 use frontend\service\ServiceFactory;
 use frontend\service\ProfileService;
 use yii\web\Controller;
@@ -108,4 +111,69 @@ class ProfileController extends Controller
         return $this->profile_service->getProfileAndBidList($username, self::LIMIT);
     }
     
+    public function actionUpdateIntro() {
+        $data = array();
+        if(!isset($_POST['intro']) || Yii::$app->user->isGuest) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new UpdateUserIntroForm();
+        $model->intro = $_POST['intro'];
+        $model->user_id = Yii::$app->user->getId();
+        if($model->update()) {
+            $data['status'] = 1;
+            return json_encode($data);
+        }
+        
+        $data['status'] = 0;
+        $data['error'] = $model->getErrors();
+        
+        return json_encode($data);
+        
+    }
+    
+    public function actionUpdateName() {
+        $data = array();
+        if(!isset($_POST['first_name']) || Yii::$app->user->isGuest) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new UpdateUserNameForm;
+        $model->first_name = $_POST['first_name'];
+        $model->last_name = isset($_POST['last_name']) ? 
+                $_POST['last_name'] : '';
+        $model->user_id = Yii::$app->user->getId();
+        
+        if($model->update()) {
+            $data['status'] = 1;
+            return json_encode($data);
+        }
+        
+        $data['status'] = 0;
+        return json_encode($data);
+         
+    }
+    
+    public function actionUpdateCity() {
+        $data = array();
+        if(!isset($_POST['city_id']) || Yii::$app->user->isGuest) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new UpdateUserCityForm();
+        $model->city_id = $_POST['city_id'];
+        $model->user_id = Yii::$app->user->getId();
+        if($model->update()) {
+            $data['status'] = 1;
+            return json_encode($data);
+        }
+        $data['status'] = 0;
+        if($model->hasErrors()) {
+            $data['error'] = $model->getErrors();
+        }
+        return json_encode($data);
+    }
 }

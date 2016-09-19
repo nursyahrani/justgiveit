@@ -12,10 +12,13 @@ class ProfileDao {
     const GET_PROFILE_INFO = "SELECT with_total_favorite.*, count(post.poster_id) as total_stuffs from (
                                                 SELECT with_total_bid.*, count(*    ) as total_favorites from 
                                             (SELECT user.*, user_email_authentication.email, 	                                                                         user_email_authentication.validated,
-                                                    count(bid.proposer_id) as total_bids 
+                                                    count(bid.proposer_id) as total_bids, city.city_name, city.country_code,
+                                                    country.country_default_name as country_name 
                                              from user 
                                              left join bid on user.id = bid.proposer_id 
                                              left join user_email_authentication on                                                                                        user_email_authentication.user_id = user.id
+                                             left join city on city.city_id = user.city_id
+                                             left join country on country.country_code = city.country_code
                                              where user.username = :username
                                             group by(bid.proposer_id)) with_total_bid
                                         left join favorite 
@@ -39,7 +42,7 @@ class ProfileDao {
                                     user.profile_pic, user.username  , image.image_path as photo_path
                                 from post,user, image
                                 where post.poster_id = user.id and user.username = :username and
-                                    image.image_id = post.image_id
+                                    image.image_id = post.image_id and post.post_status  <> 0
                                 LIMIT :limit OFFSET :offset
                             ) stuff_info
                             LEFT JOIN bid bid1
@@ -94,6 +97,11 @@ class ProfileDao {
         $builder->setTotalFavorites($result['total_favorites']);
         $builder->setTotalGives($result['total_stuffs']);
         $builder->setUsername($result['username']);
+        $builder->setIntro($result['intro']);
+        $builder->setUserCityId($result['city_id']);
+        $builder->setUserCityName($result['city_name']);
+        $builder->setUserCountryCode($result['country_code']);
+        $builder->setUserCountryName($result['country_name']);
         return $builder;
     }
     

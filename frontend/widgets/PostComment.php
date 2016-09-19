@@ -13,14 +13,9 @@ class PostComment extends Widget
     public function init()
     {
         parent::init();
-        $this->registerAssets();
     }
 
-    public function registerAssets(){
-        $view = $this->getView();
-
-    }
-
+   
     public function run()
     {
         return $this->render('post-comment',

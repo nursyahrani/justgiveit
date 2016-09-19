@@ -28,9 +28,19 @@ class ProfileVo implements Vo {
     
     private $total_gives;
     
+    private $user_country_name;
+    
+    private $user_country_code;
+    
+    private $user_city_name;
+    
+    private $user_city_id;
+    
     private $email;
     
     private $columns;
+    
+    private $intro;
     
     private $validated;
     
@@ -47,6 +57,11 @@ class ProfileVo implements Vo {
         $this->total_gives = $builder->getTotalGives();
         $this->email = $builder->getEmail();
         $this->validated = $builder->isValidated();
+        $this->intro = $builder->getIntro();
+        $this->user_city_id = $builder->getUserCityId();
+        $this->user_city_name = $builder->getUserCityName();
+        $this->user_country_code = $builder->getUserCountryCode();
+        $this->user_country_name = $builder->getUserCountryName();
         $this->columns = $builder->getColumns();
     }
     
@@ -75,6 +90,14 @@ class ProfileVo implements Vo {
 
     public function getUsername() {
         return $this->username;
+    }
+    
+    public function getFirstName() {
+        return $this->first_name;
+    }
+    
+    public function getLastName() {
+        return $this->last_name;
     }
 
     public function getFullName() {
@@ -116,4 +139,27 @@ class ProfileVo implements Vo {
         return UserLibrary::isOwner($this->user_id);
     }
     
+    public function getIntro() {
+        return $this->intro;
+    }
+    
+    public function getUserCountryCode() {
+        return $this->user_country_code;
+    }
+    
+    public function getUserCountryName() {
+        return $this->user_country_name;
+    }
+    
+    public function getUserCityId() {
+        return $this->user_city_id;
+    }
+    
+    public function getLocationText() {
+        if($this->user_city_id !== null) {
+            return $this->user_city_name . ', ' . $this->user_country_name;   
+        } else {
+            return '[Location is not set]';
+        }
+    }
 }

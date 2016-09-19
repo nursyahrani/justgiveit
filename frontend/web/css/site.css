@@ -5,6 +5,11 @@ a {
     display: flex;
 }
 
+.site-field-error {
+    border-color: red;
+    border: 2px solid;
+    outline: none;
+}
 
 .navbar-left-side {
     display: flex;
@@ -359,7 +364,6 @@ a.desc:after {
 .site-banner {
     margin-bottom:  15px;
     padding: 8px;
-
     color: darkgray;
     letter-spacing: 1.3px;
     border-radius: 6px;
@@ -538,4 +542,8 @@ background: white;
     bottom: 2%;
     left: 2%;
 
+}
+
+.site-field-error {
+    border-color: red;
 }

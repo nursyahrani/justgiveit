@@ -16,15 +16,9 @@ class PostList extends Widget
     {
         parent::init();
 
-        $this->registerAssets();
     }
 
-    public function registerAssets(){
-        $view = $this->getView();
-        PostListAsset::register($view);
-
-    }
-
+    
     public function run()
     {
         return $this->render('post-list',

@@ -198,5 +198,24 @@ class HomeDao {
         }
         return $data;
     }
+    
+    public function searchCity($pre, $post = NULL) {
+        $city_limit = 5;
+        $pre = '%' . $pre . '%';
+        $post = '%' . $post. '%';
+        $results =  \Yii::$app->db
+                ->createCommand(self::SEARCH_CITY)
+                ->bindParam(':city', $pre)
+                ->bindParam(':country', $post )
+                ->bindParam(':limit', $city_limit)
+                ->queryAll();
+        $data = array();
+        foreach($results as $result) {
+            $datum['id'] = $result['id'];
+            $datum['text'] = $result['text'];
+            $data[] = $datum;
+        }
+        return $data;
+    }
 }
 

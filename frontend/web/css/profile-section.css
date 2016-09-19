@@ -20,11 +20,38 @@
 }
 
 .profile-section-information-edit {
-        background: lightgray;
+    background: lightgray;
     border: 0;
     width: 200px;
     padding: 0;
     height: 25px;
     color: white;
+    font-weight: bold;
+}
+
+.profile-section-location-edit , .profile-section-name-edit {
+    
+    background: none;
+    color: blue;
+    border: 0;
+    font-size: 14px;
+}
+
+.profile-section-information-edit-name-area , .profile-section-information-edit-location-area{
+        display: flex;
+    min-width: 300px;
+    margin-bottom: 8px;
+    max-width: 455px;
+}
+
+.profile-section-information-edit-name-edit , .profile-section-information-edit-name-cancel,
+.profile-section-information-edit-location-edit , .profile-section-information-edit-location-cancel
+{
+    margin-left:  4px;
+    max-height: 30px;
+}
+
+.profile-section-label {
+    font-size: 16px;
     font-weight: bold;
 }

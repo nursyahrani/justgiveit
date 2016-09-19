@@ -7,10 +7,10 @@ use common\models\User;
 /**
  * ContactForm is the model behind the contact form.
  */
-class UpdateUserCityForm extends Model
+class UpdateUserIntroForm extends Model
 {
     public $user_id;
-    public $city_id;
+    public $intro;
     
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class UpdateUserCityForm extends Model
     public function rules()
     {
         return [
-            [['city_id', 'user_id'], 'integer'],
-            [['city_id','user_id'], 'required']
+            ['user_id', 'integer'],
+            ['intro', 'string', 'length' => [1, 100]],
+            [['intro','user_id'], 'required']
         ];
     }
 
@@ -27,11 +28,12 @@ class UpdateUserCityForm extends Model
         if(!$this->validate()) {
             return false;
         }
+        
         $user = User::find()->where(['id' => $this->user_id])->one();
-        if($user->city_id === $this->city_id) {
+        if($user->intro === $this->intro) {
             return true;
         }
-        $user->city_id = $this->city_id;
+        $user->intro = $this->intro;
         return $user->update();
     }
     

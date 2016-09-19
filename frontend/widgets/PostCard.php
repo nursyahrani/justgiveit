@@ -13,16 +13,9 @@ class PostCard extends Widget
     public function init()
     {
         parent::init();
-
-        $this->registerAssets();
     }
 
-    public function registerAssets(){
-        $view = $this->getView();
-        PostCardAsset::register($view);
-
-    }
-
+  
     public function run()
     {
         return $this->render('post-card',

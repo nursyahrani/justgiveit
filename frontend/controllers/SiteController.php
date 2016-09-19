@@ -460,9 +460,9 @@ class SiteController extends Controller
         $out = ['results' => ['id' => '', 'text' => '']];
         $exploded = explode(',', $q);
         if(count($exploded) === 1) {
-            $data = $this->home_service->searchCountryCity($exploded[0]);
+            $data = $this->home_service->searchCity($exploded[0]);
         } else {
-            $data = $this->home_service->searchCountryCity($exploded[0], $exploded[1]);
+            $data = $this->home_service->searchCity($exploded[0], $exploded[1]);
         }
         
         $out['results'] = array_values($data);

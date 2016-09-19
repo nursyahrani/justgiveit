@@ -1,11 +1,5 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-use common\libraries\CommonImageLibrary;
+                                                                                        use common\libraries\CommonImageLibrary;
 use yii\bootstrap\Html;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
@@ -16,13 +10,11 @@ use common\widgets\Loading;
 
 <div class='create-post' id='<?= $id ?>' data-id='<?= $id ?>'>
     <div class='create-post-form'>
-        
         <div class='col-xs-12 col-md-4 col-lg-4 create-post-image'>
             <?= Html::img(CommonImageLibrary::getNoPhotoPic(), ['class' => 'create-post-image-view']) ?>
             <?= Html::label('Select Photo', $id . '-select-photo', ['class' => 'create-post-image-label']) ?>
             <?= Html::fileInput('Select Photo', null, ['class' => 'create-post-image-select-photo hide', 
                 'id' => $id . '-select-photo']) ?>
-            
             <div class="create-post-information-image-error site-input-error">
 
             </div>

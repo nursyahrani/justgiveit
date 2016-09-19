@@ -61,4 +61,8 @@ class HomeService {
     public function searchCountryCity($pre, $post = null) {
         return $this->home_dao->searchCountryCity($pre, $post);
     }
+    
+    public function searchCity($pre, $post = null) {
+        return $this->home_dao->searchCity($pre, $post);
+    }
 }
