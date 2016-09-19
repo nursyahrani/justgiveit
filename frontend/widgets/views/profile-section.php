@@ -34,7 +34,7 @@ use kartik\select2\Select2;
             <sup><?= Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-section-location-edit']) ?></sup>
         </div>
         <div class="profile-section-information-edit-location-area hide">
-            <div class="profile-section-information-edit-location-area">
+            <div class="profile-section-information-edit-location-field-area">
                 <?= Select2::widget([
                     'id' => 'profile-section-information-edit-location-field',
                     'class' => 'profile-section-information-edit-location',

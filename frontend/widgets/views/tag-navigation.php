@@ -18,7 +18,7 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
         </div>
         <div class="tag-navigation-starred-area">
             <?php foreach($starred_tags as $tag) { ?>
-                <?= TagNavigationItem::widget(['id' => 'starred-tags-' . $tag->getTagId(), 'tag' => $tag]) ?>
+                <?= TagNavigationItem::widget(['id' => 'starred-tags-' . $tag->getTagId(), 'tag' => $tag, 'tick' => $tag->isChecked()]) ?>
             <?php  } ?>
         </div>
     </div>
@@ -35,7 +35,7 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
         </div>
         <div class="tag-navigation-all-area">
             <?php foreach($most_popular_tags as $tag) { ?>
-                <?= TagNavigationItem::widget(['id' => 'most-popular-tags-' . $tag->getTagId(), 'tag' => $tag]) ?>
+                <?= TagNavigationItem::widget(['id' => 'most-popular-tags-' . $tag->getTagId(), 'tag' => $tag, 'tick' => $tag->isChecked()]) ?>
             <?php } ?>
         </div>
     </div>

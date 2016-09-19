@@ -53,7 +53,7 @@ class TagDao {
         return $tag_list;
     }
     
-    public function getStarredTag($user_id) {
+    public function getStarredTag($user_id, $checked_tag_name) {
         $results =  \Yii::$app->db
             ->createCommand(self::GET_STARRED_TAG)
             ->bindParam(':user_id', $user_id)
@@ -64,30 +64,39 @@ class TagDao {
             $builder->setStarred(1);
             $builder->setTagId($result['tag_id']);
             $builder->setTagName($result['tag_name']);
+            if($result['tag_name'] === $checked_tag_name) {
+                $builder->setChecked(true);
+            } else {
+                $builder->setChecked(false);
+            }
             $tag_list[] = $builder->build();
         }
     
         return $tag_list;
     }
     
-    public function getMostPopularTag($user_id) {
+    public function getMostPopularTag($user_id, $except_tag_name) {
         $results =  \Yii::$app->db
             ->createCommand(self::GET_MOST_POPULAR_TAG)
             ->bindParam(':user_id', $user_id)
             ->queryAll();
         $tag_list = array();
         foreach($results as $result) {
-            $builder = new TagVoBuilder();
-            $builder->setStarred($result['starred']);
-            $builder->setTagId($result['tag_id']);
-            $builder->setTagName($result['tag_name']);
-            $tag_list[] = $builder->build();
+            if($result['tag_name'] !== $except_tag_name) {
+                $builder = new TagVoBuilder();
+                $builder->setStarred($result['starred']);
+                $builder->setTagId($result['tag_id']);
+                $builder->setTagName($result['tag_name']);
+
+                $tag_list[] = $builder->build();
+
+            }
         }
     
         return $tag_list;
     }
     
-    public function getTag($tag, $user_id, $starred = null) {
+    public function getTag($tag, $user_id, $starred = null, $checked = null) {
         $result =  \Yii::$app->db
             ->createCommand(self::GET_TAG)
             ->bindParam(':user_id', $user_id)
@@ -97,6 +106,7 @@ class TagDao {
         $builder->setStarred($result['starred']);
         $builder->setTagId($result['tag_id']);
         $builder->setTagName($result['tag_name']);
+        $builder->setChecked($checked);
         
         
         //bad practice

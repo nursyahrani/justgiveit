@@ -11,10 +11,13 @@ class TagVo implements Vo {
     
     private $starred;
     
+    private $checked;
+            
     function __construct(TagVoBuilder $builder) {
         $this->tag_id = $builder->getTagId();
         $this->tag_name = $builder->getTagName();
         $this->starred = $builder->isStarred();
+        $this->checked = $builder->isChecked();
     }
 
     public static function createBuilder() {
@@ -31,5 +34,9 @@ class TagVo implements Vo {
     
     public function getTagName() {
         return $this->tag_name;
+    }
+    
+    public function isChecked() {
+        return $this->checked;
     }
 }

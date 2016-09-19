@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-
 $add_class_tick = $tick === true ? ' ' : 'hide ';
 //\Yii::$app->end(($tick === true) . ' ' . $add_class_tick);
 ?>

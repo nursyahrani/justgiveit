@@ -29,11 +29,15 @@ class HomeService {
     }
     
     
-    public function getHomeInfo($current_user_id, HomeVoBuilder $builder ) {
-        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id'], ''));
+    public function getHomeInfo($current_user_id, HomeVoBuilder $builder , $init_tag = null) {
+        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id'], $init_tag));
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
-        $builder->setMostPopularTag($this->tag_dao->getMostPopularTag($current_user_id));
-        $builder->setStarredTagList($this->tag_dao->getStarredTag($current_user_id));
+        $tag = array();
+        $tag[] = $this->tag_dao->getTag($init_tag, $current_user_id, null, true);
+        $popular_tag = $this->tag_dao->getMostPopularTag($current_user_id, $init_tag);
+        $tag = array_merge($tag, $popular_tag);
+        $builder->setMostPopularTag($tag);
+        $builder->setStarredTagList($this->tag_dao->getStarredTag($current_user_id,$init_tag));
         return $builder->build();
     }
     

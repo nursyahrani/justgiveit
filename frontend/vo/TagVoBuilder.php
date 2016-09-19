@@ -11,8 +11,18 @@ class TagVoBuilder implements Builder {
     
     private $starred;
     
+    private $checked;
+    
     public function build() {
         return new TagVo($this);
+    }
+    
+    public function isChecked() {
+        return $this->checked;
+    }
+    
+    public function setChecked($checked) {
+        $this->checked = $checked;
     }
     
     public function getTagName() {

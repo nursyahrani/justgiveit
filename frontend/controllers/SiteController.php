@@ -132,7 +132,7 @@ class SiteController extends Controller
     {
         if(isset($_GET['tag'])) {
             $tag = $_GET['tag'];
-            $home_vo = $this->home_service->getHomeInfoWithTag(Yii::$app->user->getId(), $tag, new HomeVoBuilder());
+            $home_vo = $this->home_service->getHomeInfo(Yii::$app->user->getId(),  new HomeVoBuilder(), $tag);
         } else {
             $home_vo = $this->home_service->getHomeInfo(Yii::$app->user->getId(), new HomeVoBuilder());
         }

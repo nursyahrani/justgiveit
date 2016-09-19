@@ -58,7 +58,17 @@ TagNavigation.prototype.init = function() {
     $(this.$all_item_area.html()).filter('.tag-navigation-item').each(function(index, value) {
         this.$all_items.push(new TagNavigationItem($(value)));
     }.bind(this));
+
+    $(this.$all_item_area.html()).filter('.tag-navigation-item[data-tick=1]').each(function(index, value) {
+        this.ticked_tags.push($(value).data('label'));
+    }.bind(this));
     
+    
+    $(this.$starred_item_area.html()).filter('.tag-navigation-item[data-tick=1]').each(function(index, value) {
+        if(this.ticked_tags.indexOf($(value).data('label')) === -1) {
+            this.ticked_tags.push($(value).data('label'));   
+        }
+    }.bind(this));
 };
 
 

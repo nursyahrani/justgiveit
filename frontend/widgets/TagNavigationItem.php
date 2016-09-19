@@ -26,7 +26,6 @@ class TagNavigationItem extends Widget
 
     public function run()
     {
-//        \Yii::$app->end($this->tick . ' ');
       return $this->render('tag-navigation-item',
             ['id' => $this->id,
             'tag' => $this->tag, 
