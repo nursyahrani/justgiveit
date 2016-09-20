@@ -7,6 +7,7 @@ use frontend\models\GiveStuffToUserForm;
 use frontend\models\SendMessageForm;
 use frontend\models\UploadProfilePicForm;
 use Yii;
+use common\libraries\CommonImageLibrary;
 use common\models\Image;
 use yii\helpers\Json;
 use common\models\LoginForm;
@@ -136,7 +137,28 @@ class SiteController extends Controller
         } else {
             $home_vo = $this->home_service->getHomeInfo(Yii::$app->user->getId(), new HomeVoBuilder());
         }
+        $this->setHomeMetaTag();
         return $this->render('index', ['home_vo' => $home_vo]);
+    }
+    
+    
+    private function setHomeMetaTag() {
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:type',
+                'content' => 'website'
+        ]);
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:image',
+                'content' => CommonImageLibrary::getBanner()
+        ]);
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:url',
+                'content' => Yii::$app->request->baseUrl . '/'
+        ]);
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:title',
+                'content' => 'JustGivIt'
+        ]);
     }
     
     public function actionSearchNewData() {

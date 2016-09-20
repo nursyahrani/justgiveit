@@ -67,9 +67,29 @@ class PostController extends Controller
         if($vo->getPostStatus() === 0) {
             return $this->render('delete');
         }
+        $this->setPostMetaTag($vo);
         return $this->render('index', ['post' => $vo]);
         
         
+    }
+    
+    private function setPostMetaTag($post_vo) {
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:type',
+                'content' => 'website'
+        ]);
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:image',
+                'content' => $post_vo->getImage(300,300)
+        ]);
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:url',
+                'content' => $post_vo->getPostLink()
+        ]);
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:title',
+                'content' => $post_vo->getTitle()
+        ]);
     }
     
     //ajax request
