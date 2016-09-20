@@ -6,7 +6,9 @@ use common\widgets\AutoHeightTextArea;
 <div class="profile-bio" id="<?= $id ?>">
     <div class="profile-bio-header">
         Intro
-        <?=  Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-bio-edit']) ?>
+        <?php if($profile->isOwner()) { ?>
+            <?=  Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-bio-edit']) ?>
+        <?php } ?>
     </div>
     <i><div class="profile-bio-information">
         <?= ($intro === '') ? 'Empty' : $intro ?>

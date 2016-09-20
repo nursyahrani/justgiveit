@@ -36,12 +36,14 @@ $item_tabs[] = [
         'post_comments' => $post->getPostComments()])
 ]
 ?>
-<div class="post-index" data-stuff_id="<?= $post->getPostId() ?>">
+<div class="post-index" data-stuff_id="<?= $post->getPostId() ?>" >
     <div class="post-information">
         <div class='post-image'>
             <?= ImageViewEditor::widget(['id' => 'image-view-editor', 'image_path' => $post->getImage(320,420)
-                    , 'active' => true]) ?>
-            <?= Html::button('Change Image', ['class' => 'post-change-image hide']) ?>
+                    , 'active' => true, 'modal_title' => $post->getTitle()]) ?>
+            <?php if($post->isOwner()) { ?>
+                <?= Html::button('Change Image', ['class' => 'post-change-image hide']) ?>
+            <?php } ?>
         </div>
         <div class="post-owner">
             <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-owner-photo-path']) ?>

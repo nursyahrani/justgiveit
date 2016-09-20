@@ -1,5 +1,8 @@
 var ProfileSection = function($root) {
     this.$root = $root;
+    this.id = $root.data('id');
+    this.profile_image = null;
+    
     this.$change_to_edit_name = null;
     this.$change_to_edit_location = null;
     
@@ -26,6 +29,8 @@ var ProfileSection = function($root) {
 };
 
 ProfileSection.prototype.init = function() {
+    this.profile_image = new ImageViewEditor(this.$root.find('#' + this.id + "-image-view"));
+    
     this.$change_to_edit_name = this.$root.find('.profile-section-name-edit');
     this.$change_to_edit_location = this.$root.find('.profile-section-location-edit');
     

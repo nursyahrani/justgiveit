@@ -6,6 +6,8 @@ class ProfileBio extends Widget
 {
     public $id;
     
+    public $profile;
+    
     public $intro;
     
     public function init()
@@ -19,6 +21,6 @@ class ProfileBio extends Widget
             $this->intro = '';
         }
         return $this->render('profile-bio',
-            ['id' => $this->id, 'intro' => $this->intro]);
+            ['id' => $this->id, 'intro' => $this->intro, 'profile' => $this->profile]);
     }
 }

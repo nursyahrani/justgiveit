@@ -5,22 +5,25 @@ use yii\web\JsExpression;
 use kartik\select2\Select2;
 ?>
 
-<div id="<?= $id ?>" class="profile-section">
+<div id="<?= $id ?>" class="profile-section" data-id="<?= $id ?>">
     <div class="profile-section-image">
-        <?=  ImageViewEditor::widget(['id' => 'profile-section-image-view',
+        <?=  ImageViewEditor::widget(['id' => $id . '-image-view',
                                     'image_path' => $profile->getProfilePic(), 'active' => true,
                                     'modal_title' => $profile->getFullName()]) ?>
     </div>
     <div class="profile-section-information">
         <div class="profile-section-information-name-area">
             <span class="profile-section-information-name"> <?= $profile->getFullName() ?> </span> 
-            <sup><?= Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-section-name-edit']) ?></sup>
+            <?php if($profile->isOwner()) { ?>
+                <sup>
+                    <?= Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-section-name-edit']) ?>
+                </sup>
+            <?php } ?>
         </div>
         <div class="profile-section-information-edit-name-area hide">
             <div class="profile-section-information-edit-first-name">
                 <?= Html::textInput('first_name', $profile->getFirstName(), ['class' => 'site-input profile-section-first-name']) ?>
                 <div class="profile-section-first-name-error site-input-error">
-                    
                 </div>
             </div>
             <div class="profile-section-information-edit-last-name">
@@ -31,7 +34,11 @@ use kartik\select2\Select2;
         </div>
         <div class="profile-section-information-location-area">
             <i><span class="profile-section-information-location"> <?= $profile->getLocationText() ?> </span></i>
-            <sup><?= Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-section-location-edit']) ?></sup>
+            <?php if($profile->isOwner()) { ?>
+                <sup>
+                    <?= Html::button('<span class="glyphicon glyphicon-pencil"></span>', ['class' => 'profile-section-location-edit']) ?>
+                </sup>
+            <?php } ?>
         </div>
         <div class="profile-section-information-edit-location-area hide">
             <div class="profile-section-information-edit-location-field-area">

@@ -10,7 +10,7 @@
 ?>
 <div class="profile-index">
     <?=    ProfileSection::widget(['id' => 'profile-section', 'profile' => $profile]) ?>
-    <?=    ProfileBio::widget(['id' => 'profile-bio', 'intro' => $profile->getIntro()]) ?>
+    <?=    ProfileBio::widget(['id' => 'profile-bio', 'intro' => $profile->getIntro(), 'profile' => $profile]) ?>
     <?= TabsX::widget([
         'id' => 'profile-tabs',
         'options' => [
