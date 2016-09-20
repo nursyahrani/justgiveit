@@ -111,7 +111,10 @@ class PostVo implements Vo {
         return $this->title;
     }
     
-    public function getImage($width, $height) {
+    public function getImage($width = null, $height = null) {
+        if($width === null || $height === null) {
+            return CommonLibrary::buildImageOriginal($this->image);
+        }
         return CommonLibrary::buildImageLibrary($this->image, $width, $height);
     }
     
@@ -144,7 +147,9 @@ class PostVo implements Vo {
     }
     
     public function getPostLink() {
-        return PostLibrary::buildPostLink($this->post_id, $this->title);
+        $title = str_replace(' ', '_', CommonLibrary::cutText($this->title, 35));
+
+        return PostLibrary::buildPostLink($this->post_id,   $title);
     }
     
     public function getCreatedAt() {

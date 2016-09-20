@@ -24,6 +24,13 @@ QuantityWidget.prototype.initEvents = function() {
     this.$minus_button.click(function(e) {
         this.minusOne();
     }.bind(this));
+    
+    this.$input.on('input', function(e) {
+        var value = parseInt(this.$input.val());
+        if(value > this.max_value) {
+            this.$input.val(this.max_value);
+        }
+    }.bind(this));
 };
 
 QuantityWidget.prototype.addOne = function() {

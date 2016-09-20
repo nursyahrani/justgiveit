@@ -80,11 +80,34 @@ class PostController extends Controller
         ]);
         \Yii::$app->view->registerMetaTag([
                 'property' => 'og:image',
-                'content' => $post_vo->getImage(300,300)
+                'content' => 'https://www.justgivit.com/' .  $post_vo->getImage(250,250)
+        ]);
+        
+        
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:description',
+                'content' => $post_vo->getDescription()
+        ]);
+        
+        
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'fb:app_id',
+                'content' => 867669086677221
+        ]);
+        
+        
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:image:height',
+                'content' => 250
+        ]);
+        
+        \Yii::$app->view->registerMetaTag([
+                'property' => 'og:image:width',
+                'content' => 250
         ]);
         \Yii::$app->view->registerMetaTag([
                 'property' => 'og:url',
-                'content' => $post_vo->getPostLink()
+                'content' =>  'https://www.justgivit.com/' . $post_vo->getPostLink()
         ]);
         \Yii::$app->view->registerMetaTag([
                 'property' => 'og:title',

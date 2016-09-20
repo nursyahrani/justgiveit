@@ -149,11 +149,11 @@ class SiteController extends Controller
         ]);
         \Yii::$app->view->registerMetaTag([
                 'property' => 'og:image',
-                'content' => CommonImageLibrary::getBanner()
+                'content' => "https://justgivit.com/" . CommonImageLibrary::getBanner()
         ]);
         \Yii::$app->view->registerMetaTag([
                 'property' => 'og:url',
-                'content' => Yii::$app->request->baseUrl . '/'
+                'content' =>  'https://www.justgivit.com/'
         ]);
         \Yii::$app->view->registerMetaTag([
                 'property' => 'og:title',

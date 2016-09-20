@@ -24,12 +24,19 @@ if($post->getPostStatus() === Post::STATUS_ACTIVE) {
     $status_open_sup_class .= ' hide';
     $status_open_button_class .= ' hide';
 }
+$first_tag = true;
 ?>
 <div id="<?= $id ?>" data-id="<?= $id ?>" data-stuff_id ="<?= $post->getPostId() ?>" class="post-section">
     <div class="post-section-view">
         <div class="post-section-tags">
             <?php foreach($post->getPostTags() as $tag) { ?>
-                <?= Html::a($tag, CommonLibrary::buildTagLibrary($tag)) ?>
+                <?php if(!$first_tag) { ?>
+                    ,
+                <?php } else { 
+                    $first_tag = false;
+                } ?>
+                    
+                <?= Html::a($tag, CommonLibrary::buildTagLibrary($tag)) ?> 
             <?php } ?>
         </div>
         <div class="post-section-title">

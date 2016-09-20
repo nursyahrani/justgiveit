@@ -7,7 +7,13 @@ class CommonLibrary {
         if($image_path === null) {
             $image_path = 'default.png';
         }
+        
         return Yii::getAlias('@web')  . '/image?path='  . "$image_path&width=" . $width . '&height=' . $height;   
+    }
+    
+    public static function buildImageOriginal($image_path) {
+        //gk boleh kyk gini
+        return  '/frontend/web/' . $image_path;
     }
     
     public static function buildTagLibrary($tag) {

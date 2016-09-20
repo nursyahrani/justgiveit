@@ -13,7 +13,7 @@ $items = ['Book', 'Lecture note', 'Clothes', 'Gadget'];
             </div>
             <?= Html::button('<span class="glyphicon glyphicon-plus"></span>', 
                     ['class' => 'site-hide tag-navigation-header-button tag-navigation-starred-expand', 
-                'align' => 'right']) ?>
+                    'align' => 'right']) ?>
             <?= Html::button('<span class="glyphicon glyphicon-minus"></span>', ['class' => 'tag-navigation-header-button tag-navigation-starred-collapse', 'align' => 'right']) ?>
         </div>
         <div class="tag-navigation-starred-area">

@@ -79,7 +79,6 @@ Site.prototype.initEvents = function() {
     this.$site_left_side_remove.click(function(e) {
         this.$open_left_side_button.removeClass('site-hide')
         this.$open_left_side_button.addClass('inline');
-        this.$site_left_side.addClass('site-hide');
         this.$site_left_side_wrapper.addClass('site-hide');
         this.$site_post_area.removeClass('site-post-area-padding');
     }.bind(this));

@@ -94,9 +94,6 @@ CreatePost.prototype.initEvents = function() {
 };
 
 CreatePost.prototype.uploadImage = function() {
-    this.loading.setMessage("Uploading Image");
-    this.loading.show();
-    
     $.ajax({
         url : $("#base-url").val() + '/site/upload-image' ,
         type: 'post',
@@ -118,8 +115,6 @@ CreatePost.prototype.uploadImage = function() {
 };
 
 CreatePost.prototype.postData = function(image_id) {
-    this.loading.setMessage("Creating Post");
-    this.loading.show();
     CommonLibrary.showCommonLoading();
     
     $.ajax({
@@ -173,7 +168,6 @@ CreatePost.prototype.validateInClient = function() {
     if(this.getTagsVal() === null || this.getTagsVal().length === 0) {
         valid = false;
         this.showError(this.$tags_error, 'Please choose at least 1 tag');
-        
     } else {
         this.hideError(this.$tags_error);
     }
