@@ -16,6 +16,8 @@ class PostVoBuilder implements Builder {
     
     private $total_favorites;
     
+    private $type;
+    
     private $has_favorited;
     
     private $suggested_post;
@@ -30,6 +32,17 @@ class PostVoBuilder implements Builder {
     
     private $post_creator_id;
     
+    private $city_id;
+    
+    private $city_name;
+    
+    private $country_code;
+    
+    private $country_name;
+    
+    private $post_creator_intro;
+    
+
     private $deadline;
     
     private $post_creator_username;
@@ -113,7 +126,58 @@ class PostVoBuilder implements Builder {
     function getTags() {
         return $this->tags;
     }
-
+    
+    function getType() {
+        return $this->type;
+    }
+    
+    function setType($type) {
+        $this->type = $type;
+    }
+ 
+    
+    public function getCityId() {
+        return $this->city_id;
+    }
+    
+    public function getCityName() {
+        return $this->city_name;
+    }
+    
+    public function getCountryCode() {
+        return $this->country_code;
+    }
+    
+    public function getCountryName() {
+        return $this->country_name;
+    }
+    
+    public function getPostCreatorIntro() {
+        return $this->post_creator_intro;
+    }
+    
+    public function setCityId($city_id) {
+        $this->city_id = $city_id;
+    }
+    
+    public function setCityName($city_name) {
+        $this->city_name = $city_name;
+    }
+    
+    public function setCountryCode($country_code) {
+        $this->country_code = $country_code;
+    }
+    
+    public function setCountryName($country_name) {
+        $this->country_name = $country_name;
+    }
+    
+    public function setPostCreatorIntro($intro) {
+        $this->post_creator_intro = $intro;
+    }
+            
+    
+    
     function getPostCreatorUsername() {
         return $this->post_creator_username;
     }

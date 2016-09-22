@@ -27,9 +27,9 @@ use frontend\widgets\BidReplyContainer;
                 <?= Html::button('Delete', ['class' => 'bid-delete']) ?>
             <?php } ?>
             <?php if($post_owner) { ?>
-                <?= Html::button('Give the stuff', ['class' => (($bid->hasObtained()) ? '' : 'hide ') . 'bid-give']) ?>
+                <?= Html::button('Accept', ['class' => (($bid->hasObtained()) ? '' : 'hide ') . 'bid-give']) ?>
 
-                <?= Html::button('Cancel Give the stuff', ['class' => (($bid->hasObtained()) ? 'hide ' : '') .  'bid-cancel-give']) ?>
+                <?= Html::button('Cancel Acceptance', ['class' => (($bid->hasObtained()) ? 'hide ' : '') .  'bid-cancel-give']) ?>
 
             <?php } ?>
         </div>

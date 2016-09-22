@@ -1,0 +1,9 @@
+.country-search-item {
+    padding-top: 4px;
+    cursor: pointer;
+    padding-bottom: 4px;
+}
+
+.country-search-item:hover {
+    background: lightgray;
+}

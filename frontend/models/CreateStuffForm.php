@@ -5,6 +5,7 @@ namespace frontend\models;
 use common\models\Post;
 use Yii;
 use yii\base\Model;
+use common\models\User;
 use yii\web\UploadedFile;
 use common\models\PostTag;
 use common\models\Tag;
@@ -16,9 +17,10 @@ class CreateStuffForm extends Model
     public $title;
     public $description;
     public $image_id;
+    public $location;
     public $poster_id;
     public $quantity;
-    
+    public $type;
     public $tags;
     /**
      * @inheritdoc
@@ -27,9 +29,10 @@ class CreateStuffForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['title', 'description', 'tags'], 'required'],
+            [['title', 'description', 'tags','type', 'location'], 'required'],
             ['poster_id', 'integer'],
-            [['image_id'], 'integer'],
+            [['image_id', 'location'], 'integer'],
+            ['type', 'integer'],
             ['quantity', 'integer', 'min' => 1],
             ['tags', 'each', 'rule' => ['string']],
         ];
@@ -44,8 +47,10 @@ class CreateStuffForm extends Model
         $post->title = $this->title;
         $post->description = $this->description;
         $post->image_id = $this->image_id;
+        $post->type = $this->type;
         $post->poster_id = $this->poster_id;
         $post->quantity = $this->quantity;
+        $post->pick_up_location_id = $this->location;
         $post->deadline = time() + (7 * 24 *3600);
         if(!$post->save()){
             return null;
@@ -66,11 +71,19 @@ class CreateStuffForm extends Model
                 return false;
             }   
         }
+        
+        //check whether user location is empty;
+        $this->updateUserLocation();
+        
         return $post->stuff_id;
     }
     
-    public function update() {
-        
+    public function updateUserLocation() {
+        $user = User::find()->where(['id' => $this->poster_id])->one();
+        if($user->city_id === null) {
+            $user->city_id = $this->location;
+            $user->update();
+        }
     }
     
     private function checkExist($tag) {

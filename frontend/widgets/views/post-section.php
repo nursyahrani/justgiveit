@@ -11,6 +11,13 @@ use common\widgets\QuantityWidget;
 use common\models\Post;
 use common\widgets\AutoHeightTextArea;
 
+$status_type_sup_class = 'post-section-status';
+if($post->getPostType() == Post::GIVE_STUFF) {
+    $status_type_sup_class .= ' post-section-give-type';
+} else if($post->getPostType() == Post::REQUEST_STUFF) {
+    $status_type_sup_class .= ' post-section-request-type';
+}
+
 $status_open_sup_class = 'post-section-status post-section-status-open';
 $status_closed_sup_class = 'post-section-status post-section-status-closed';
 $status_open_button_class = 'post-section-owner-close';
@@ -43,6 +50,7 @@ $first_tag = true;
             <?= $post->getTitle() ?>    
             <sup class="<?= $status_open_sup_class ?>">OPEN</sup>    
             <sup class="<?= $status_closed_sup_class ?>">CLOSED</sup>        
+            <sup class="<?= $status_type_sup_class ?>"><?= $post->getTypeText() ?></sup>   
 
         </div>
         <?php if(!$post->isOwner()) { ?>

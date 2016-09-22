@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\widgets\CountrySearchItem;
 use common\models\User;
 use common\models\UserFacebookAuthentication;
 use frontend\models\GiveStuffToUserForm;
@@ -166,8 +167,9 @@ class SiteController extends Controller
         $query = isset($_POST['query']) ? $_POST['query'] : "";
         $location = isset($_POST['location']) ? $_POST['location'] : "";
         $tags = isset($_POST['tags']) ? $_POST['tags'] : "";
+        $countries = isset($_POST['countries']) ? $_POST['countries'] : "";
         $user_id = Yii::$app->user->getId();
-        $post_vos = $this->home_service->getPosts($user_id, '', $query, $location, $tags);
+        $post_vos = $this->home_service->getPosts($user_id, '', $query, $location, $tags, $countries);
         
         $view = '';
         foreach($post_vos as $vo) {
@@ -186,7 +188,9 @@ class SiteController extends Controller
         $tags = isset($_POST['tags']) ? $_POST['tags'] : "";
         $user_id = Yii::$app->user->getId();
         $ids = isset($_POST['ids']) ? $_POST['ids'] : "";
-        $post_vos = $this->home_service->getPosts($user_id, $ids, $query, $location, $tags);
+        $countries = isset($_POST['countries']) ? $_POST['countries'] : "";
+        
+        $post_vos = $this->home_service->getPosts($user_id, $ids, $query, $location, $tags, $countries);
         
         $view = '';
         foreach($post_vos as $vo) {
@@ -493,6 +497,21 @@ class SiteController extends Controller
     
     }
     
+    public function actionGetCountryViewForSearch() {
+        $data = array();
+        $q = isset($_GET['query']) ? $_GET['query'] : '' ;
+        $results = $this->home_service->searchCountry($q);
+        $view = '';
+        foreach($results as $result) {
+            $view .= CountrySearchItem::widget(['id' => 'country-search-item-' . $result['country_code'], 
+                                                'country_code' => $result['country_code'],
+                                                'country_name' => $result['country_name']]);
+        }
+        $data['status'] = 1;
+        $data['view'] = $view;
+        return json_encode($data);
+        
+    }
     public function actionUpdateUserCity() {
         $data = array();
         if(!isset($_POST['city']) || !isset($_POST['country']) || !isset($_POST['country_code'])) {

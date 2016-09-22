@@ -13,6 +13,11 @@
     background: #efefef;    
 }
 
+.post-pick-up-location {
+    font-weight: bold;
+    color: gray;
+}
+
 .post-bids-header {
     padding-bottom: 4px;
     border-bottom: 1px solid;
@@ -120,5 +125,9 @@
 .post-owner-user-link {
     color: blue;
     font-weight: bold;
+    margin-left: 8px;
 }
 
+.post-owner-info {
+    margin-top: 4px;
+}

@@ -23,8 +23,6 @@ class HomeVo implements Vo {
     
     private $starred_tag_list;
     
-    private $most_popular_tags;
-    
     function __construct(HomeVoBuilder $builder) {
         $this->post_list = $builder->getPostList();
         $this->most_popular_post = $builder->getMostPopularPost();

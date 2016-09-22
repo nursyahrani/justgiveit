@@ -28,8 +28,6 @@ class PostService {
     public function getPostInfo($current_user_id, $id,  PostVoBuilder $builder ) {
         
         $builder = $this->post_dao->getPostInfo($current_user_id,$id, $builder);
-        $suggested_post = $this->home_dao->getAllGiveStuffs($current_user_id, 0, '', '', 4);
-        $builder->setSuggestedPost($suggested_post);
         if(UserLibrary::isOwner($builder->getPostCreatorId())) {
             $builder->setBidList($this->post_dao->getBidList($builder->getPostId()));   
         } else {

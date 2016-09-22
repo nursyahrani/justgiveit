@@ -13,6 +13,8 @@ var Site = function($root) {
     this.$site_left_side = null;
     this.$site_left_side_wrapper = null;
     this.$open_left_side_button = null;
+    this.$country_search = null;
+    this.country_search = null;
     this.$banner = null;
     this.init();
     this.initEvents();
@@ -38,10 +40,11 @@ Site.prototype.init = function() {
 
     this.$site_left_side_wrapper = this.$root.find('.site-left-side-wrapper');
     this.$site_left_side = this.$root.find('.site-left-side');
-    this.$site_left_side_remove = this.$root.find('.site-left-side-remove');
+    this.$site_left_side_remove = this.$root.find('.site-left-side-remove');    
     this.$open_left_side_button = this.$root.find('.site-post-area-open-left-side');
     
-    
+    this.$country_search = this.$root.find('#site-country-search');
+    this.country_search = new CountrySearch(this.$country_search);
 };
 
 Site.prototype.backToTop = function() {
@@ -67,6 +70,13 @@ Site.prototype.initEvents = function() {
         this.post_list.setQueryAndLocation(data.query, data.location);
     }.bind(this));
     
+    
+    this.$country_search.on(CountrySearch.EVENTS.COUNTRY_SEARCH_CHANGE, function(e,data){
+        this.backToTop();
+        this.post_list.setCountries(data);
+        
+    }.bind(this));
+    
     $(".main-view").scroll(function(e) {
         var scrollPercentage = 
                 100 * $(".main-view").scrollTop() / ((this.post_list.getHeight() - 40) - $(".main-view").height());
@@ -84,11 +94,9 @@ Site.prototype.initEvents = function() {
     }.bind(this));
     
     this.$open_left_side_button.click(function(e) {
-        
         if( !this.$site_left_side_wrapper.is(':visible')) {
             this.$site_left_side_wrapper.removeClass('hide-right-side');
             this.$site_left_side_wrapper.removeClass('site-hide');   
-                  
             this.$site_post_area.addClass('site-post-area-padding');   
         } else {
             this.$site_left_side_wrapper.addClass('hide-right-side');
@@ -102,7 +110,6 @@ Site.prototype.initEvents = function() {
         if(e.target && ($(e.target).closest("#tag-navigation").length === 0)) {
             if(window.innerWidth < 890 && $(e.target).closest(".site-post-area-open-left-side" ).length === 0) {
                 this.$site_left_side_wrapper.addClass('site-hide');
-
                 this.$site_post_area.removeClass('site-post-area-padding');
             } 
         }

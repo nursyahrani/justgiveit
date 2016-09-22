@@ -4,7 +4,7 @@ use frontend\widgets\BannerWithSearch;
 use frontend\widgets\TagNavigation;
 use yii\helpers\Html;
 use frontend\widgets\Banner;
-use frontend\widgets\HomeProfileView;
+use frontend\widgets\CountrySearch;
 use frontend\widgets\SearchBar;
 use frontend\widgets\PostList;
 /* @var $this yii\web\View */
@@ -17,6 +17,7 @@ $this->title = 'Just Give it';
         <?= Html::button('<span class="glyphicon glyphicon-menu-hamburger"></span>', 
                 ['class' => 'btn btn-default site-post-area-open-left-side-dynamic site-post-area-open-left-side']) ?>
         <?= SearchBar::widget(['id' => 'site-search-bar', 'initial_location' => $home_vo->getCurrentUserLocation()]) ?>
+        <?= CountrySearch::widget(['id' => 'site-country-search']) ?>
     </div>
 
     <div class='site-view'>

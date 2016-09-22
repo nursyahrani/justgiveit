@@ -46,8 +46,14 @@ $item_tabs[] = [
             <?php } ?>
         </div>
         <div class="post-owner">
-            <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-owner-photo-path']) ?>
-            <?= Html::a($post->getPostCreatorFullName(), $post->getPostCreatorUserLink(), ['class' => 'post-owner-user-link']) ?>
+            <div class="post-pick-up-location">
+                <?= $post->getLocationText() ?>
+            </div>
+            <div class="post-owner-info">
+                <?= Html::img($post->getPostCreatorPhotoPath(), ['class' => 'post-owner-photo-path']) ?>
+                <?= Html::a($post->getPostCreatorFullName(), $post->getPostCreatorUserLink(), ['class' => 'post-owner-user-link']) ?>
+            </div>
+            <?= $post->getPostCreatorIntro() ?>
         </div>
     </div>
     <div class="post-right">

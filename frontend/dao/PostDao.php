@@ -11,12 +11,15 @@ class PostDao {
             SELECT stuff_with_bid_info.*, (for_has_favorited.user_id is not null) as has_favorited,
             count(for_total_favorites.stuff_id) as total_favorites
             FROM (
-                Select post_info.*, 
+                Select post_info.*,city.city_id, city.city_name, country.country_code,
+                            country.country_default_name as country_name,
                         count(for_total_bids.stuff_id) as total_bids,
                         (for_has_bid.proposer_id is not null) as has_bid
                  from(
-                    select post.*, image.image_path as photo_path,
-                    user.id as user_id, user.username, user.profile_pic, user.first_name, user.last_name                    
+                    select post.*,
+                            image.image_path as photo_path,
+                            user.id as user_id, user.username, 
+                            user.profile_pic, user.first_name, user.last_name, user.intro                    
                     
                     from post , user, image 
                     where post.stuff_id = :post_id and image.image_id = post.image_id
@@ -26,6 +29,10 @@ class PostDao {
                  on for_total_bids.stuff_id = post_info.stuff_id
                  left join bid for_has_bid
                  on for_has_bid.stuff_id = post_info.stuff_id and for_has_bid.proposer_id = :user_id
+                 left join city  
+                 on city.city_id = post_info.pick_up_location_id
+                 left join country
+                 on country.country_code = city.country_code
                  group by (post_info.stuff_id)) stuff_with_bid_info
             LEFT JOIN favorite for_total_favorites
             on for_total_favorites.stuff_id = stuff_with_bid_info.stuff_id
@@ -88,6 +95,7 @@ class PostDao {
             $bid->setCreatorPhotoPath($result['profile_pic']);
             $bid->setQuantity($result['quantity']);
             $bid->setTotalReplies($result['total_replies']);
+            
             $bid_list[] = $bid->build();
         }
         return $bid_list;
@@ -120,7 +128,13 @@ class PostDao {
         $builder->setQuantity($result['quantity']);
         $builder->setPostStatus($result['post_status']);
         $builder->setTotalComments($result['total_comments']);
+        $builder->setCityId($result['city_id']);
+        $builder->setCityName($result['city_name']);
+        $builder->setCountryCode($result['country_code']);
+        $builder->setCountryName($result['country_name']);
+        $builder->setPostCreatorIntro($result['intro']);
         $builder->setPostComments($this->post_comment_dao->getPostCommentList($result['stuff_id']));
+        $builder->setType($result['type']);
         return $builder;
     }
 }   

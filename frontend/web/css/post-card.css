@@ -1,12 +1,23 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 15 Aug, 2016, 5:16:01 PM
-    Author     : user
-*/
+.post-card-type-free {
+    color: green;
+}
+
+.post-card-type-request { 
+    color: red;
+}
+
+.post-card-type {
+    font-size: 12px;
+    font-weight: bold;   
+}
+
+.post-card-country {
+    white-space: nowrap;
+    overflow: hidden;
+    margin-left: 8px;
+    margin-right: 8px;
+    text-align: left;
+}
 
 .post-card {
     cursor: pointer;
@@ -79,8 +90,8 @@ and open the template in the editor.
     text-overflow: ellipsis;
     word-wrap: break-word;
     overflow: hidden;
-    max-height: 32px;
-    height: 32px;
+    max-height: 16px;
+    height: 16px;
     letter-spacing: 1.2px;
     color: gray;
     margin: 0;

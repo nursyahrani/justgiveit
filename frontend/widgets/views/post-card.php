@@ -1,11 +1,13 @@
 <?php
     use yii\helpers\Html;
-    use kartik\dialog\Dialog;
-    use yii\bootstrap\Modal;
-    use frontend\widgets\HomeProposalBox;
-    use common\widgets\ButtonWithTooltip;
-    use common\libraries\CommonLibrary;
-    use frontend\widgets\ImageViewEditor;
+    use common\models\Post;
+    
+    $post_card_type_class = 'post-card-type ';
+    if($post_vo->getPostType() == Post::GIVE_STUFF) {
+        $post_card_type_class .= 'post-card-type-free';
+    } else {
+        $post_card_type_class .= 'post-card-type-request';
+    }
     /** @var $post_vo PostVo */
     $post_title = $post_vo->getTitle();
     $post_description = $post_vo->getDescription();
@@ -22,20 +24,21 @@
 
 <div id="<?= $id ?>" class="post-card" data-stuff_id="<?= $post_id ?>" 
      data-is_owner ="<?= $post_vo->isOwner() ?>" data-id="<?= $id ?>" data-post_link="<?= $post_link ?>">
+   
     <?= Html::img($post_vo->getImage(290,290), ['class' => 'post-card-img']) ?>
     <div class="post-card-view">
         <?= Html::a($post_title, $post_link, ['class' => 'post-card-name'])     ?>
        
         <div class="post-card-button">
-            <span class="glyphicon glyphicon-heart post-card-logo <?= ($post_vo->hasFavorited()) ? 'post-card-button-red' : '' ?>" >
-            </span>
-            <div class="post-card-total-favorite">
-                <?= $post_vo->getTotalFavorites() ?>
+            <div class="<?= $post_card_type_class ?>">
+                <?= $post_vo->getTypeText() ?>
             </div>
-            
             <div class="post-card-right">
                 <?= $post_vo->getPostTags()[0] ?>
             </div>
+        </div>
+         <div class="post-card-country">
+            <?= $post_vo->getLocationText() ?>
         </div>
     </div>
     

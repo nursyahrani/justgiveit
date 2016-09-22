@@ -1,5 +1,6 @@
 <?php 
 use yii\helpers\Html;
+use common\models\Post;
 use yii\web\JsExpression;
 use common\widgets\AutoHeightTextArea;
 use yii\bootstrap\Modal;
@@ -14,6 +15,7 @@ use common\libraries\CommonImageLibrary;
     </div>
     <div class='create-post-form'>
         <?=  Html::beginForm() ?>
+        
         <div class='create-post-image'>
             <?= Html::img(CommonImageLibrary::getNoPhotoPic(), ['class' => 'create-post-image-view']) ?>
             <?= Html::label('Select Photo',  'create-post-select-photo', ['class' => 'create-post-image-label']) ?>
@@ -29,6 +31,27 @@ use common\libraries\CommonImageLibrary;
                 Stuff Details
             </div>
             <div class="create-post-information-area">
+                <div class="create-post-information-label">
+                    Give/Request this Stuff
+                </div>
+                <div class="create-post-information-field">
+                    <div class="create-post-type">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default  ">
+                              <input type="radio" name="type" value="<?= Post::GIVE_STUFF ?>"> Give this Stuff
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="radio" name="type" value="<?= Post::REQUEST_STUFF ?>"> Request this Stuff
+                            </label>
+                        </div>  
+                    </div>
+                    <div class="create-post-type-error site-input-error">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="create-post-information-area">
+                
                 <div class="create-post-information-label">
                     Stuff Category
                 </div>
@@ -93,8 +116,35 @@ use common\libraries\CommonImageLibrary;
                     </div>
                 </div>
             </div>
-
-            
+            <div class="create-post-information-area">
+                <div class="create-post-information-label">
+                    Pick up Location
+                </div>
+                <div class="create-post-information-field">
+                    <?= Select2::widget([
+                        'id' => 'create-post-information-pick-up-field',
+                        'class' => 'create-post-information-pick-up-field',
+                        'name' => 'location',
+                        'value' => $profile->getUserCityId(),
+                        'data' => [$profile->getUserCityId() => $profile->getLocationText()],
+                        'maintainOrder' => true,
+                        'options' => ['placeholder' => 'Select City ...'],
+                        'pluginOptions' => [
+                            'ajax' => [
+                                'url' => \yii\helpers\Url::to(['site/search-city']),
+                                'dataType' => 'json',
+                                   'data' => new JsExpression('function(params) { return {query:params.term}; }')
+                            ],
+                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                            'templateResult' => new JsExpression('function(topic_name) { return topic_name.text; }'),
+                            'templateSelection' => new JsExpression('function (topic_name) { return topic_name.text; }'),
+                        ]
+                    ]) ?>
+                    <div class="create-post-information-pick-up-location-error site-input-error">
+                        
+                    </div>
+                </div>
+            </div>
             <div class="create-post-button">
 
                 <?= Html::button('Create', ['class' => 'create-post-create site-button site-blue-button']) ?>

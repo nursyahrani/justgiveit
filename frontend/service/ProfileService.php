@@ -2,7 +2,7 @@
 namespace frontend\service;
 
 use frontend\dao\ProfileDao;
-
+use frontend\vo\ProfileVoBuilder;
 class ProfileService {
     
     /**
@@ -30,5 +30,11 @@ class ProfileService {
         
     }
     
-    
+    function getMiniProfileAndCityInfo($current_user_id) {
+        $builder = new ProfileVoBuilder();
+        $builder = $this->profile_dao->getMiniProfileAndCityInfo($current_user_id, $builder);
+        return  $builder->build();
+        
+        
+    }
 }

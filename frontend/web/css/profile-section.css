@@ -29,6 +29,14 @@
     font-weight: bold;
 }
 
+.profile-section-information-edit-last-name
+{
+    margin-bottom: 4px;
+}
+
+.profile-section-information-edit-location-field-area {
+    width: 250px;
+}
 .profile-section-location-edit , .profile-section-name-edit {
     
     background: none;
@@ -38,7 +46,7 @@
 }
 
 .profile-section-information-edit-name-area , .profile-section-information-edit-location-area{
-        display: flex;
+        display: block;
     min-width: 300px;
     margin-bottom: 8px;
     max-width: 455px;

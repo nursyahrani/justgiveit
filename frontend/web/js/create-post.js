@@ -18,10 +18,14 @@ var CreatePost = function($root) {
     this.$description = null;
     this.$image = null;
     this.$quantity = null;
+    this.$pick_up_location = null;
+    
     //field error
     this.$tags_error = null;
     this.$title_error = null;
     this.$description_error = null;
+    this.$type_error = null;
+    this.$pick_up_location_error = null;
     
     //button
     this.$create_button = null;
@@ -42,12 +46,15 @@ CreatePost.prototype.init = function() {
     this.$description = this.$root.find('.create-post-information-description');
     this.$image = this.$root.find('.create-post-image-view');
     this.$quantity = this.$root.find('.create-post-information-quantity');
+    this.$pick_up_location = this.$root.find('#create-post-information-pick-up-field');
     //error
     this.$tags_error = this.$root.find('.create-post-information-tags-error');
     this.$title_error = this.$root.find('.create-post-information-title-error');
     this.$description_error = this.$root.find('.create-post-information-description-error');
     this.$image_error = this.$root.find('.create-post-information-image-error');
     this.$quantity_error =this.$root.find('.create-post-information-quantity-error');
+    this.$type_error = this.$root.find('.create-post-type-error');
+    this.$pick_up_location_error = this.$root.find('.create-post-information-pick-up-location-error');
     //button
     this.$create_button = this.$root.find('.create-post-create');
     this.$select_photo_input = this.$root.find('.create-post-image-select-photo');
@@ -63,7 +70,16 @@ CreatePost.prototype.init = function() {
 
 CreatePost.prototype.initEvents = function() {
     var self = this;
+    this.$root.on('input' , function(e) {
+        if(CommonLibrary.isGuest()) {
+            return false;
+        }  
+    });
+    
     this.$select_photo_input.change(function(e ){
+        if(CommonLibrary.isGuest()) {
+            return false;
+        }
         if (this.files && this.files[0]) {
           var reader = new FileReader();
           if(this.files[0].size / 1024 / 1024 > 25) {
@@ -86,6 +102,9 @@ CreatePost.prototype.initEvents = function() {
     });
     
     this.$create_button.click(function(e) {
+        if(CommonLibrary.isGuest()) {
+            return false;
+        }
         var valid  = this.validateInClient();
         if(valid) {
             this.uploadImage();
@@ -122,7 +141,11 @@ CreatePost.prototype.postData = function(image_id) {
         type: 'post',
         context: this,
         data: {title: this.getTitleVal(), description: this.getDescriptionVal(),
-                image_id:image_id, tags: this.getTagsVal(), quantity: this.getQuantityVal()},
+                image_id:image_id, 
+                tags: this.getTagsVal(), 
+                quantity: this.getQuantityVal(), 
+                type: this.getTypeVal(),
+                location: this.getPickUpLocationVal()},
         success: function(data) {
             var parsed = JSON.parse(data);
             if(parsed['status'] === 1) {
@@ -179,6 +202,20 @@ CreatePost.prototype.validateInClient = function() {
         this.hideError(this.$quantity_error);
     }
     
+    if(this.getTypeVal() === '' || this.getTypeVal() === null) {
+        valid = false;
+        this.showError(this.$type_error, 'Please select one of the choice above');
+    } else {
+        this.hideError(this.$type_error);
+    }
+    
+    if(this.getPickUpLocationVal() === '' || this.getPickUpLocationVal() === null) {
+        valid = false;
+        this.showError(this.$pick_up_location_error, 'Please select the location you prefer to get/give the stuff');
+    } else {
+        this.hideError(this.$pick_up_location_error);
+    }
+    
     return valid;
 };
 
@@ -201,7 +238,12 @@ CreatePost.prototype.getDescriptionVal = function() {
 
 CreatePost.prototype.getTagsVal = function() {
     return this.$tags.val();
+};
+
+CreatePost.prototype.getPickUpLocationVal = function() {
+    return this.$pick_up_location.val();
 }
+
 
 CreatePost.prototype.getImageVal = function() {
     return this.$select_photo_input.val();
@@ -214,4 +256,12 @@ CreatePost.prototype.getQuantityVal = function() {
     }
     
     return parseInt( quantity);
-}
+};
+
+CreatePost.prototype.getTypeVal = function() {
+    var type = this.$root.find('input[name="type"]:checked').val();
+    if(type === undefined) {
+        return null;
+    }
+    return type;
+};

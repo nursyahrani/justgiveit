@@ -20,6 +20,11 @@ class CommonLibrary {
         return Yii::$app->request->baseUrl . '/tag/' . $tag;
     }
     
+    public static function buildLocationText($country_code, $city_name, $country_name) {
+        $country_code = strtolower($country_code);
+        return "<span class='flag-icon flag-icon-$country_code'></span> $city_name, $country_name";
+    }
+    
     public static function getTextFromTimeDifference($deadline) {
         
         $etime = $deadline - time();

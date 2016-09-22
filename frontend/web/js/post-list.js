@@ -1,10 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 var PostList = function($root) {
     this.$root = $root;
     this.stuff_ids = '';
@@ -12,6 +5,7 @@ var PostList = function($root) {
     this.location = $root.data('location');
     this.query = '';
     this.tags =[];
+    this.countries = [];
     this.post_cards = [];
     this.$post_list_area = null;
     this.permit_retrieve_post = true;
@@ -69,6 +63,15 @@ PostList.prototype.setNewTags = function(tags ) {
 
 };
 
+
+PostList.prototype.setCountries = function(countries) {
+    this.countries = countries;
+    this.searchNewData();
+    this.is_retrieving = false;
+    this.$reached_the_end.addClass('hide');
+}
+
+
 PostList.prototype.setQueryAndLocation = function(query, location) {
     this.query = query;
     this.location = location;
@@ -100,7 +103,8 @@ PostList.prototype.searchNewData  = function() {
         url: $("#base-url").val() + "/site/search-new-data",
         type: 'post',
         context: this,
-        data: {query: this.query, location: this.location, tags : this.stringifyArray(this.tags)},
+        data: {query: this.query, location: this.location, tags : this.stringifyArray(this.tags),
+                countries: this.stringifyArray(this.countries)},
         success: function(data) {
             var parsedData = JSON.parse(data);
             if(parsedData['status'] === 1) {
@@ -130,7 +134,9 @@ PostList.prototype.getMorePosts  = function() {
             url: $("#base-url").val() + "/site/get-more-posts",
             type: 'post',
             context: this,
-            data: {query: this.query, ids: this.stuff_ids, location: this.location, tags : this.stringifyArray(this.tags)},
+            data: {query: this.query, ids: this.stuff_ids, 
+                location: this.location, tags : this.stringifyArray(this.tags),
+                countries: this.stringifyArray(this.countries)},
             success: function(data) {
                 this.is_retrieving = false;
                 var parsedData = JSON.parse(data);

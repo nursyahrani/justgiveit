@@ -1,0 +1,32 @@
+.country-search-header {
+       display: flex;
+    color: white;
+    background: none;
+    line-height: 26px;
+    border: 0;
+    margin-left: 4px;
+}
+
+.country-search-header:hover {
+    background: lightgray;
+    color: black;
+}
+
+.country-search-header-chevron {
+    top: 6px;
+    margin-left: 2px;
+}
+
+.country-search-view {
+    right: 0;
+    position: absolute;
+    width: 150px;
+    text-align: center;
+    background: white;
+    margin-top: 4px;
+
+}
+
+.country-search-field {
+    margin: 5px;
+}

@@ -14,41 +14,26 @@ use frontend\dao\PostDao;
 class HomeDao {
     
     const GET_ALL_STUFFS = "
-                        SELECT stuff_with_bid_info.*,
-                                count(for_total_favorites.user_id) as total_favorites,
-                                (has_favorited.user_id is not null) as has_favorited
-                        from (    
-                            SELECT stuff_info.*,
-                                   count(bid1.proposer_id) as total_bids ,
-                                   (bid2.proposer_id is not null) as has_bid
-                            FROM (
-                                SELECT post.*, user.id, user.first_name, user.last_name,
-                                    user.profile_pic, user.username  , image.image_path as photo_path
-                                from post,user,image, city, post_tag
-                                where post.poster_id = user.id and image.image_id = post.image_id
-                                    and post.stuff_id not in ( :retrieved_post_ids) and user.city_id = city.city_id
-                                    and  post_tag.post_id = post.stuff_id 
-                                    and( \":tags\" = \"''\" or post_tag.tag_name in ( :tags ) ) 
-                                    and (city.city_id LIKE :location or
-                                    city.country_code LIKE :location) and (post_tag.tag_name LIKE :query  or
-                                    post.title LIKE :query) and post.post_status = 10
-                                group by (post.stuff_id)
-                                order by post.created_at desc
-                                ) stuff_info
-                            LEFT JOIN bid bid1
-                            on stuff_info.stuff_id = bid1.stuff_id
-                            LEFT JOIN bid bid2
-                            on stuff_info.stuff_id = bid2.stuff_id and bid2.proposer_id = :user_id
-                            
-                            group by (stuff_info.stuff_id)) stuff_with_bid_info
-                        LEFT join favorite for_total_favorites
-                        on stuff_with_bid_info.stuff_id = for_total_favorites.stuff_id
-                        LEFT join favorite has_favorited
-                        on stuff_with_bid_info.stuff_id = has_favorited.stuff_id and
-                            has_favorited.user_id = :user_id
-                        group by (stuff_with_bid_info.stuff_id)
-                        order by stuff_with_bid_info.created_at desc  
-                        limit :limit
+                        Select post_info.*, city.city_id, city.city_name, country.country_code, country.country_default_name as country_name
+                        from ( 
+                            SELECT post.*, user.id, user.first_name, user.last_name,
+                                user.profile_pic, user.username  , image.image_path as photo_path
+                            from post,user,image, post_tag
+                            where post.poster_id = user.id and image.image_id = post.image_id
+                                and post.stuff_id not in ( :retrieved_post_ids) 
+                                and  post_tag.post_id = post.stuff_id 
+                                and( \":tags\" = \"''\" or post_tag.tag_name in ( :tags ) ) 
+                                 and (post_tag.tag_name LIKE :query  or
+                                post.title LIKE :query) and post.post_status = 10
+                            group by (post.stuff_id)
+                            order by post.created_at desc
+                            limit :limit
+                        ) post_info
+                        left join city
+                        on post_info.pick_up_location_id = city.city_id
+                        left join country
+                        on country.country_code = city.country_code
+                        where (\":countries\" = \"''\" or country.country_code in (:countries))
                         ";
     
     
@@ -63,12 +48,13 @@ class HomeDao {
             CONCAT(city_id) as id
             from country, city
             where country.country_code = city.country_code and 
-                 (country.country_default_name LIKE :country or
-                 city.city_name LIKE :city )
-            limit :limit";
+                 (city.city_name LIKE :city or
+                 country.country_default_name LIKE :city)
+            limit :limit ";
     
-    const SEARCH_COUNTRY_ONLY = "SELECT country_code as id , country_default_name as text
-            from country 
+    const SEARCH_COUNTRY_ONLY = "SELECT country.country_default_name as country_name, 
+            country.country_code
+            from country
             where country.country_default_name LIKE :country
             limit :limit";
     
@@ -121,10 +107,11 @@ class HomeDao {
             $post_builder->setPostCreatorUsername($result['username']);
             $post_builder->setPostCreatorPhotoPath($result['profile_pic']);
             $post_builder->setDeadline($result['deadline']);
-            $post_builder->setTotalBids($result['total_bids']);
-            $post_builder->setHasBid($result['has_bid']);
-            $post_builder->setTotalFavorites($result['total_favorites']);
-            $post_builder->setHasFavorited($result['has_favorited']);
+            $post_builder->setType($result['type']);
+            $post_builder->setCityId($result['city_id']);
+            $post_builder->setCityName($result['city_name']);
+            $post_builder->setCountryCode($result['country_code']);
+            $post_builder->setCountryName($result['country_name']);
             $post_tags = $this->post_dao->getPostTag($result['stuff_id']);
             $post_builder->setTags($post_tags);
             $post_list[] = $post_builder->build();
@@ -133,17 +120,16 @@ class HomeDao {
     
     }
    
-    public function getAllGiveStuffs($current_user_id , $retrieved_post_ids, $search_query, $location, $tags, $limit = 15){
+    public function getAllGiveStuffs($current_user_id , $retrieved_post_ids, $search_query, $location, $tags, $countries,$limit = 15){
         $location = "%" . $location . "%";
         $search_query = "%" . $search_query . "%";
         $query = str_replace(':retrieved_post_ids', DatabaseLibrary::stringedItems($retrieved_post_ids), self::GET_ALL_STUFFS);
         $query = str_replace(':tags', DatabaseLibrary::stringedItems($tags), $query);
-        
+        $query = str_replace(':countries', DatabaseLibrary::stringedItems($countries), $query);
         $results =  \Yii::$app->db
             ->createCommand($query)
             ->bindParam(':user_id', $current_user_id)
             ->bindParam(':limit', $limit)
-            ->bindParam(':location', $location)
             ->bindParam(':query', $search_query)
             ->queryAll();
         
@@ -163,52 +149,26 @@ class HomeDao {
         return $data;
     }
     
-    public function searchCountryCity($pre, $post = NULL) {
+    public function searchCountry($pre) {
         $pre = '%' . $pre . '%';
-        if($post === null) {
-            $post = '%%';
-            $country_limit = 2;
-            $results_country =  \Yii::$app->db
-                ->createCommand(self::SEARCH_COUNTRY_ONLY)
-                ->bindParam(':country', $pre)
-                ->bindParam(':limit', $country_limit)
-                ->queryAll();
-            $city_limit = 5 - count($results_country);
-            $results_city =  \Yii::$app->db
-                ->createCommand(self::SEARCH_CITY)
-                ->bindParam(':city', $pre)
-                ->bindParam(':country', $post )
-                ->bindParam(':limit', $city_limit)
-                ->queryAll();
-            $results = array_merge($results_country, $results_city);
-        } else {
-            $post = '%' . $post. '%';
-            $results_city =  \Yii::$app->db
-                ->createCommand(self::SEARCH_CITY)
-                ->bindParam(':city', $pre)
-                ->bindParam(':country', $post)
-                ->bindParam(':limit', 5)
-                ->queryAll();
-        }
-        $data = array();
-        foreach($results as $result) {
-            $datum['id'] = $result['id'];
-            $datum['text'] = $result['text'];
-            $data[] = $datum;
-        }
-        return $data;
+        $country_limit = 5;
+        $results =  \Yii::$app->db
+            ->createCommand(self::SEARCH_COUNTRY_ONLY)
+            ->bindParam(':country', $pre)
+            ->bindParam(':limit', $country_limit)
+            ->queryAll();
+        return $results;
     }
     
-    public function searchCity($pre, $post = NULL) {
+    public function searchCity($pre, $post = '-') {
         $city_limit = 5;
         $pre = '%' . $pre . '%';
-        $post = '%' . $post. '%';
         $results =  \Yii::$app->db
                 ->createCommand(self::SEARCH_CITY)
                 ->bindParam(':city', $pre)
-                ->bindParam(':country', $post )
                 ->bindParam(':limit', $city_limit)
                 ->queryAll();
+        
         $data = array();
         foreach($results as $result) {
             $datum['id'] = $result['id'];

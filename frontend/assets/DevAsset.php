@@ -41,9 +41,11 @@ class DevAsset extends AssetBundle
         'frontend/web/css/bid.css',
         'frontend/web/css/bid-reply.css',
         'frontend/web/css/login.css',
+        'frontend/web/css/country-search-item.css',
         'frontend/web/css/bid-container.css',
         'frontend/web/css/bidder-list.css',
         'frontend/web/css/edit-post.css',
+        'frontend/web/css/flag-icon.min.css',
         'frontend/web/css/post-section.css',
         'frontend/web/css/post-comment.css',
         'frontend/web/css/post-delete.css',
@@ -59,6 +61,7 @@ class DevAsset extends AssetBundle
         'frontend/web/css/tag-navigation.css',
         'frontend/web/css/email-registration.css',
         'frontend/web/css/site.css',
+        'frontend/web/css/country-search.css',
         'frontend/web/css/notification-item.css',
         'frontend/web/css/notification-list.css'
     ];
@@ -84,6 +87,8 @@ class DevAsset extends AssetBundle
         'frontend/web/js/bid-container.js',
         'frontend/web/js/bidder-list.js',
         'frontend/web/js/edit-post.js',
+        'frontend/web/js/country-search-item.js',
+        'frontend/web/js/country-search.js',
         'frontend/web/js/post-section.js',
         'frontend/web/js/post-comment.js',
         'frontend/web/js/post-comment-container.js',

@@ -30,7 +30,7 @@ class HomeService {
     
     
     public function getHomeInfo($current_user_id, HomeVoBuilder $builder , $init_tag = null) {
-        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id'], $init_tag));
+        $builder->setPostList($this->home_dao->getAllGiveStuffs($current_user_id, '','', $builder->getCurrentUserLocation()['id'], $init_tag, ''));
         $builder->setHomeProfileView($this->profile_dao->getHomeProfileView($current_user_id));
         $tag = array();
         if($init_tag) {
@@ -52,8 +52,8 @@ class HomeService {
      * @param type $tags
      * @return type
      */
-    public function getPosts($current_user_id, $retrieved_post_ids, $query, $location, $tags ) {
-        return $this->home_dao->getAllGiveStuffs($current_user_id, $retrieved_post_ids, $query, $location, $tags);
+    public function getPosts($current_user_id, $retrieved_post_ids, $query, $location, $tags, $countries ) {
+        return $this->home_dao->getAllGiveStuffs($current_user_id, $retrieved_post_ids, $query, $location, $tags, $countries);
     }
     
     /**
@@ -64,8 +64,8 @@ class HomeService {
         return $this->home_dao->searchIssue($query);
     }
     
-    public function searchCountryCity($pre, $post = null) {
-        return $this->home_dao->searchCountryCity($pre, $post);
+    public function searchCountry($pre) {
+        return $this->home_dao->searchCountry($pre);
     }
     
     public function searchCity($pre, $post = null) {

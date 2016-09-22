@@ -46,11 +46,11 @@ use kartik\select2\Select2;
                     'id' => 'profile-section-information-edit-location-field',
                     'class' => 'profile-section-information-edit-location',
                     'name' => 'location',
+                    'value' => $profile->getUserCityId(),
+                    'data' => [$profile->getUserCityId() => $profile->getLocationText()],
                     'maintainOrder' => true,
                     'options' => ['placeholder' => 'Select City ...'],
                     'pluginOptions' => [
-                        'allowClear' => true,
-                        'tags' => true,
                         'ajax' => [
                             'url' => \yii\helpers\Url::to(['site/search-city']),
                             'dataType' => 'json',
@@ -59,7 +59,7 @@ use kartik\select2\Select2;
                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                         'templateResult' => new JsExpression('function(topic_name) { return topic_name.text; }'),
                         'templateSelection' => new JsExpression('function (topic_name) { return topic_name.text; }'),
-                    ],
+                    ]
                 ]) ?> 
                 <div class="profile-section-information-location-area-error site-input-error">
                     

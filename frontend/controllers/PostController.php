@@ -18,26 +18,32 @@ class PostController extends Controller
     private $service_factory;
     
     private $post_service;
+
+    private $profile_service;
     
     public function init() {    
         $this->service_factory = new ServiceFactory();
         $this->post_service = $this->service_factory->getService(ServiceFactory::POST_SERVICE);
+        $this->profile_service = $this->service_factory->getService(ServiceFactory::PROFILE_SERVICE);
     }
 
     public function actionCreate() {
-        return $this->render('create-post');
+        $profile = $this->profile_service->getMiniProfileAndCityInfo(Yii::$app->user->getId());
+        return $this->render('create-post', ['profile' => $profile]);
     }
 
     public function actionProcessCreate(){
         $data= array();
         if(!Yii::$app->user->isGuest  && isset($_POST['title']) &&
                 isset($_POST['description']) && isset($_POST['tags']) 
-                && isset($_POST['image_id'])) {
+                && isset($_POST['image_id']) && isset($_POST['type']) && isset($_POST['location'])) {
             
             $create_stuff_form = new CreateStuffForm();
             $create_stuff_form->poster_id = Yii::$app->user->getId();
             $create_stuff_form->title = $_POST['title'];
+            $create_stuff_form->type = $_POST['type'];
             $create_stuff_form->tags = $_POST['tags'];
+            $create_stuff_form->location = $_POST['location'];
             $create_stuff_form->description = $_POST['description'];
             $create_stuff_form->image_id = $_POST['image_id'];
             $create_stuff_form->quantity = $_POST['quantity'];

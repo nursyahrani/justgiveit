@@ -157,7 +157,7 @@ class ProfileVo implements Vo {
     
     public function getLocationText() {
         if($this->user_city_id !== null) {
-            return $this->user_city_name . ', ' . $this->user_country_name;   
+            return CommonLibrary::buildLocationText($this->user_country_code, $this->user_city_name, $this->user_country_name);   
         } else {
             return '[Location is not set]';
         }

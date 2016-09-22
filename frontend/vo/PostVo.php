@@ -20,11 +20,22 @@ class PostVo implements Vo {
     
     private $post_creator_id;
     
+    private $city_id;
+    
+    private $city_name;
+    
+    private $country_code;
+    
+    private $country_name;
+    
+    private $post_creator_intro;
+    
     private $post_creator_username;
     
     private $post_creator_first_name;
     
     private $post_creator_last_name;
+    
     
     private $total_bids;
     
@@ -58,6 +69,7 @@ class PostVo implements Vo {
    
     private $total_comments;
     
+    private $type;
     
     function __construct(PostVoBuilder $builder) {
         $this->post_id  =$builder->getPostId();
@@ -82,18 +94,62 @@ class PostVo implements Vo {
         $this->quantity = $builder->getQuantity();
         $this->delivery = $builder->isDeliveryPrefered();
         $this->meet_up = $builder->isMeetupPrefered();
+        $this->city_id = $builder->getCityId();
+        $this->city_name = $builder->getCityName();
+        $this->country_code = $builder->getCountryCode();
+        $this->post_creator_intro = $builder->getPostCreatorIntro();
+        $this->country_name = $builder->getCountryName();
         $this->post_comments = $builder->getPostComments();
         $this->post_status = intval($builder->getPostStatus());
+        $this->type = $builder->getType();
     }
     
     public function getDeadline() {
         return CommonLibrary::getTextFromTimeDifference($this->deadline);
     }
     
+    public function getCityId() {
+        return $this->city_id;
+    }
+    
+    public function getCityName() {
+        return $this->city_name;
+    }
+    
+    public function getCountryCode() {
+        return $this->country_code;
+    }
+    
+    public function getCountryName() {
+        return $this->country_name;
+    }
+    
+    public function getLocationText() {
+        return CommonLibrary::buildLocationText($this->country_code, $this->city_name, $this->country_name); 
+    }
+    
+    public function getPostCreatorIntro() {
+        return $this->post_creator_intro;
+    }
+    
+    
+    
+    public function getPostType() {
+        return $this->type;
+    }
+    
     public function getSuggestedPost() {
         return $this->suggested_post;
     }
     
+    public function getTypeText() {
+        if($this->type == Post::GIVE_STUFF) {
+            return 'FREE';   
+        } else if($this->type == Post::REQUEST_STUFF) {
+
+            return 'REQUEST';
+        }
+    }
     public function getPostTags() {
         return $this->tags;
     }

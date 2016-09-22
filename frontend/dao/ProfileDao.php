@@ -29,6 +29,14 @@ class ProfileDao {
                                     on with_total_favorite.id = post.poster_id
                                     group by(post.poster_id)";
     
+    const GET_MINI_PROFILE_AND_CITY_INFO = "SELECT user.id, user.city_id, city.city_name, city.country_code, country.country_default_name as country_name
+                                            from user
+                                            left join city
+                                            on city.city_id = user.city_id
+                                            left join country
+                                            on country.country_code = city.country_code
+                                            where user.id = :user_id
+                                        ";
     const GET_STUFF_LIST = "SELECT stuff_with_bid_info.*,
                                 count(for_total_favorites.user_id) as total_favorites,
                                 (has_favorited.user_id is not null) as has_favorited
@@ -184,6 +192,23 @@ class ProfileDao {
         
     }
     
-   
+   public function getMiniProfileAndCityInfo($user_id, ProfileVoBuilder $builder) {
+       $result = \Yii::$app->db
+            ->createCommand(self::GET_MINI_PROFILE_AND_CITY_INFO)
+            ->bindParam(':user_id', $user_id)
+            ->queryOne();
+        
+       if(!$result) { 
+           return $builder;
+       }
+
+       $builder->setUserCountryCode($result['country_code']);
+       $builder->setUserId($result['id']);
+       $builder->setUserCityId($result['city_id']);
+       $builder->setUserCityName($result['city_name']);
+       $builder->setUserCountryName($result['country_name']);
+       
+       return $builder;
+   }
 }
 
