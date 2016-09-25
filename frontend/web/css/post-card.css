@@ -6,10 +6,6 @@
     color: red;
 }
 
-.post-card-type {
-    font-size: 12px;
-    font-weight: bold;   
-}
 
 .post-card-country {
     white-space: nowrap;
@@ -114,10 +110,10 @@
 }
 
 .post-card-right {
-    max-height: 16px;
+    max-height: 20px;
     width: 100%;
+    overflow: hidden;
     color: gray;
-    font-weight: bold;
     text-align: right;
 }
 
