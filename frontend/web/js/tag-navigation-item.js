@@ -33,7 +33,8 @@ TagNavigationItem.prototype.init = function() {
 
 TagNavigationItem.prototype.initEvent = function() {
     $(document).on('click', '#' + this.id , function(e) {
-        if(e.target && ($(e.target).closest("." + this.not_favorite_class).length === 0) && ($(e.target).closest("." + this.favorite_class).length === 0)) {
+        if(e.target && ($(e.target).closest("." + this.not_favorite_class).length === 0) 
+            && ($(e.target).closest("." + this.favorite_class).length === 0)) {
             this.toggleTick();
         } 
         if(e.target && $(e.target).closest("." + this.not_favorite_class).length !== 0) {

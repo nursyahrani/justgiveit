@@ -14,8 +14,13 @@ use frontend\dao\PostDao;
 class HomeDao {
     
     const GET_ALL_STUFFS = "
-                        Select post_info.*, city.city_id, city.city_name, country.country_code, country.country_default_name as country_name
-                        from ( 
+                        Select post_info.*, 
+                                city.city_id, 
+                                city.city_name, 
+                                country.country_code, 
+                                country.country_default_name as country_name, 
+                                (starred.user_id is not null) as parameter
+                        from  ( 
                             SELECT post.*, user.id, user.first_name, user.last_name,
                                 user.profile_pic, user.username  , image.image_path as photo_path
                             from post,user,image, post_tag
@@ -23,7 +28,7 @@ class HomeDao {
                                 and post.stuff_id not in ( :retrieved_post_ids) 
                                 and  post_tag.post_id = post.stuff_id 
                                 and( \":tags\" = \"''\" or post_tag.tag_name in ( :tags ) ) 
-                                 and (post_tag.tag_name LIKE :query  or
+                                and (post_tag.tag_name LIKE :query  or
                                 post.title LIKE :query) and post.post_status = 10
                             group by (post.stuff_id)
                             order by post.created_at desc
@@ -33,8 +38,16 @@ class HomeDao {
                         on post_info.pick_up_location_id = city.city_id
                         left join country
                         on country.country_code = city.country_code
-                        where (\":countries\" = \"''\" or country.country_code in (:countries))
-                        ";
+                        left join post_tag
+                        on post_tag.post_id = post_info.stuff_id
+                        left join (Select user_id , tag.tag_name 
+                                   from starred_tag, tag 
+                                   where starred_tag.tag_id = tag.tag_id) starred
+                        on starred.user_id =  :user_id and starred.tag_name =  post_tag.tag_name
+                        where (\":countries\" = \"''\" or country.country_code in (:countries))  
+                        group by (post_info.stuff_id)
+                        order by parameter desc
+                    ";
     
     
     const GET_MOST_POPULAR_STUFF = "SELECT post.stuff_id, post.title, count(post.stuff_id) as total_bids

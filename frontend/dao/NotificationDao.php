@@ -24,7 +24,8 @@ class NotificationDao {
                                                            and na1.actor_id <> :user_id)
                                   ) last_actor
                                 on notification_entity.notification_id = last_actor.notification_id
-                                where last_actor.actor_id is not null and updated_at > (SELECT notif_last_seen from user where id = :user_id)";
+                                where last_actor.actor_id is not null and updated_at > 
+                                    (SELECT notif_last_seen from user where id = :user_id)";
     
     
     const NOTIFICATION_LIST = "SELECT notification_entity.*,notification_actors.actors, 

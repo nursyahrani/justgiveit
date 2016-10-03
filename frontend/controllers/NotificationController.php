@@ -73,7 +73,9 @@ class NotificationController extends Controller
         $notifications = $this->notification_service->getNotification(Yii::$app->user->getId());
         $views = '';    
         foreach($notifications as $notification) {
-            $views .= NotificationItem::widget(['id' => 'notification-item-' . $notification->getNotificationId(), 'notification' => $notification]);
+            $views .= NotificationItem::widget(
+                    ['id' => 'notification-item-' . $notification->getNotificationId(), 
+                    'notification' => $notification]);
         }
         
         $data['status'] = 1;
@@ -95,7 +97,6 @@ class NotificationController extends Controller
             $data['status'] = 1;
             return json_encode($data);
         }
-        
         $data['status'] = 0;
         return json_encode($data);
     }

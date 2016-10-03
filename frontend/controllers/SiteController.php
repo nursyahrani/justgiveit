@@ -283,7 +283,6 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $data = array();
-        
         if(isset($_POST['first_name']) && isset($_POST['last_name'])
                 && isset($_POST['email']) && isset($_POST['password'])) {
             $model = new SignupForm();
@@ -464,7 +463,7 @@ class SiteController extends Controller
         $data = array();
         if(!Yii::$app->user->isGuest && isset($_FILES['image'])) {
            $model = new \frontend\models\UploadImageForm();
-           $model->file = $_FILES['image'];
+           $model->file =  Image::getImagine()->read($_FILES['image'])->thumbnail(new Box(500, 500));
            $model->user_id = Yii::$app->user->getId();
            $image_id = $model->save();
            if($image_id  !== null) {
@@ -473,9 +472,14 @@ class SiteController extends Controller
                 $image_path = Image::find()->where(['image_id' => $image_id])->one()['image_path'];
                 $data['image_path'] = CommonLibrary::buildImageLibrary($image_path);
                 return json_encode($data);   
+           } else {
+               $data['status'] = 0;
+               $data['errors'] = $model->getErrors();
            }
+        } else {
+            $data['status'] = 0;
+            $data['errors'] = "data is not available";
         }
-        $data['status'] = 0;
         return json_encode($data);
     }
     

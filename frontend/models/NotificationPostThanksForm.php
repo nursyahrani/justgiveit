@@ -1,7 +1,6 @@
 <?php
 namespace frontend\models;
 use yii\base\Model;
-use Yii;
 use common\models\Post;
 use common\libraries\CommonLibrary;
 use common\models\NotificationExtraValue;
@@ -44,20 +43,20 @@ class NotificationPostThanksForm extends Model
         ];
     }
     
-    public function create($verb) {
-        $this->post = \common\models\Post::find()->where(['stuff_id' => $this->post_id])->one();
+    public function create() {
         
-        $notification = $this->getNotification($verb);
+        $this->post = Post::find()
+                ->where(['stuff_id' => $this->post_id])->one();
+        $notification = $this->getNotification();
         if(!$notification) {
             $notification = new Notification();
             $notification->notification_type_name = self::NOTIFICATION_TYPE_NAME;
-            $notification->notification_verb_name = $verb;
+            $notification->notification_verb_name = self::POST_THANKS;
             $notification->url_key_value = $this->post_id;
             if(!$notification->save()) {
                 return false;
             }
         }
-        
         $notification_extra_value = $this->getNotificationExtraValue();
         if(!$notification_extra_value) {
             $notification_extra_value = new NotificationExtraValue;
@@ -78,8 +77,11 @@ class NotificationPostThanksForm extends Model
             if(!$notification_receiver->save()) {
                 return false;
             }
+        } else {
+            $notification_receiver->is_read = 0;
+            $notification_receiver->update();
         }
-        
+         
         $notification_actor = $this->getNotificationActor($notification->notification_id);
         
         if(!$notification_actor) {
@@ -114,8 +116,8 @@ class NotificationPostThanksForm extends Model
         
     }
     
-    private function getNotification($verb) {
-       return Notification::find()->where(['notification_type_name' => self::NOTIFICATION_TYPE_NAME, 'notification_verb_name' => $verb,
+    private function getNotification() {
+       return Notification::find()->where(['notification_type_name' => self::NOTIFICATION_TYPE_NAME, 'notification_verb_name' => self::POST_THANKS,
                                     'url_key_value' => $this->post_id])->one();
     }
     
