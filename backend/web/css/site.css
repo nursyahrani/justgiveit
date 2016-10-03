@@ -90,10 +90,25 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+
+.site-input-error {
+    margin-bottom: 12px;
+    display: block;
+    font-size: 10px;
+    color: red;
+}
+
 .site-input-field {
         padding: 6px 10px;
     margin-bottom: 8px;
     font-size: 14px;
     border: 1px solid lightgray;
     border-radius: 4px;
+}
+
+.site-header {
+    
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
 }

@@ -19,14 +19,15 @@ class TagDao {
                         ";
     
     
-    const GET_MOST_POPULAR_TAG = " SELECT most_popular_tag.*, (starred_tag.tag_id is not null) as starred from (
-                                    select post_tag.tag_name, tag.tag_id, count(post_tag.tag_name) as total_posts
-                                    from post_tag, tag
-                                    where post_tag.tag_name = tag.tag_name 
-                                    
-                                    group by (post_tag.tag_name)
-                                    order by (total_posts) desc
-                                    limit 10) most_popular_tag
+    const GET_MOST_POPULAR_TAG = " SELECT most_popular_tag.*, (starred_tag.tag_id is not null) as starred 
+                                    from (  select post_tag.tag_name, tag.tag_id, count(post_tag.tag_name) as total_posts
+                                            from post_tag, tag, post
+                                            where post_tag.tag_name = tag.tag_name and 
+                                                post_tag.post_id = post.stuff_id and 
+                                                post.post_status = 10
+                                            group by (post_tag.tag_name)
+                                            order by (total_posts) desc
+                                            limit 10) most_popular_tag
                                     left join starred_tag
                                     on most_popular_tag.tag_id = starred_tag.tag_id and starred_tag.user_id = :user_id";
     

@@ -23,7 +23,8 @@
         "kartik-v/yii2-social": "@dev",
         "yiisoft/yii2-authclient": "*",
         "kartik-v/yii2-tabs-x": "*",
-        "yiisoft/yii2-imagine": "~2.0.0"
+        "yiisoft/yii2-imagine": "~2.0.0",
+        "scotthuangzl/yii2-google-chart": "dev-master"
 
 
     },

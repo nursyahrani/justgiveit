@@ -5,8 +5,10 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/justgiveit/(admin)
 RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
 RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
 
-RewriteCond %{REQUEST_URI} !^/justgiveit/backend/web/(assets|css)/
+RewriteCond %{REQUEST_URI} !^/justgiveit/backend/web/(assets|css|js)/
+
 RewriteCond %{REQUEST_URI} ^/justgiveit/(admin)
 RewriteRule ^.*$ backend/web/index.php [L]
 
@@ -15,7 +17,7 @@ RewriteCond %{REQUEST_URI} ^/justgiveit/(assets|css)
 RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
 RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
 
-RewriteCond %{REQUEST_URI} !^/justgiveit/(frontend|backend)/web/(assets|css)/
+RewriteCond %{REQUEST_URI} !^/justgiveit/(frontend|backend)/web/(assets|css|js)/
 RewriteCond %{REQUEST_URI} !index.php
 RewriteCond %{REQUEST_FILENAME} !-f [OR]
 RewriteCond %{REQUEST_FILENAME} !-d

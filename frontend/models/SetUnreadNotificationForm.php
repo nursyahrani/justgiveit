@@ -24,16 +24,13 @@ class SetUnreadNotificationForm extends Model
     }
     
     public function setUnread() {
-        $notification_receiver = NotificationReceiver::find()->where(['notification_id' => $this->notification_id,
-            'receiver_id' => $this->user_id])->one();
-        
+        $notification_receiver = NotificationReceiver::find()
+                ->where(['notification_id' => $this->notification_id,
+                         'receiver_id' => $this->user_id])->one();
         if(!$notification_receiver) {
             return false;
         }
-        
         $notification_receiver->is_read = 1;
-        
-        
         return $notification_receiver->update();
     }
 }

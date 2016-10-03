@@ -6,41 +6,19 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
-
+use backend\services\SiteService;
 /**
  * Site controller
  */
 class SiteController extends Controller
-{
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['index', 'login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
+{   
+    
+    private $site_service;
+    
+    public function init() {
+        $this->site_service = new SiteService();
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -55,7 +33,17 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        if(key(\Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId())) === 'admin') {
+         
+            $vo = $this->site_service->getHomeInfo();
+            return $this->render('index', ['home' => $vo]);   
+        } else{
+            return $this->render('error', ['name' => 'Prohibited', 'message' => 'You are prohibited to access the page']);
+        }
+    }
+    
+    public function actionUser() {
+        
     }
 
     public function actionLogin()
@@ -73,7 +61,27 @@ class SiteController extends Controller
             ]);
         }
     }
-
+    
+    public function actionProcessLogin() {
+        
+        $data = array();
+        if(!isset($_POST['email'])  || !isset($_POST['password'])) {
+            $data['status'] = 0;
+            return json_encode($data);
+        }
+        
+        $model = new \backend\models\LoginForm;
+        $model->email = $_POST['email'];
+        $model->password = $_POST['password'];
+        if($model->login()) {
+            $data['status'] = 1;
+            
+        } else {
+            $data['status'] = 0;
+            $data['errors'] = $model->getErrors();
+        }
+        return json_encode($data);
+    }
     public function actionLogout()
     {
         Yii::$app->user->logout();

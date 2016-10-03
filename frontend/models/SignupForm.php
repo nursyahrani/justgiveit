@@ -18,34 +18,20 @@ class SignupForm extends Model
     public $email;
     public $password;
     public $first_name;
-    public $city;
-    public $country;
-    public $country_code;
     public $last_name;
-    public $facebook_id;
-    public $photo_path;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-
-
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\UserEmailAuthentication', 'message' => 'This email address has already been taken.'],
-
             [['first_name'], 'required'],
             [['first_name', 'last_name'], 'string', 'min' => 1],
-
-            ['facebook_id', 'unique', 'targetClass' => '\common\models\UserFacebookAuthentication', 'message' => 'Facebook Id has been registered'],
-
             ['password', 'string', 'min' => 6],
-
-            ['photo_path', 'string'],
-
             [['email', 'password'], 'required', 'when' => function($model){
                 return $model->facebook_id == '';
             }],

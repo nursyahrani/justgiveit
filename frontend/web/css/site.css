@@ -178,48 +178,6 @@ a.desc:after {
 	margin: 50px auto;
 }
 
-#columns {
-	column-count: 3;
-	column-gap: 15px;
-	column-fill: auto;
-}
-
-.stuff {
-    width: 25%;
-    display: inline-block;
-    position: relative;
-    float:left;
-    column-gap: 0;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
-
-}
-.pin {
-	display: inline-block;
-	background: #FEFEFE;
-	border: 2px solid #FAFAFA;
-	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
-	margin: 0 2px 15px;
-	padding: 15px;
-	padding-bottom: 5px;
-	opacity: 1;
-	
-}
-
-.pin img {
-	width: 100%;
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 15px;
-	margin-bottom: 5px;
-}
-
-.pin p {
-	font: 12px/18px Arial, sans-serif;
-	color: #333;
-	margin: 0;
-}
-
 @media (max-width: 995px) {
     
 }

@@ -36,10 +36,9 @@ NotificationList.prototype.countNewNotif = function() {
         success: function(data) {
              var parsed = JSON.parse(data);
              if(parsed['status'] === 1) {
-                 if(parseInt(parsed['count']) !== 0) {
-                     this.setCount(parsed['count']);
-                     
-                 }
+                if(parseInt(parsed['count']) !== 0) {
+                    this.setCount(parsed['count']);
+                }
              }
         }
     });

@@ -27,6 +27,7 @@ class UploadImageForm extends Model
     
     public function save() {
         if(!$this->validate()) {
+            
             return null;
         }
         $image = new Image();
@@ -42,10 +43,14 @@ class UploadImageForm extends Model
             $image->image_path = 'img/' . $this->user_id . '/' . 
                     Yii::$app->security->generateRandomString() .  '.' .  $ext;
         }
+        
         if(!$image->save()) {
+            Yii::$app->end('error');
             return null;
         }
-        $success = move_uploaded_file($this->file['tmp_name'], $image->image_path);
+        
+        $success = move_uploaded_file($this->file['tmp_name'] ,   $image->image_path);
+
         if(!$success) {
             return null;
         }

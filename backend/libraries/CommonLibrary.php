@@ -108,7 +108,7 @@ class CommonLibrary {
     
     
     public static function loadingResourceUrl() {
-        return Yii::getAlias('@webroot') . '/common-img/loading.gif';
+        return Yii::$app->request->baseUrl . '/../frontend/web/common-img/loading.gif';
     }
     
     public static function cutText($text, $length = 50) {

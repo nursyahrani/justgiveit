@@ -121,7 +121,7 @@ class PostController extends Controller
         ]);
     }
     
-    //ajax request
+    //ajax request, the re
     public function actionRequestFavorite() {
         $data = array();
         if(!Yii::$app->user->isGuest && isset($_POST['stuff_id'])) {

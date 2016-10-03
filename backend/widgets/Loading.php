@@ -15,7 +15,6 @@ class Loading extends Widget
     {
         parent::init();
     }
-    
 
     public function run()
     {
